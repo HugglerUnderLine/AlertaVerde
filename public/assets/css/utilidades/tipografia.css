@@ -1,0 +1,19 @@
+h1 {
+    font: 600 3rem/1.125 "Roboto", sans-serif;
+}
+
+h2 {
+    font: 600 2rem/1.25 "Roboto", sans-serif;
+}
+
+h3 {
+    font: 500 1.3rem/1.75 "Roboto", sans-serif;
+}
+
+p {
+    font: 500 1.125rem/1.35 "Inter", sans-serif;
+}
+
+a {
+    font: 400 0.875rem/1.5 "Inter", sans-serif;
+}

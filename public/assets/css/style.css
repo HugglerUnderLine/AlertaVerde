@@ -1,0 +1,46 @@
+/* Global */
+
+@import 'global/footer.css';
+@import 'global/global.css';
+@import 'global/header-admin.css';
+@import 'global/header-cidadao.css';
+@import 'global/header-home.css';
+@import 'global/header-orgao.css';
+@import 'global/tipografia.css';
+
+/* Utilidades */
+
+@import 'utilidades/componentes.css';
+@import 'utilidades/cores.css';
+@import 'utilidades/tipografia.css';
+
+/* Home */
+
+@import 'home/comunidade.css';
+@import 'home/funciona.css';
+@import 'home/introducao.css';
+
+/* Login */
+
+@import 'login/login.css';
+
+/* Cadastro */ 
+
+@import 'cadastro/cadastro.css';
+
+/* Admin */
+@import 'dashboard-admin/dashboard-admin.css';
+@import 'dashboard-admin/usuarios-admin.css';
+
+
+/* Cidadão */
+@import 'dashboard_cidadao/dashboard-cidadao.css';
+@import 'dashboard_cidadao/nova-denuncia.css';
+
+/* Órgão */
+@import 'dashboard_empresa/dashboard-empresa.css'
+
+
+
+
+ 

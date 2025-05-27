@@ -1,0 +1,48 @@
+.menu-login {
+  background-color: var(--cor-2);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left; 
+
+}
+
+.voltar-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--cor-0);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.voltar-icon {
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.5rem;
+}
+
+.formulario-campo {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .formulario-label {
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--cor-6);
+  }
+  
+  .formulario-input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .formulario-input:focus {
+    outline: none;
+    border-color: #10b981;
+  }
+  

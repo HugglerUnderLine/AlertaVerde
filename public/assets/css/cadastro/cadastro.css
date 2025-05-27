@@ -1,0 +1,32 @@
+.form-duplo {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap; 
+}
+
+.form-metade {
+  flex: 1;
+  min-width: 0;
+}
+
+.form-duplo .formulario-input {
+  width: 90%; /* garante que o input ocupe a metade */
+}
+
+.menu-login {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  z-index: 10;
+}
+
+.voltar-link {
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.voltar-icon {
+  margin-right: 0.5rem;
+}

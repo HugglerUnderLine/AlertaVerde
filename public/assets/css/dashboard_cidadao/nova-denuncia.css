@@ -1,0 +1,31 @@
+.voltar:hover {
+  color: var(--cor-4);
+}
+
+.formulario-main{
+  background-color: var(--cor-2);
+}
+
+.btn-localizacao {
+  background-color: var(--cor-4);
+  border: 2px var(--cor-4);
+}
+
+.btn-localizacao:hover {
+  background-color: var(--cor-6);
+  color: var(--cor-0);
+}
+
+.btn-enviar {
+  background-color: var(--cor-5);
+  border: 2px var(--cor-4);
+}
+
+.btn-enviar:hover {
+  background-color: var(--cor-6);
+  color: var(--cor-0);
+}
+
+.midia-itens:hover {
+  color: var(--cor-4);
+}

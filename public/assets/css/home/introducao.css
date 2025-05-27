@@ -1,0 +1,42 @@
+.introducao {
+    margin-top: 3px;
+    background: linear-gradient(to bottom, #183A37, #3F7E44);
+    padding: 70px;
+    color: var(--cor-6);
+    text-align: center;
+}
+
+.intro-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.introducao p {
+    color: var(--cor-7);
+    line-height: 1.5rem;
+}
+
+.intro-container a {
+    text-decoration: none;
+    background-color: var(--cor-6);
+    color: var(--cor-0);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    padding: 10px 20px;
+    border: #183A37;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 6px 6px 6px var(--cor-1);
+    transition: background-color 0.3s ease, color 0.3s ease, gap 0.3s ease;
+}
+
+.intro-container a:hover {
+    background-color: var(--cor-4);
+    gap: 20px;
+    color: var(--cor-6);
+}
+

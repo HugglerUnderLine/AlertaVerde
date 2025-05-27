@@ -1,0 +1,112 @@
+.usuários-admin {
+    margin: auto;
+    background: var(--cor-2);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  
+  .topo-usuarios {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    color: var(--cor-1);
+  }
+  
+  .topo-usuarios h2 {
+    margin: 0;
+    color: #183A37;
+  }
+  
+  .topo-usuarios p {
+    margin: 5px 0 0;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .actions input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .filter-btn {
+    background-color: #9C4500;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  thead {
+    background-color: #fdf2e4;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 15px 20px;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #fff9f0;
+  }
+  
+  .badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+  .badge.active {
+    background-color: #d4f4d7;
+    color: #2c8740;
+  }
+  
+  .badge.inactive {
+    background-color: #e0e0e0;
+    color: #777;
+  }
+  
+  .badge.blocked {
+    background-color: #ffe0e0;
+    color: #c0392b;
+  }
+  
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    font-size: 14px;
+    background-color: #fdf2e4;
+  }
+  
+  .pagination .btn {
+    background-color: #4a1d1d;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    margin-left: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }

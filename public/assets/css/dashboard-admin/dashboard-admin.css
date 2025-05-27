@@ -1,0 +1,153 @@
+.titulo {
+    margin-bottom: 10px;
+}
+
+.descricao {
+    color: var(--cor-7);
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.analise {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-analise {
+    background-color: var(--cor-2);
+    padding: 30px;
+    border-radius: 10px;
+    color: var(--cor-0);
+}
+
+.titulo-analise {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-analise h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.valores {
+    margin-top: 15px;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.analise-texto {
+    font-size: 14px;
+    color: var(--cor-8);
+}
+
+.denuncias-recentes {
+    background-color: var(--cor-2);
+    margin: 50px auto;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  
+  .topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    color: var(--cor-1);
+  }
+  
+  .topo h2 {
+    margin: 0;
+    color: #183A37;
+  }
+  
+  .topo p {
+    margin: 5px 0 0;
+    font-size: 16px;
+    font-weight: 400;
+    color: #666;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .actions input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 200px;
+  }
+  
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #9C4500;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    color: var(--cor-1);
+  }
+  
+  thead {
+    background-color: #fdf2e4;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 15px 20px;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #fff9f0;
+  }
+  
+  .badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    display: inline-block;
+  }
+  
+  .badge.pending {
+    background-color: #fff9cc;
+    color: #a68500;
+  }
+  
+  .badge.analysis {
+    background-color: #f4e8ff;
+    color: #7b49b1;
+  }
+  
+  .badge.progress {
+    background-color: #ccf3ec;
+    color: #147d73;
+  }
+  
+  .badge.resolved {
+    background-color: #d4f4d7;
+    color: #2c8740;
+  }
+  
+  .badge.archived {
+    background-color: #dcdcdc;
+    color: #555;
+  }

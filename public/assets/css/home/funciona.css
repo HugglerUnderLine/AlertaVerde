@@ -1,0 +1,30 @@
+.funciona-bg {
+    background-color: #FFF1DA;
+    padding: 70px 30px;
+}
+
+.funciona-bg h2 {
+    text-align: center;
+}
+
+.cards-container {
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 50px;
+    width: 550px;
+}
+
+.cards p {
+    color: #737373;
+    font-size: 1.1rem;
+    text-align: center;
+}
