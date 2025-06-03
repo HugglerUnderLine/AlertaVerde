@@ -68,3 +68,4 @@ if(!function_exists('normaliza_status')) {
         }
     }
 }
+

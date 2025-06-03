@@ -106,154 +106,154 @@
         </section>
     </main>
 
-    <script src="<?= base_url('assets/JQuery-3.7.0/jquery-3.7.0.min.js') ?>"></script>
-    <script src="<?= base_url('assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= base_url('/assets/jquery-validation-1.19.5/jquery.validate.min.js') ?>"></script>
-    <script src="<?= base_url('/assets/jquery-validation-1.19.5/additional-methods.min.js') ?>"></script>
+<script src="<?= base_url('assets/JQuery-3.7.0/jquery-3.7.0.min.js') ?>"></script>
+<script src="<?= base_url('assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= base_url('/assets/jquery-validation-1.19.5/jquery.validate.min.js') ?>"></script>
+<script src="<?= base_url('/assets/jquery-validation-1.19.5/additional-methods.min.js') ?>"></script>
     
-    <script type="text/javascript">
-        $(document).ready(function () {
-            const $errorContainer = $('#validation-error-container');
-            const $errorList = $errorContainer.find('ul'); // Cache da lista de erros
+<script type="text/javascript">
+    $(document).ready(function () {
+        const $errorContainer = $('#validation-error-container');
+        const $errorList = $errorContainer.find('ul'); // Cache da lista de erros
 
-            // Função para exibir APENAS mensagens de erro
-            function displayLoginErrors(messages) {
-                $errorContainer.removeClass('message-success').addClass('message-error'); // Garante estilo de erro
-                $errorList.empty();
-                if (typeof messages === 'object') {
-                    $.each(messages, function(key, value) {
-                        $errorList.append('<li>' + value + '</li>');
-                    });
-                } else {
-                    $errorList.append('<li>' + messages + '</li>');
-                }
-                // Garante que o título de erro esteja presente
-                if ($errorContainer.find('.error-title').length === 0) {
-                    $errorContainer.prepend('<div class="error-title">Erro:</div>');
-                }
-                $errorContainer.slideDown();
+        // Função para exibir APENAS mensagens de erro
+        function displayLoginErrors(messages) {
+            $errorContainer.removeClass('message-success').addClass('message-error'); // Garante estilo de erro
+            $errorList.empty();
+            if (typeof messages === 'object') {
+                $.each(messages, function(key, value) {
+                    $errorList.append('<li>' + value + '</li>');
+                });
+            } else {
+                $errorList.append('<li>' + messages + '</li>');
             }
 
-            // Exibe erros vindos do servidor na carga da página (ex: tentativa de login anterior falhou)
-            const serverMessage = <?= !empty($msg) ? json_encode($msg) : 'null' ?>;
-            if (serverMessage) {
-                displayLoginErrors(serverMessage);
+            if ($errorContainer.find('.error-title').length === 0) {
+                $errorContainer.prepend('<div class="error-title">Erro:</div>');
             }
-            
-            const validator = $('#formulario_login').validate({
-                rules: {
-                    email: {
-                        required: true,
-                        email: true,
-                        minlength: 10,
-                        maxlength: 255
-                    },
-                    senha: {
-                        required: true,
-                        minlength: 6,
-                        maxlength: 256
-                    },
-                    tipoConta: {
-                        required: true
-                    }
-                },
-                messages: {
-                    email: {
-                        required: "O E-mail é obrigatório.",
-                        email: "O E-mail deve conter um e-mail válido.",
-                        minlength: "O E-mail fornecido é muito curto.",
-                        maxlength: "O E-mail fornecido é muito longo."
-                    },
-                    senha: {
-                        required: "A senha é obrigatória.",
-                        minlength: "A senha fornecida é muito curta.",
-                    },
-                    tipoConta: "O tipo de conta é obrigatório."
-                },
-                errorPlacement: function(error, element) {},
-                highlight: function (element) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function (element) {
-                    $(element).removeClass('is-invalid');
-                },
-                invalidHandler: function (event, validatorInstance) {
-                    let errorMessages = {};
-                    $.each(validatorInstance.errorList, function(index, error) {
-                        errorMessages['error_' + index] = error.message;
-                    });
-                    displayLoginErrors(errorMessages); 
-                },
-                submitHandler: function(form) {
-                    $errorContainer.slideUp(); // Esconde erros anteriores
-                    const $form = $(form);
-                    const $submitButton = $form.find('button[type="submit"]');
-                    const originalButtonHtml = $submitButton.html();
-                    let loginBemSucedido = false; // Flag para controlar o estado do botão no 'complete'
+            $errorContainer.slideDown();
+        }
 
-                    let dadosParaEnviar = {};
+        const serverMessage = <?= !empty($msg) ? json_encode($msg) : 'null' ?>;
+        if (serverMessage) {
+            displayLoginErrors(serverMessage);
+        }
+        
+        const validator = $('#formulario_login').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                    minlength: 10,
+                    maxlength: 255
+                },
+                senha: {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 256
+                },
+                tipoConta: {
+                    required: true
+                }
+            },
+            messages: {
+                email: {
+                    required: "O E-mail é obrigatório.",
+                    email: "O E-mail deve conter um e-mail válido.",
+                    minlength: "O E-mail fornecido é muito curto.",
+                    maxlength: "O E-mail fornecido é muito longo."
+                },
+                senha: {
+                    required: "A senha é obrigatória.",
+                    minlength: "A senha fornecida é muito curta.",
+                },
+                tipoConta: "O tipo de conta é obrigatório."
+            },
+            errorPlacement: function(error, element) {},
+            highlight: function (element) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element) {
+                $(element).removeClass('is-invalid');
+            },
+            invalidHandler: function (event, validatorInstance) {
+                let errorMessages = {};
+                $.each(validatorInstance.errorList, function(index, error) {
+                    errorMessages['error_' + index] = error.message;
+                });
+                displayLoginErrors(errorMessages); 
+            },
+            submitHandler: function(form) {
+                $errorContainer.slideUp(); // Esconde erros anteriores
+                const $form = $(form);
+                const $submitButton = $form.find('button[type="submit"]');
+                const originalButtonHtml = $submitButton.html();
+                let loginBemSucedido = false; // Flag para controlar o estado do botão no 'complete'
 
-                    const tipoContaSelecionado = $('input[name="tipoConta"]:checked').val();
-                    // URLs de autenticação específicas por tipo de conta
-                    const actionUrl = (tipoContaSelecionado === 'cidadao') 
-                        ? '<?= base_url("login/cidadao") ?>' 
-                        : '<?= base_url("login/orgao") ?>';
+                let dadosParaEnviar = {};
 
-                    dadosParaEnviar = {
-                        email: $('#email').val(),
-                        senha: $('#senha').val(),
-                        tipoConta: tipoContaSelecionado,
-                    };
-                    
-                    $.ajax({
-                        url: actionUrl,
-                        type: 'POST',
-                        data: dadosParaEnviar,
-                        dataType: 'json',
-                        beforeSend: function() {
-                            loginBemSucedido = false; // Reseta a flag
-                            $submitButton.prop('disabled', true).html('<span class="spinner"></span> Validando...');
-                        },
-                        success: function(response) {
-                            if (response.status === 'success') {
-                                loginBemSucedido = true; // Define a flag de sucesso
-                                $submitButton.html('Logado! Redirecionando...'); 
-                                
-                                const redirectUrl = response.redirect_url || 
-                                                    (tipoContaSelecionado === 'cidadao' ? '<?= base_url("painel/cidadao") ?>' : '<?= base_url("painel/orgao") ?>');
-                                
-                                // Pequeno delay para o usuário ver a mensagem no botão antes de redirecionar
-                                setTimeout(function() {
-                                    window.location.href = redirectUrl;
-                                }, 1500); // 1.5 segundos de delay
+                const tipoContaSelecionado = $('input[name="tipoConta"]:checked').val();
+                // URLs de autenticação específicas por tipo de conta
+                const actionUrl = (tipoContaSelecionado === 'cidadao') 
+                    ? '<?= base_url("login/cidadao") ?>' 
+                    : '<?= base_url("login/orgao") ?>';
 
-                            } else { // Erro de negócio
-                                displayLoginErrors(response.message || 'Falha na autenticação. Verifique seus dados.');
-                            }
-                        },
-                        error: function(jqXHR, textStatus, errorThrown) {
-                            console.error("Erro AJAX Login:", textStatus, errorThrown, jqXHR.responseText);
-                            displayLoginErrors('Ocorreu um erro na comunicação. Tente novamente.');
-                        },
-                        complete: function() {
-                            if (!loginBemSucedido) { // Só reabilita se o login não foi bem-sucedido
-                                $submitButton.prop('disabled', false).html(originalButtonHtml);
-                            }
-                            // Se loginBemSucedido for true, o botão permanece desabilitado com a mensagem de sucesso/redirecionando.
+                dadosParaEnviar = {
+                    email: $('#email').val(),
+                    senha: $('#senha').val(),
+                    tipoConta: tipoContaSelecionado,
+                };
+                
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: dadosParaEnviar,
+                    dataType: 'json',
+                    beforeSend: function() {
+                        loginBemSucedido = false; // Reseta a flag
+                        $submitButton.prop('disabled', true).html('<span class="spinner"></span> Validando...');
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            loginBemSucedido = true; // Define a flag de sucesso
+                            $submitButton.html('Logado! Redirecionando...'); 
+                            
+                            const redirectUrl = response.redirect_url || 
+                                                (tipoContaSelecionado === 'cidadao' ? '<?= base_url("painel/cidadao") ?>' : '<?= base_url("painel/orgao") ?>');
+                            
+                            // Pequeno delay para o usuário ver a mensagem no botão antes de redirecionar
+                            setTimeout(function() {
+                                window.location.href = redirectUrl;
+                            }, 1500); // 1.5 segundos de delay
+
+                        } else { // Erro de negócio
+                            displayLoginErrors(response.message || 'Falha na autenticação. Verifique seus dados.');
                         }
-                    });
-                }
-            });
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error("Erro AJAX Login:", textStatus, errorThrown, jqXHR.responseText);
+                        displayLoginErrors('Ocorreu um erro na comunicação. Tente novamente.');
+                    },
+                    complete: function() {
+                        if (!loginBemSucedido) { // Só reabilita se o login não foi bem-sucedido
+                            $submitButton.prop('disabled', false).html(originalButtonHtml);
+                        }
+                        // Se loginBemSucedido for true, o botão permanece desabilitado com a mensagem de sucesso/redirecionando.
+                    }
+                });
+            }
         });
+    });
 
-        // document.addEventListener('keydown', function (e) {
-        //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-        //         e.preventDefault();
-        //     }
-        // });
-        // document.addEventListener('contextmenu', function (e) {
-        //     e.preventDefault();
-        // });
-    </script>
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+            e.preventDefault();
+        }
+    });
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
+</script>
+
 </body>
 </html>

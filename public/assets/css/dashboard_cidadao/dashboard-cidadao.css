@@ -37,11 +37,13 @@
 
 .bg-botao-header {
   border: none;
+  transition: .1s;
 }
 
 .bg-botao-header:hover {
   background-color: var(--cor-4);
   color: var(--cor-6);
+  transition: .1s;
 }
 
 .bg-texto {
@@ -75,3 +77,4 @@
 .text-claro {
   color: var(--cor-6) !important;
 }
+

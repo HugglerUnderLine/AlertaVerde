@@ -9,74 +9,110 @@
     <link rel="stylesheet" href="<?= base_url('assets/google-fonts/font.css') ?>" />
     <link rel="stylesheet" href="<?= base_url('assets/bootstrap-5.3.3-dist/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" href="<?= base_url('assets/material-symbols/material-symbols-rounded.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/DataTables-2.0.3/css/dataTables.bootstrap5.min.css') ?>">
+    <link rel="stylesheet" href="<?= base_url('assets/DataTables-2.0.3/Buttons-3.0.1/css/buttons.bootstrap5.min.css') ?>">
+
+    <style>
+        /* Navbar Hover */
+        .highlight-on-hover:hover { 
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            transition: .2s;
+        }
+        
+        .highlight-on-hover { 
+            transition: .2s;
+        }
+
+        /* DataTables processing message styling */
+        div.dt-processing {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 1055 !important;
+            background-color: rgba(255, 255, 255, 0.85) !important;
+            padding: 1rem 2rem !important;
+            border-radius: 0.5rem;
+            text-align: center !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-left: 0 !important;
+            margin-top: 0 !important;
+            width: auto !important; /* let the size flow according to the content */
+        }
+
+        /* DataTables pagination */
+        .page-item.active .page-link {
+            color: #FFF !important;
+            background-color: #012057 !important;
+            border-color: #012057 !important;
+        }
+
+        .page-link {
+            color: #012057 !important;
+        }
+
+        /* Datatables row details style */
+        td.details-control svg {
+            fill: darkslategray;
+            opacity: .7;
+            transition: transform .3s linear;
+            cursor: pointer;
+        }
+
+        tr.shown td.details-control svg{
+            transform: rotate(180deg);
+            transition: transform .3s linear;
+        }
+
+        div #moreDetails {
+            display: none;
+        }
+
+        tbody td.no-padding {
+            padding: 0;
+        }
+    </style>
 </head>
 
 <header class="bg-principal d-flex justify-content-between">
     <div class="d-flex gap-1 m-0 ms-5">
-        <a href="./">
-            <img class="logo" src="<?= base_url('assets/img/alerta_verde_horizontal.png') ?> "alt="Alerta Verde" width="130" height="26">
+        <a href="#">
+            <img class="logo highlight-on-hover" src="<?= base_url('assets/img/alerta_verde_horizontal.png') ?>" alt="Alerta Verde" width="130" height="26">
         </a>
     </div>
     <nav class="d-flex gap-2 align-items-center me-4">
-        <button class="bg-botao-header p-2 rounded-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bell"
-                viewBox="0 0 16 16">
-                <path
-                d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6" />
-            </svg>
-        </button>
-        <button class="bg-botao-header p-2 rounded-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-left"
-                viewBox="0 0 16 16">
-                <path fill-rule="evenodd"
-                d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z" />
-                <path fill-rule="evenodd"
-                d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z" />
-            </svg>
+        <button class="bg-botao-header p-2 rounded-2 d-flex align-items-center justify-content-center">
+            <span class="material-symbols-rounded">notifications</span>
         </button>
     </nav>
 </header>
 
-<body class="text-claro">
+<body class="text-white">
     <div class="bg-divisao bg-principal d-flex min-vh-100">
         <div class="bg-menu">
             <aside class="bg-aside p-4" style="width: 250px;">
-                <div class="d-flex bg-nome">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="85" fill="currentColor" class="bi bi-person-circle"
-                        viewBox="0 0 16 16">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                        <path fill-rule="evenodd"
-                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1" />
-                    </svg>
-                    <h3 class="h6 p-4 mb-4 text-claro">Nome da Agência</h3>
+                <div class="d-flex bg-nome align-items-center text-start gap-3">
+                    <span class="material-symbols-rounded">shield_person</span>
+                    <h3 class="h6 text-white m-0"><?= session('nome_completo') ?></h3> 
                 </div>
                 <nav class="mt-4">
                     <ul class="bg-denuncias nav flex-column gap-3">
-                        <li class="nav-item d-flex align-items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-file-earmark-text" viewBox="0 0 16 16">
-                                <path
-                                d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5" />
-                                <path
-                                d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z" />
-                            </svg>
-                            <a class="nav-link text-claro" href="/dashboard-empresa-denuncia.html">Minhas Denúncias</a>
+                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
+                            <span class="material-symbols-rounded">assignment</span>
+                            <a class="nav-link text-white text-start" href="<?=  base_url('/painel/orgao') ?>">Lista de Denuncias</a>
                         </li>
-                        <li class="nav-item d-flex align-items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person"
-                                viewBox="0 0 16 16">
-                                <path
-                                d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                            </svg>
-                            <a class="nav-link text-claro" href="/">Perfil</a>
+                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
+                            <span class="material-symbols-rounded">account_circle</span>
+                            <a class="nav-link text-white" href="<?= base_url('/usuario/perfil/' . session('uuid')) ?>">Perfil</a>
                         </li>
-                        <li class="nav-item d-flex gap-2 align-items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="30" fill="currentColor"
-                                class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                                <path
-                                d="M11 7a1 1 0 0 1 1 1v3.5h1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V4.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0-.5.5V7h1a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1h1V8a1 1 0 0 1 1-1h1V4.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5V7h1z" />
-                            </svg>
-                            <a class="nav-link text-claro" href="<?= base_url('logout') ?>">Sair</a>
+                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
+                            <span class="material-symbols-rounded">group_add</span>
+                            <a class="nav-link text-white" href="<?= base_url('/usuarios')?>">Usuários</a>
+                        </li>
+                        <li class="nav-item d-flex gap-2 align-items-center text-start btn text-white highlight-on-hover">
+                            <span class="material-symbols-rounded">logout</span>
+                            <a class="nav-link text-white" href="<?= base_url('logout') ?>">Sair</a>
                         </li>
                     </ul>
                 </nav>
@@ -102,7 +138,7 @@
 
                 <div class="card bg-secundaria position-relative">
                     <div class="card-body">
-                        <h5 class="card-title">Pendente</h5>
+                        <h5 class="card-title">Pendentes</h5>
                         <p class="card-text">1,248</p>
                         <p class="small">📍 +12% em relação ao mês passado</p>
                     </div>
@@ -123,11 +159,9 @@
                         <p class="small">📍 +12% em relação ao mês passado</p>
                     </div>
                 </div>
-
             </section>
 
             <section class="rounded-2 text-dark p-4 mt-2 px-4 pt-2 pb-4 d-flex justify-content-start gap-3 aligm-items-center">
-
                 <div class=" card bg-secundaria position-relative" style="padding: 100px;">
                     <div class="card-body">
                         <h5 class="card-title">Status da Denuncia</h5>
@@ -135,7 +169,6 @@
                         <p class="small">📍 +12% em relação ao mês passado</p>
                     </div>
                 </div>
-
                 
                 <div class="card bg-secundaria position-relative" style="padding: 100px;"">
                     <div class="card-body">
@@ -144,112 +177,342 @@
                         <p class="small">📍 +12% em relação ao mês passado</p>
                     </div>
                 </div>
-
             </section>
 
             <section class="rounded-2 text-dark p-4 mt-2 px-4 pt-2 pb-4">
-
-                <div class=" card bg-secundaria position-relative">
+                <div class="card bg-secundaria position-relative">
                     <div class="card-body">
                         <h5 class="card-title">Localização</h5>
                         <p class="card-text">Aqui ficara um mapa </p>
                         <p class="small">📍 +12% em relação ao mês passado</p>
                     </div>
                 </div>
-
             </section>
 
-            <section class="rounded-2 mt-2 px-4 pt-2 pb-4 ">
+            <section class="rounded-2 mt-2 px-4 pt-2 pb-4">
                 <div class="card bg-secundaria position-relative p-4 mt-2 px-4 pt-2 pb-4">
-                    <div class="d-flex text-dark justify-content-between align-items-center mb-3 ">
+                    <div class="d-flex text-dark justify-content-between align-items-center mb-3">
                         <h4 class="fw-bold">Denúncias recentes</h4>
-                        <div class="d-flex align-items-center gap-2">
-                        <input type="text" class="form-control" placeholder="Procurar denúncias..." style="max-width: 250px;">
-                        <button class="btn btn-warning" style="background-color: var(--cor-4);">Filtro</button>
-                        </div>
                     </div>
-                    <div class="mb-3 ">
-                        <button class="btn btn-outline-secondary btn-sm me-2">Todos</button>
-                        <button class="btn btn-outline-warning btn-sm me-2">Pendente</button>
-                        <button class="btn btn-outline-primary btn-sm me-2">Em progresso</button>
-                        <button class="btn btn-outline-success btn-sm">Resolvidos</button>
+                    <div class="row mb-3 g-2 align-items-center"> 
+                        <div class="col-md-auto">
+                            <div class="btn-group btn-group-sm" role="group" aria-label="Filtros de Status">
+                                <button type="button" id="btnFiltroTodos" data-status="" class="btn btn-filtro-status btn-outline-secondary me-1 active">Todos</button>
+                                <button type="button" data-status="Pendente" class="btn btn-filtro-status btn-outline-warning me-1">Pendente</button>
+                                <button type="button" data-status="Em progresso" class="btn btn-filtro-status btn-outline-primary me-1">Em progresso</button>
+                                <button type="button" data-status="Resolvido" class="btn btn-filtro-status btn-outline-success">Resolvido</button>
+                            </div>
+                        </div>
+
+                        <div class="col-md d-flex justify-content-md-end align-items-center flex-wrap gap-2">
+                            <select id="selectTipoBuscaTexto" name="selectTipoBuscaTexto" class="form-select form-select-md" style="width: auto;">
+                                <option value="0" selected>Filtrar por Título</option>
+                                <option value="1">Filtrar por Categoria</option>
+                            </select>
+                            <input type="text" class="form-control" placeholder="🔍 Buscar por..." style="max-width: 250px;" id="filtroBusca" name="filtroBusca">
+                            <button class="btn btn-warning">Filtrar</button>
+                        </div>
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table table-hover align-middle rounded-2">
-                            <thead class="table-light">
+                        <table id="listar_denuncias" class="table table-hover align-middle rounded-2" style="width:100%">
+                            <thead class="bg-success bg-opacity-10">
                                 <tr>
-                                <th>ID</th>
-                                <th>Título</th>
-                                <th>Categoria</th>
-                                <th>Localização</th>
-                                <th>Data</th>
-                                <th>Status</th>
-                                <th>Reportado por</th>
-                                <th></th>
+                                    <th scope="col" class="align-middle col"><span class="collapsed material-symbols-rounded p-0 m-0 btn text-start" id="toggle_detalhes">keyboard_double_arrow_down</span></th>
+                                    <th>Título</th>
+                                    <th>Categoria</th>
+                                    <th>Status</th>
+                                    <th>Reportado por</th>
+                                    <!-- Daqui adiante, são os detalhes que podem ser exibidos na expansão da linha -->
+                                    <th>id_denuncia</th> <!-- Apenas para validação interna. Não é exibido no datatables. -->
+                                    <th>id_usuario</th> <!-- Apenas para validação interna. Não é exibido no datatables. -->
+                                    <th>id_tipo</th> <!-- Apenas para validação interna. Não é exibido no datatables. -->
+                                    <th>detalhes</th> <!-- Apenas para validação interna. Não é exibido no datatables. -->
+                                    <th>Logradouro</th>
+                                    <th>Número</th>
+                                    <th>Bairro</th>
+                                    <th>CEP</th>
+                                    <th>Ponto de Referência</th>
+                                    <th>Órgão Responsável</th>
+                                    <th>Data da Denúncia</th>
+                                    <th>Data de atribuição</th>
+                                    <th>Concluída em</th>
+                                    <!-- Icone para editar / atualizar os campos da denuncia -->
+                                    <th>Ações</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                <td>R-1001</td>
-                                <td>Pothole on Main Street</td>
-                                <td>Road Damage</td>
-                                <td>Main St & 5th Ave</td>
-                                <td>28/04/2025</td>
-                                <td><span class="badge bg-primary">Em progresso</span></td>
-                                <td>John Smith</td>
-                                <td>...</td>
-                                </tr>
-                                <tr>
-                                <td>R-1002</td>
-                                <td>Broken Street Light</td>
-                                <td>Public Lighting</td>
-                                <td>Oak Avenue</td>
-                                <td>28/04/2025</td>
-                                <td><span class="badge bg-warning text-dark">Pendente</span></td>
-                                <td>Maria Garcia</td>
-                                <td>...</td>
-                                </tr>
-                                <tr>
-                                <td>R-1003</td>
-                                <td>Illegal Dumping</td>
-                                <td>Waste Management</td>
-                                <td>River Park</td>
-                                <td>28/04/2025</td>
-                                <td><span class="badge bg-danger">Em análise</span></td>
-                                <td>David Johnson</td>
-                                <td>...</td>
-                                </tr>
-                                <tr>
-                                <td>R-1004</td>
-                                <td>Graffiti on Public Building</td>
-                                <td>Vandalism</td>
-                                <td>Community Center</td>
-                                <td>28/04/2025</td>
-                                <td><span class="badge bg-success">Resolvido</span></td>
-                                <td>Sarah Williams</td>
-                                <td>...</td>
-                                </tr>
-                                <tr>
-                                <td>R-1005</td>
-                                <td>Water Main Break</td>
-                                <td>Water Supply</td>
-                                <td>Elm Street</td>
-                                <td>28/04/2025</td>
-                                <td><span class="badge bg-primary">Em progresso</span></td>
-                                <td>Robert Brown</td>
-                                <td>...</td>
-                                </tr>
-                            </tbody>
                         </table>
                     </div>
                 </div>
             </section>
         </main>
     </div>
-</div>
 
+
+<script src="<?= base_url("assets/JQuery-3.7.0/jquery-3.7.0.min.js") ?>"></script>
+<script src="<?= base_url("assets/jquery-validation-1.19.5/jquery.validate.min.js") ?>"></script>
 <script src="<?= base_url('assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= base_url("assets/jquery-validation-1.19.5/additional-methods.min.js") ?>"></script>
+<script src="<?= base_url('assets/DataTables-2.0.3/js/dataTables.min.js') ?>"></script>
+<script src="<?= base_url('assets/DataTables-2.0.3/js/dataTables.bootstrap5.min.js') ?>"></script>
+<script src="<?= base_url('assets/DataTables-2.0.3/Buttons-3.0.1/js/dataTables.buttons.min.js') ?>"></script>
+<script src="<?= base_url('assets/DataTables-2.0.3/Buttons-3.0.1/js/buttons.bootstrap5.min.js') ?>"></script>
+<script type="text/javascript">
+    DataTable.Buttons.defaults.dom.button.className = 'btn'; //Sobrescreve a estilização padrão dos botões no DataTables
+    
+    function isValid(value) {
+        // Verifica se o valor atual é válido (não nulo, não vazio e diferente de um array vazio)
+        return value != null && value !== '' && value !== '[]';
+    }
+
+    function format(d) {
+        let s = '<div class="row text-secondary bg-body border mx-4 border" id="mais_detalhes">';
+
+        s += '<div class="d-flex">';
+        s += '<div class="col-6">';
+
+        // Informações gerais acerca da denúncia
+        let col_name = 'Detalhes da Denúncia:';
+        s += '<p class="m-1 pt-2"><strong>' + col_name + '</strong></p>';
+
+        var generalInfo = false;
+
+        if (isValid(d['detalhes'])) {
+            s += '<p class="m-1 pt-1"><strong>Detalhamento:</strong> ' 
+            + String(d['detalhes']) 
+            + '</p>';
+
+            generalInfo = true;
+        }
+        if (isValid(d['logradouro']) && isValid(d['numero'])) {
+            s += '<p class="m-1 pt-1"><strong>Endereço:</strong> ' 
+            + String(d['logradouro']) + ", "
+            + String(d['numero'])
+            + '</p>';
+
+            generalInfo = true;
+        }
+        if (isValid(d['bairro'])) {
+            s += '<p class="m-1 pt-1"><strong>Bairro:</strong> ' 
+            + String(d['bairro'])
+            + '</p>';
+            
+            generalInfo = true;
+        }
+        if (isValid(d['CEP'])) {
+            s += '<p class="m-1 pt-1"><strong>CEP:</strong> ' 
+            + String(d['CEP'])
+            + '</p>';
+            
+            generalInfo = true;
+        }
+        if (isValid(d['pontoReferencia'])) {
+            s += '<p class="m-1 pt-1"><strong>Ponto de Referência:</strong> ' 
+            + String(d['pontoReferencia'])
+            + '</p>';
+            
+            generalInfo = true;
+        }
+
+        if (!generalInfo) {
+            s += '<p class="m-1 pt-1 text-muted">Sem dados disponíveis :(</p>';
+        }
+
+        s += '</div>'; // Fim General Info
+
+        // Denuncia Info
+        s += '<div class="col-6">';
+        s += '<p class="m-1 pt-2"><strong>Dados da Denúncia:</strong></p>';
+
+        denunciaInfo = false;
+
+        if (isValid(d['dataDenuncia'])) {
+            s += `<p class="m-1 pt-1"><strong>Data da Denúncia:</strong> ${formatFPS(d['dataDenuncia'])}</p>`;
+
+            denunciaInfo = true;
+        }
+        if (isValid(d['dataAtribuicao'])) {
+            s += `<p class="m-1 pt-1"><strong>Data da Atribuição:</strong> ${formatTraffic(parseFloat(d['dataAtribuicao']))}</p>`;
+
+            denunciaInfo = true;
+        }
+        if (isValid(d['dataConclusao'])) {
+            s += `<p class="m-1 pt-1"><strong>Concluída Em:</strong> ${formatTraffic(parseFloat(d['dataConclusao']))}</p>`;
+
+            denunciaInfo = true;
+        }
+
+
+        if (!denunciaInfo) {
+            s += '<p class="m-1 pt-1 text-muted">Sem dados disponíveis :(</p>';
+        }
+
+        s += '</div>'; // Fim Denuncia Info 
+        s += '</div>'; // Fim linha atual
+        s += '</div>'; // Fim main container
+
+        return s;
+    }
+
+    var url = '<?= base_url("/painel/orgao/list") ?>';
+
+    var table = new DataTable('#listar_denuncias', {
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: url,
+            type: "POST",
+            data: function(d) {
+                d.planFilter = $('#planFilter').val();
+                d.deviceFilter = $('#deviceFilter').val();
+            },
+        },
+        info: true,
+        responsive: true,
+        pageLength: 10,
+        order: [[15, 'desc']],
+        language: { url: '<?= base_url('assets/datatables-pt-BR.json') ?>', decimal: ',', thousands: '.' },
+        layout: {
+            topStart: {},
+            topEnd: 'pageLength',
+        },
+        columnDefs: [{ targets: "_all", orderSequence: ['asc', 'desc'], className: "dt-body-left dt-head-left" }],
+        columns: [
+            {
+                data: '',
+                className: 'details-control text-start',
+                orderable: false,
+                defaultContent: '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M480-362q-8 0-15-2.5t-13-8.5L268-557q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-373q-6 6-13 8.5t-15 2.5Z"/></svg>'
+            },
+            { data: 'tituloDenuncia' },
+            { data: 'categoria' },
+            { 
+                data: 'status', 
+                render: function (data, type, row) {
+                    if(row['status'] == 'Pendente') {
+                        return '<span class="badge rounded-pill bg-warning text-warning bg-opacity-25 text-bg-warning"> &middot; Pendente</span>';
+                    } else if (row['status'] == 'Em Progresso') {
+                        return '<span class="badge rounded-pill bg-primary text-primary bg-opacity-25 text-bg-primary"> &middot; Em progresso</span>';
+                    } else if (row['status'] == 'Resolvido') {
+                        return '<span class="badge rounded-pill bg-success text-success bg-opacity-25 text-bg-success"> &middot; Resolvido</span>';
+                    }
+                },
+            },
+            { data: 'nomeDenunciante', orderable: false },
+            { data: 'denunciaID', visible: false, orderable: false, searchable: false },
+            { data: 'usuarioID', visible: false, orderable: false, searchable: false },
+            { data: 'tipoDenunciaID', visible: false, orderable: false, searchable: false },
+            { data: 'detalhes', visible: false, orderable: false, searchable: false },
+            { data: 'logradouro', visible: false, orderable: false, searchable: false },
+            { data: 'numero', visible: false, orderable: false, searchable: false },
+            { data: 'bairro', visible: false, orderable: false, searchable: false },
+            { data: 'CEP', visible: false, orderable: false, searchable: false },
+            { data: 'pontoReferencia', visible: false, orderable: false, searchable: false },
+            { data: 'orgaoResponsavel', visible: false, orderable: false, searchable: false },
+            { data: 'dataDenuncia' },
+            { data: 'dataAtribuicao', visible: false, orderable: false, searchable: false },
+            { data: 'dataConclusao', visible: false, orderable: false, searchable: false },
+            {
+                data: 'acoes', searchable: false, orderable: false, className: 'dt-body-center dt-head-center',
+                render: function (data, type, row) {
+                    return '<a class="btn btn-sm btn-outline-primary p-0 editar-status-denuncia" data-id="' + row['denunciaID'] + '"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Alterar Status">edit</span></a> '
+                         + '<a href="<?= base_url("denuncia/") ?>' + row['denunciaID'] + '/visualizar" class="btn btn-sm btn-outline-secondary p-0 visualizar-denuncia" id="visualizarDenuncia"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Visualizar Denúncia">visibility</span></a>';
+                },
+            },
+        ],
+    } );
+
+    // Lógica para os botões de filtro de status
+    $('.btn-filtro-status').on('click', function() {
+        $('.btn-filtro-status').removeClass('active btn-secondary').addClass('btn-outline-secondary'); // Reseta todos
+        $(this).removeClass('btn-outline-secondary').addClass('active btn-secondary'); // Ativa o clicado
+        
+        // Pega o status do atributo data-status. Se for "Todos", o valor é "" (string vazia)
+        filtroStatusAtual = $(this).data('status');
+        table.draw(); // Redesenha a tabela, enviando o novo filtro_status para o servidor
+    });
+
+    // Lógica para o filtro de texto e seleção de coluna
+    $('#inputBuscaPorTexto, #selectTipoBuscaTexto').on('keyup change', function() {
+        filtroColunaTextoSelecionada = $('#selectTipoBuscaTexto').val();
+        filtroValorTextoAtual = $('#inputBuscaPorTexto').val();
+        table.draw(); // Redesenha a tabela
+    });
+
+    // Expands one row at a time
+    table.on('click', 'td.details-control', function() {
+        var tr = $(this).closest('tr');
+        var row = table.row( tr );
+
+        if( row.child.isShown() ) {
+            tr.removeClass('shown').addClass('manual-toggle');
+            $('#mais_detalhes', row.child()).slideUp( function () {
+                row.child.hide();
+            });
+        }
+        else {
+            row.child( format(row.data()), 'no-padding' ).show();
+            tr.addClass('shown').addClass('manual-toggle');
+            $('#mais_detalhes', row.child()).slideDown();
+        }
+    });
+
+    // Expand all rows simultaneously
+    $('#toggle_detalhes').on('click', function() {
+        var toggleText = $('#toggle_detalhes').text();
+
+        if(toggleText === 'keyboard_double_arrow_down') {
+            $('#toggle_detalhes').text('keyboard_double_arrow_up');
+
+            table.rows(':not(.parent)').nodes().to$().find('td:first-child').each(function() {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if(!row.child.isShown()) {
+                    $(this).trigger('click');
+                }
+            });
+        }
+        else {
+            $('#toggle_detalhes').text('keyboard_double_arrow_down');
+
+            table.rows(':not(.parent)').nodes().to$().find('td:first-child').each(function() {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if(row.child.isShown()) {
+                    $(this).trigger('click');
+                }
+            });
+        }
+    });
+
+    // Bootstrap Tooltips
+    $(document).ready(function () {
+        const tooltips = document.querySelectorAll('.tt')
+        tooltips.forEach(t => {
+            new bootstrap.Tooltip(t)
+        })
+    });
+
+    // Carrega todos os tooltips do bootstrap na inicialização
+    table.on('draw.dt', function () {
+        $('.tooltip').remove(); // Evita duplicatas de tooltips
+        $('[data-bs-toggle="tooltip"]').tooltip();
+    });
+
+    $('#filtrar').on('click', function(event) {
+        event.preventDefault();
+        table.ajax.reload();
+    });
+
+    // Limpa os campos do formulário
+    $('#limpar').on('click', function(){
+        $('#buscar_denuncias')[0].reset();
+        table.ajax.reload(); // Recarrega a tabela
+    });
+
+</script>
 
 
 </body>

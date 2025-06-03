@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class OrgaoTipoDenunciaAtuacaoModel extends Model
 {
-    protected $table            = 'orgaotipodenunciaatuacaos';
-    protected $primaryKey       = 'id';
+    protected $table            = 'orgao_tipo_denuncia_atuacao';
+    protected $primaryKey       = 'id_orgao_tipo_atuacao';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_orgao_fk', 'id_tipo_fk'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class MidiaDenunciaModel extends Model
 {
-    protected $table            = 'midiadenuncias';
-    protected $primaryKey       = 'id';
+    protected $table            = 'midia_denuncia';
+    protected $primaryKey       = 'id_midia';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['id_denuncia_fk', 'tipo_midia', 'caminho_arquivo', 'descricao', 'data_submissao'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

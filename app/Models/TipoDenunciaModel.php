@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class TipoDenunciaModel extends Model
 {
-    protected $table            = 'tipodenuncias';
-    protected $primaryKey       = 'id';
+    protected $table            = 'tipo_denuncia';
+    protected $primaryKey       = 'id_tipo';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['nome', 'descricao', 'ativo', 'data_criacao', 'data_edicao'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
@@ -43,4 +43,21 @@ class TipoDenunciaModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getTiposDenuncia() {
+        # Busca um usuário pelo e-mail
+
+        $sql_query = "SELECT tipo_denuncia.id_tipo,
+                             tipo_denuncia.categoria,
+                             tipo_denuncia.descricao
+                      FROM tipo_denuncia
+                      ORDER BY id_tipo ASC";
+
+        $data = $this->query($sql_query)->getResultArray();
+
+        // log_message('info', json_encode($data, JSON_PRETTY_PRINT));
+
+        return $data;
+    }
+
 }

@@ -50,6 +50,7 @@
   .sidebar-menu-item:hover,
   .sidebar-menu-item.active {
     border-left: 4px solid #FF7A00;
+    transition: .2s;
   }
 
   .main-content {

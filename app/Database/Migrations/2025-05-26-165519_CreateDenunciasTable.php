@@ -25,6 +25,11 @@ class CreateDenunciasTable extends Migration
                 'unsigned' => true,
                 'null' => false,
             ],
+            'titulo_denuncia' => [
+                'type' => 'VARCHAR',
+                'constraint' => 150,
+                'null' => false,
+            ],
             'detalhes' => [
                 'type' => 'VARCHAR',
                 'constraint' => 4000,
@@ -33,22 +38,22 @@ class CreateDenunciasTable extends Migration
             'logradouro' => [
                 'type' => 'VARCHAR',
                 'constraint' => 150,
-                'null' => true, // Endereço pode ser opcional ou preenchido por geocodificação
+                'null' => false,
             ],
             'numero' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
-                'null' => true,
+                'null' => false,
             ],
             'bairro' => [
                 'type' => 'VARCHAR',
                 'constraint' => 125,
-                'null' => true,
+                'null' => false,
             ],
             'cep' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
-                'null' => true,
+                'null' => false,
             ],
             'ponto_referencia' => [
                 'type' => 'VARCHAR',
@@ -90,16 +95,17 @@ class CreateDenunciasTable extends Migration
             'data_atribuicao' => [
                 'type' => 'TIMESTAMP',
                 'null' => true, // Null inicialmente, preenchido quando atribuída
+                'default' => null,
             ],
             'data_conclusao' => [
                 'type' => 'TIMESTAMP',
                 'null' => true, // Null inicialmente, preenchido quando concluída
+                'default' => null,
             ],
         ]);
 
         $this->forge->addPrimaryKey('id_denuncia');
 
-        // Adicionar chaves estrangeiras
         // Depende de 'usuarios'
         $this->forge->addForeignKey('id_usuario_fk', 'usuarios', 'id_usuario', 'CASCADE', 'RESTRICT');
         // 'CASCADE' para ON DELETE: se o usuário que fez a denúncia for deletado, a denúncia também será (ou 'RESTRICT' se preferir evitar).

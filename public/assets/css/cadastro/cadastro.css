@@ -30,3 +30,212 @@
 .voltar-icon {
   margin-right: 0.5rem;
 }
+
+/* Estilo para o campo de formulário inválido */
+.formulario-input.is-invalid {
+  border-color: #dc3545; /* Vermelho Bootstrap para perigo */
+}
+
+/* Base para o container de mensagens */
+#form-message-container {
+  display: none; 
+  padding: 15px; 
+  margin-bottom: 20px;
+  border-radius: 5px; 
+  border: 1px solid transparent;
+}
+
+/* Estilo específico para mensagens de ERRO */
+#form-message-container.message-error {
+  background-color: #f8d7da; 
+  color: #842029; 
+  border-color: #f5c2c7;
+}
+
+#form-message-container.message-error .message-title { 
+  font-weight: bold; 
+  margin-bottom: 10px; 
+}
+
+#form-message-container.message-error ul { 
+  margin: 0; 
+  padding-left: 20px; 
+  list-style-type: disc;
+}
+
+/* Estilo específico para mensagens de SUCESSO */
+#form-message-container.message-success {
+  background-color: #d4edda; 
+  color: #155724; 
+  border-color: #c3e6cb;
+  text-align: center; 
+  font-weight: bold;
+}
+
+/* Layout para o grupo de checkboxes */
+.formulario-checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+}
+
+.formulario-checkbox {
+  display: flex;
+  align-items: center;
+  flex-basis: calc(50% - 0.5rem);
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+/* Responsividade: uma coluna em telas menores */
+@media (max-width: 768px) {
+  .formulario-checkbox {
+      flex-basis: 100%;
+  }
+}
+
+/* Esconde o input original do checkbox */
+.formulario-checkbox input[type="checkbox"] {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Estilo do marcador customizado (a caixinha) */
+.formulario-checkbox .custom-checkbox-mark {
+  display: inline-block;
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid #adb5bd;
+  border-radius: 3px;
+  margin-right: 0.6em;
+  position: relative;
+  background-color: #fff;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+/* Estilo do marcador quando o checkbox original está FOCADO (para acessibilidade) */
+.formulario-checkbox input[type="checkbox"]:focus + .custom-checkbox-mark {
+  box-shadow: 0 0 0 0.25rem rgba(200, 73, 0, 0.25);
+  border-color: #C44900; 
+}
+
+/* Estilo do marcador quando o checkbox original está MARCADO */
+.formulario-checkbox input[type="checkbox"]:checked + .custom-checkbox-mark {
+  background-color: #C44900;
+  border-color: #A33C00;
+}
+
+/* O "check" (símbolo de marcação) dentro da caixa */
+.formulario-checkbox .custom-checkbox-mark::after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 0.3em;
+  top: 0.05em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid white;
+  border-width: 0 0.18em 0.18em 0;
+  transform: rotate(45deg);
+}
+
+/* Mostra o "check" quando o checkbox original está MARCADO */
+.formulario-checkbox input[type="checkbox"]:checked + .custom-checkbox-mark::after {
+  display: block;
+}
+
+/* Estilo do texto do label do checkbox */
+.formulario-checkbox .checkbox-label-text {
+  line-height: 1.1em;
+  color: #fff;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: -0.2em;
+  border: 0.2em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border .75s linear infinite;
+}
+@keyframes spinner-border {
+  to { transform: rotate(360deg); }
+}
+
+/* Estilo para o ícone de ajuda */
+.help-icon {
+  font-size: 1em;
+  vertical-align: middle;
+  cursor: help;
+  color: #fff; 
+  margin-left: 5px;
+  position: relative; 
+  display: inline-flex; 
+  align-items: center;
+  justify-content: center;
+}
+
+.help-icon:hover {
+  color: var(--cor-4);
+}
+
+/* Estilo base do tooltip (corpo e seta) - invisível por padrão */
+.help-icon::before,
+.help-icon::after {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out, visibility 0.2s ease-in-out;
+  z-index: 1070; 
+}
+
+/* Corpo do tooltip (usando ::after) */
+.help-icon::after {
+  content: attr(data-tooltip); 
+  background-color: #212529; 
+  color: #f8f9fa;             
+  padding: 0.4rem 0.8rem;      
+  border-radius: 0.25rem;    
+  line-height: 1.5;          
+  white-space: normal;       
+  width: max-content;        
+  max-width: 220px;          
+  text-align: left;
+  box-shadow: 0 0.125rem 0.25rem rgba(0,0,0,0.15);
+  
+  /* --- CORREÇÃO DA FONTE --- */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.8rem;
+  font-weight: normal;
+  font-style: normal;
+  text-transform: none;
+  letter-spacing: normal;
+
+  bottom: 100%;              
+  margin-bottom: 10px;       
+}
+
+/* Seta do tooltip (usando ::before) */
+.help-icon::before {
+  content: '';
+  border: 6px solid transparent; 
+  border-top-color: #212529;   
+  bottom: 100%;                
+  margin-bottom: -2px; 
+}
+
+/* Mostra o tooltip no hover E no foco */
+.help-icon:hover::before,
+.help-icon:hover::after,
+.help-icon:focus::before,
+.help-icon:focus::after {
+  opacity: 0.9; 
+  visibility: visible;
+}

@@ -6,13 +6,13 @@ use CodeIgniter\Model;
 
 class LogAuditoriaModel extends Model
 {
-    protected $table            = 'logauditorias';
-    protected $primaryKey       = 'id';
+    protected $table            = 'log_auditoria';
+    protected $primaryKey       = 'log_id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = ['user_uuid', 'user_email', 'user_nome_completo', 'tipo_usuario', 'user_action', 'user_ip', 'detalhes', 'data_log'];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;

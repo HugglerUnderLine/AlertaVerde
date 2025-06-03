@@ -3,7 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\RawSql; // Importe RawSql para CURRENT_TIMESTAMP
+use CodeIgniter\Database\RawSql;
 
 class CreateOrgaosTable extends Migration
 {
@@ -25,6 +25,7 @@ class CreateOrgaosTable extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 4000,
                 'null' => true, // Descrição pode ser opcional
+                'default' => null,
             ],
             'telefone_contato' => [
                 'type' => 'VARCHAR',
@@ -40,27 +41,28 @@ class CreateOrgaosTable extends Migration
             'logradouro' => [
                 'type' => 'VARCHAR',
                 'constraint' => 150,
-                'null' => true, // Endereço pode ser opcional inicialmente
+                'null' => false,
             ],
             'numero' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
-                'null' => true,
+                'null' => false,
             ],
             'bairro' => [
                 'type' => 'VARCHAR',
                 'constraint' => 125,
-                'null' => true,
+                'null' => false,
             ],
             'cep' => [
                 'type' => 'VARCHAR',
                 'constraint' => 10,
-                'null' => true,
+                'null' => false,
             ],
             'ponto_referencia' => [
                 'type' => 'VARCHAR',
                 'constraint' => 150,
                 'null' => true,
+                'default' => null,
             ],
             'data_criacao' => [
                 'type' => 'TIMESTAMP',
@@ -70,24 +72,23 @@ class CreateOrgaosTable extends Migration
             'data_edicao' => [
                 'type' => 'TIMESTAMP',
                 'null' => true, // Pode ser null no momento da criação
-                'default' => new RawSql('CURRENT_TIMESTAMP'), // Padrão para a hora atual (será atualizado por trigger)
+                'default' => null,
             ],
         ]);
 
         $this->forge->addPrimaryKey('id_orgao');
-        $this->forge->createTable('orgaos', true); // Nome da tabela em minúsculas e plural
+        $this->forge->createTable('orgaos', true);
 
-        // Opcional: Adicionar um órgão de exemplo se necessário para testes iniciais
         // $this->db->table('orgaos')->insert([
-        //     'nome_orgao' => 'Prefeitura Municipal',
+        //     'nome_orgao' => 'Prefeitura Municipal de Ponta Grossa',
         //     'descricao' => 'Órgão responsável pela administração municipal.',
-        //     'telefone_contato' => '(XX) XXXX-XXXX',
-        //     'email_institucional' => 'contato@prefeitura.com.br',
-        //     'logradouro' => 'Rua Principal',
-        //     'numero' => '123',
+        //     'telefone_contato' => '(42) 3030-3030',
+        //     'email_institucional' => 'contato@pmpg.gov.br',
+        //     'logradouro' => 'Av Visconde Alguma Coisa',
+        //     'numero' => '1000',
         //     'bairro' => 'Centro',
         //     'cep' => '84000-000',
-        //     'ponto_referencia' => 'Em frente à Praça Central',
+        //     'ponto_referencia' => 'Ao lado da Camara Municipal',
         // ]);
     }
 

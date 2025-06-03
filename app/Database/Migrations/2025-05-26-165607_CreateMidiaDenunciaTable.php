@@ -3,7 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\RawSql; // Importe RawSql para CURRENT_TIMESTAMP
+use CodeIgniter\Database\RawSql;
 
 class CreateMidiaDenunciaTable extends Migration
 {
@@ -44,7 +44,6 @@ class CreateMidiaDenunciaTable extends Migration
 
         $this->forge->addPrimaryKey('id_midia');
 
-        // Adiciona chave estrangeira para a tabela 'denuncias'
         // Depende de 'denuncias'
         $this->forge->addForeignKey('id_denuncia_fk', 'denuncias', 'id_denuncia', 'CASCADE', 'CASCADE');
         // ON UPDATE CASCADE: Se o id_denuncia na tabela 'denuncias' mudar, reflete aqui.

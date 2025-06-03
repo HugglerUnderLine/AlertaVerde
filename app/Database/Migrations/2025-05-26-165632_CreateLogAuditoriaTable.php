@@ -3,7 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\RawSql; // Importe RawSql para CURRENT_TIMESTAMP
+use CodeIgniter\Database\RawSql;
 
 class CreateLogAuditoriaTable extends Migration
 {
@@ -35,7 +35,7 @@ class CreateLogAuditoriaTable extends Migration
                 'constraint' => 25,
                 'null' => false,
             ],
-            'user_action' => [ // Descrição da ação (ex: 'cadastrar_usuario', 'editar_denuncia')
+            'user_action' => [ // Descrição da ação ('cadastrar_usuario', 'editar_denuncia'...)
                 'type' => 'VARCHAR',
                 'constraint' => 50,
                 'null' => false,
@@ -46,8 +46,10 @@ class CreateLogAuditoriaTable extends Migration
                 'null' => true, // Pode ser null se não for capturado ou para ações internas
             ],
             'detalhes' => [ // JSON completo das alterações, status, etc.
-                'type' => 'JSONB',
+                'type' => 'VARCHAR',
+                'constraint' => 4000,
                 'null' => true, // Pode ser null para ações simples ou se não houver detalhes complexos
+                'default' => null,
             ],
             'data_log' => [ // Data e hora do registro do log
                 'type' => 'TIMESTAMP',

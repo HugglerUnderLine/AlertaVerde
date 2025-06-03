@@ -14,24 +14,33 @@ $routes->post('/login/(orgao)', 'Login::autenticar/$1');
 $routes->get('/logout', 'Login::logout');
 $routes->get('/sobre', 'Sobre::index');
 
-## User
+## Usuários
 # Cadastro
 $routes->get('/cadastro', 'Usuario::cadastrar_usuario');
 $routes->match(['GET', 'POST'], '/usuario/cadastro/(cidadao)', 'Usuario::cadastrar_usuario/$1');
 $routes->match(['GET', 'POST'], '/usuario/cadastro/(orgao)', 'Usuario::cadastrar_usuario/$1');
 $routes->match(['GET', 'POST'], '/usuario/profile/(:any)/alterarSenha', 'Usuario::alterarSenha/$1');
 
-## Dashboard
-$routes->match(['GET', 'POST'], '/painel/(cidadao)', 'Denuncia::index/$1');
-$routes->match(['GET', 'POST'], '/painel/(orgao)', 'Denuncia::index/$1');
-
+## Usuário
 # List | Upsert
-$routes->match(['GET', 'POST'], '/usuarios/list', 'Usuario::index');
-$routes->match(['GET', 'POST'], '/usuarios/list/json', 'Usuario::json_list');
+$routes->match(['GET', 'POST'], '/usuarios', 'Usuario::index');
+$routes->match(['GET', 'POST'], '/usuarios/list', 'Usuario::json_list');
 $routes->match(['GET', 'POST'], '/usuarios/(novo)', 'Usuario::upsert/$1');
 $routes->match(['GET', 'POST'], '/usuarios/(editar)/(:num)', 'Usuario::upsert/$1/$2');
 $routes->match(['GET', 'POST'], '/usuarios/inativar/(:num)', 'Usuario::inativarUsuario/$1');
-$routes->match(['GET', 'POST'], '/usuario/profile/(:any)/alterarSenha', 'Usuario::alterarSenha/$1');
+$routes->match(['GET', 'POST'], '/usuario/perfil/(:any)', 'Usuario::exibir_perfil/$1');
+$routes->match(['GET', 'POST'], '/usuario/log/(:any)', 'Usuario::log_usuario/$1');
+
+## Dashboard
+# Cidadão
+$routes->match(['GET', 'POST'], '/painel/(cidadao)', 'Denuncia::index/$1');
+$routes->match(['GET', 'POST'], '/painel/(cidadao)/list', 'Denuncia::json_list/$1');
+
+$routes->match(['GET', 'POST'], '/painel/cidadao/denuncia/registro', 'Denuncia::nova_denuncia/$1');
+
+# Órgão
+$routes->match(['GET', 'POST'], '/painel/(orgao)', 'Denuncia::index/$1');
+$routes->match(['GET', 'POST'], '/painel/orgao/list', 'Denuncia::json_list');
 
 #Redirect
 $routes->addRedirect('(.+)', '/');

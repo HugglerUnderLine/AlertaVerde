@@ -94,24 +94,6 @@ class UsuarioModel extends Model
 
     }
 
-    public function findOrgaoByEmail($email) {
-        # Busca um usuário pelo e-mail
-
-        $sql_query = "SELECT usuarios.id_usuario,
-                             usuarios.user_uuid,
-                             usuarios.email,
-                             usuarios.nome_completo,
-                             usuarios.senha,
-                             usuarios.id_orgao_fk,
-                             usuarios.tipo_usuario -- cidadao, orgao_master, orgao_representante, admin
-                      FROM usuarios
-                      WHERE email = :email:
-                      AND usuarios.ativo = 1";
-
-        return $this->query($sql_query, ['email' => $email])->getResultArray();
-
-    }
-
     public function findUserByEmail($email) {
         # Busca um usuário pelo e-mail
 
@@ -172,14 +154,15 @@ class UsuarioModel extends Model
 
     }
 
-    public function complexGetUsers($vars, $cols) { // Tratamento dos dados vindos do DataTables para a tabela de usuários
+    public function complexGetUsuarios($vars, $cols) { // Tratamento dos dados vindos do DataTables para a tabela de usuários
 
-        $sql_select = "SELECT usuarios.id_usuario,
-                              usuarios.UUID,
-                              usuarios.EMAIL,
-                              usuarios.NOME,
-                              usuarios.SENHA,
-                              usuarios.PERMISSAO";
+        $sql_select = 'SELECT usuarios.id_usuario as "usuarioID",
+                              usuarios.user_uuid as "uuid",
+                              usuarios.nome_completo as "nomeUsuario",
+                              usuarios.email,
+                              usuarios.tipo_usuario as "permissao",
+                              usuarios.ativo as "usuarioAtivo",
+                              TO_CHAR(usuarios.data_criacao, \'DD/MM/YYYY HH24:MI\') as "criadoEm"';
                         
         $sql_from = "\nFROM usuarios";
 
@@ -187,7 +170,7 @@ class UsuarioModel extends Model
         $found_where = false;
         $where_params = array();
         if(!empty($vars['nome'])) {
-            $where_params[] = "usuarios.nome LIKE :nome:";
+            $where_params[] = "usuarios.nome_completo LIKE :nome:";
             $vars['nome'] = "%" . $vars['nome'] . "%";
             $found_where = true;
         }
@@ -196,10 +179,21 @@ class UsuarioModel extends Model
             $vars['email'] = "%" . $vars['email'] . "%";
             $found_where = true;
         }
+        if(!empty($vars['ativo']) || $vars['ativo'] === 0) {
+            $where_params[] = "usuarios.ativo = :ativo:";
+            $vars['ativo'] = intval($vars['ativo']);
+            $found_where = true;
+        }
+        if(!empty($vars['id_orgao'])) {
+            $where_params[] = "usuarios.id_orgao_fk = :id_orgao:";
+            $found_where = true;
+        }
         
         $sql_where = "";
-        if ($found_where)
+        
+        if ($found_where) {
             $sql_where = "\nWHERE " . implode(' AND ', $where_params);
+        }
 
         # Verifica se existe alguma ordenação especificada na tabela e constrói a cláusula ORDER BY:
         $order = $vars['order'];
@@ -223,6 +217,9 @@ class UsuarioModel extends Model
         # Execução das queries:
         $query_count = $this->query($sql_count, $vars)->getRowArray()['total'];
         $results = $this->query($sql_data, $vars)-> getResultArray();
+
+        // log_message('info', $this->getLastQuery());
+        // log_message('info', json_encode($vars, JSON_PRETTY_PRINT));
 
         return [
             $results,

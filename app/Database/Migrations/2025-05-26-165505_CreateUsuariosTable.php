@@ -2,7 +2,7 @@
 
 namespace App\Database\Migrations;
 
-use App\Models\UsuarioModel; // Assumindo que você tem um modelo para gerar UUIDs
+use App\Models\UsuarioModel;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql;
 
@@ -39,17 +39,17 @@ class CreateUsuariosTable extends Migration
                 'null' => false,
             ],
             'tipo_usuario' => [
-                // Poderíamos usar ENUM para PostgreSQL para garantir os valores,
-                // mas VARCHAR com constraint no modelo ou validação na aplicação é comum.
                 // Valores: 'cidadao', 'orgao_master', 'orgao_representante', 'admin'
                 'type' => 'VARCHAR',
-                'constraint' => 25, // Ajustado para 'orgao_representante' (19 caracteres) + margem
+                'constraint' => 25,
                 'null' => false,
+                'default' => 'cidadao',
             ],
             'id_orgao_fk' => [
                 'type' => 'INT',
                 'unsigned' => true,
                 'null' => true, // Este campo é opcional, pois cidadãos e admins não pertencem a um órgão
+                'default' => null,
             ],
             'ativo' => [
                 'type' => 'INT', // Para 1 ou 0, INT é mais comum que BOOLEAN em migrations para compatibilidade ampla
@@ -65,22 +65,20 @@ class CreateUsuariosTable extends Migration
             'data_edicao' => [
                 'type' => 'TIMESTAMP',
                 'null' => true, // Pode ser null no momento da criação e atualizado depois
-                'default' => new RawSql('CURRENT_TIMESTAMP'), // Padrão para ser a data de criação/edição inicial
+                'default' => null,
             ],
         ]);
 
         $this->forge->addPrimaryKey('id_usuario');
 
-        // Adiciona a chave estrangeira para a tabela 'orgaos'
         // É importante que a tabela 'orgaos' seja criada ANTES desta migration ou em uma migration anterior.
         $this->forge->addForeignKey('id_orgao_fk', 'orgaos', 'id_orgao', 'CASCADE', 'SET NULL');
         // 'CASCADE' para ON UPDATE: se o id_orgao na tabela 'orgaos' for atualizado, o id_orgao_fk aqui também será.
         // 'SET NULL' para ON DELETE: se um órgão for deletado, os usuários associados a ele terão id_orgao_fk setado para NULL.
 
-        $this->forge->createTable('usuarios', true); // Mudando o nome da tabela para 'usuarios' (minúsculas é convenção)
+        $this->forge->createTable('usuarios', true);
 
         // Criação de usuário padrão (ADMIN)
-        // Certifique-se de que App\Models\UsuarioModel exista e tenha o método generateUUID()
         $usuarioModel = new UsuarioModel();
 
         $this->db->table('usuarios')->insert([
@@ -89,7 +87,7 @@ class CreateUsuariosTable extends Migration
             'email' => 'admin@alertaverde.com.br',
             'senha' => password_hash('adminroot', PASSWORD_BCRYPT),
             'tipo_usuario' => 'admin',
-            'ativo' => 1, // Use 1 para ativo
+            'ativo' => 1, // 1 para ativo
             // 'id_orgao_fk' será NULL por padrão para admins
         ]);
     }
