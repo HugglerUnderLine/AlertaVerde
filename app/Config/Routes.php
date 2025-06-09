@@ -27,20 +27,25 @@ $routes->match(['GET', 'POST'], '/usuarios', 'Usuario::index');
 $routes->match(['GET', 'POST'], '/usuarios/list', 'Usuario::json_list');
 $routes->match(['GET', 'POST'], '/usuarios/(novo)', 'Usuario::upsert/$1');
 $routes->match(['GET', 'POST'], '/usuarios/(editar)/(:num)', 'Usuario::upsert/$1/$2');
-$routes->match(['GET', 'POST'], '/usuarios/inativar/(:num)', 'Usuario::inativarUsuario/$1');
+$routes->match(['GET', 'POST'], '/usuarios/inativar/(:num)', 'Usuario::inativar_usuario/$1');
 $routes->match(['GET', 'POST'], '/usuario/perfil/(:any)', 'Usuario::exibir_perfil/$1');
 $routes->match(['GET', 'POST'], '/usuario/log/(:any)', 'Usuario::log_usuario/$1');
 
 ## Dashboard
 # Cidadão
-$routes->match(['GET', 'POST'], '/painel/(cidadao)', 'Denuncia::index/$1');
-$routes->match(['GET', 'POST'], '/painel/(cidadao)/list', 'Denuncia::json_list/$1');
-
-$routes->match(['GET', 'POST'], '/painel/cidadao/denuncia/registro', 'Denuncia::nova_denuncia/$1');
+$routes->match(['GET', 'POST'], '/painel/cidadao', 'Cidadao::index');
+$routes->match(['GET', 'POST'], '/painel/cidadao/list', 'Denuncia::listar_denuncias_cidadao');
+$routes->match(['GET', 'POST'], '/painel/cidadao/denuncia/registro', 'Denuncia::nova_denuncia');
 
 # Órgão
-$routes->match(['GET', 'POST'], '/painel/(orgao)', 'Denuncia::index/$1');
+$routes->match(['GET', 'POST'], '/painel/orgao', 'Orgao::index');
 $routes->match(['GET', 'POST'], '/painel/orgao/list', 'Denuncia::json_list');
+$routes->match(['GET', 'POST'], '/painel/orgao/denuncias', 'Orgao::denuncias_enviadas');
+$routes->match(['GET', 'POST'], '/painel/orgao/denuncias/list', 'Denuncia::listar_denuncias_orgao');
+$routes->post('/painel/orgao/denuncias/atribuir-denuncia', 'Denuncia::atribuir_denuncia');
+$routes->post('/painel/orgao/denuncia/atualizar-status', 'Denuncia::atualizar_status_denuncia');
+$routes->get('/painel/orgao/denuncias/graficos', 'Orgao::dados_graficos');
+$routes->get('/painel/orgao/denuncias/midias/(:num)', 'Orgao::listar_midias/$1');
 
 #Redirect
 $routes->addRedirect('(.+)', '/');

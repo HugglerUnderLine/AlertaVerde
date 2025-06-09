@@ -138,14 +138,14 @@
                                             <h3 class="fw-bold mt-3">Detalhes da Denuncia</h3>
                                             <p class="fs-6 mt-2" style="color: var(--cor-8);">Prencha o formulário abaixo com a maior riqueza de detalhes possível.</p>
                                         </div>
-                                        <form id="formNovaDenunciaModal" class="row gap-4">
+                                        <form id="formNovaDenunciaModal" class="row gap-4" enctype="multipart/form-data">
                                             <?= csrf_field() ?>
                                             <div class="form-group col-12">
-                                                <label for="titulo_denuncia" class="form-label fw-bold mt-4">Titulo da Denuncia</label>
-                                                <input type="text" class="form-control form-control-sm" id="titulo_denuncia" name="titulo_denuncia" placeholder="Ex: Buraco na rua...">
+                                                <label for="titulo_denuncia" class="form-label fw-bold mt-4">Titulo da Denuncia *</label>
+                                                <input type="text" class="form-control form-control-sm" id="titulo_denuncia" name="titulo_denuncia" placeholder="Ex: Buraco na rua..." maxlength="150">
                                             </div>
                                             <div class="form-group col-12 ">
-                                                <label for="categoria_denuncia" class="form-label fw-bold ">Categoria:</label>
+                                                <label for="categoria_denuncia" class="form-label fw-bold ">Categoria: *</label>
                                                 <select class="form-select form-select-sm" id="categoria_denuncia" name="categoria_denuncia">
                                                     <option disabled selected value="0">Selecione...</option>
                                                     <option value="1">Meio Ambiente</option>
@@ -156,52 +156,52 @@
                                                     <option value="6">Saúde Pública</option>
                                                     <option value="7">Obras e Edificações</option>
                                                     <option value="8">Poluição Sonora</option>
-                                                    <option value="9">Zeladoria Urbana / Serviços Públicos</option>
+                                                    <option value="9">Zeladoria Urbana</option>
                                                     <option value="10">Outros</option>
                                                 </select>
                                             </div>
                                             <div class="form-group col-12">
-                                                <label for="descricao_denuncia" class="form-label fw-bold ">Descrição:</label>
+                                                <label for="descricao_denuncia" class="form-label fw-bold ">Descrição: *</label>
                                                 <textarea class="form-control form-control-sm" id="descricao_denuncia" name="descricao_denuncia" rows="4" placeholder="Forneça uma descrição detalhada do problema."></textarea>
                                             </div>
                                             
-                                            <h4 class="fw-bold mt-3">Localização da Denúncia</h4>
+                                            <h4 class="fw-bold mt-3">Localização da Denúncia *</h4>
                                             <div class="mt-0 mb-0">
                                                 <p class="fs-6 fw-normal text-secondary">Informe o endereço do local apontado pela denúncia.</p>
                                             </div>
                                             <div class="form-group col-md-10">
-                                                <label for="logradouro_denuncia" class="form-label fw-bold">Logradouro</label>
-                                                <input type="text" class="form-control form-control-sm" id="logradouro_denuncia" name="logradouro_denuncia" placeholder="Ex: Avenida Brasil">
+                                                <label for="logradouro_denuncia" class="form-label fw-bold">Logradouro *</label>
+                                                <input type="text" class="form-control form-control-sm" id="logradouro_denuncia" name="logradouro_denuncia" placeholder="Ex: Avenida Brasil" maxlength="150">
                                             </div>
                                             <div class="form-group col-md-4">
-                                                <label for="numero_denuncia" class="form-label fw-bold">Número</label>
-                                                <input type="text" class="form-control form-control-sm" id="numero_denuncia" name="numero_denuncia" placeholder="Ex: 123">
+                                                <label for="numero_denuncia" class="form-label fw-bold">Número *</label>
+                                                <input type="text" class="form-control form-control-sm" id="numero_denuncia" name="numero_denuncia" placeholder="Ex: 123" maxlength="6">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="bairro_denuncia" class="form-label fw-bold">Bairro</label>
-                                                <input type="text" class="form-control form-control-sm" id="bairro_denuncia" name="bairro_denuncia" placeholder="Ex: Centro">
+                                                <label for="bairro_denuncia" class="form-label fw-bold">Bairro *</label>
+                                                <input type="text" class="form-control form-control-sm" id="bairro_denuncia" name="bairro_denuncia" placeholder="Ex: Centro" maxlength="125">
                                             </div>
                                             <div class="form-group col-md-6">
-                                                <label for="cep_denuncia" class="form-label fw-bold">CEP</label>
-                                                <input type="text" class="form-control form-control-sm" id="cep_denuncia" name="cep_denuncia" placeholder="Ex: 84000-000">
+                                                <label for="cep_denuncia" class="form-label fw-bold">CEP *</label>
+                                                <input type="text" class="form-control form-control-sm" id="cep_denuncia" name="cep_denuncia" placeholder="Ex: 84000-000" maxlength="9">
                                             </div>
                                             <div class="form-group col-12">
                                                 <label for="ponto_referencia" class="form-label fw-bold">Ponto de Referência</label>
-                                                <input type="text" class="form-control form-control-sm" id="ponto_referencia" name="ponto_referencia" placeholder="Ex: Próximo ao mercado municipal">
+                                                <input type="text" class="form-control form-control-sm" id="ponto_referencia" name="ponto_referencia" placeholder="Ex: Próximo ao mercado municipal" maxlength="150">
                                             </div>
 
                                             <div class="form-group col-12">
                                                 <label class="form-label fw-bold">Mídias (Opcional)</label>
                                                 <div class="d-flex flex-column flex-md-row gap-3 justify-content-center">
-                                                    <div class="bg-white rounded-3 d-flex flex-column gap-1 justify-content-center align-items-center p-3" style="width: 100%; height: 150px; cursor: pointer;" onclick="document.getElementById('imagens_denuncia').click();">
+                                                    <div class="bg-white rounded-3 d-flex flex-column gap-1 justify-content-center align-items-center p-3" style="width: 100%; height: 150px; cursor: pointer;" onclick="document.getElementById('imagens_denuncia_input').click();">
                                                         <span class="material-symbols-rounded">photo_camera</span>
-                                                        <input type="file" class="form-control form-control-sm" id="imagens_denuncia" name="imagens_denuncia[]" accept="image/*" style="display: none;" multiple>
+                                                        <input type="file" class="form-control form-control-sm" id="imagens_denuncia_input" name="imagens_denuncia[]" accept="image/*" style="display: none;" multiple>
                                                         <p class="fs-6 text-center">Adicionar Imagens <br><small>(JPG, PNG até 10MB)</small></p>
                                                         <div id="previewImagensModal" class="mt-2 d-flex flex-wrap gap-2"></div>
                                                     </div>
-                                                    <div class="bg-white rounded-3 d-flex flex-column gap-1 justify-content-center align-items-center p-3" style="width: 100%; height: 150px; cursor: pointer;" onclick="document.getElementById('video_denuncia').click();">
+                                                    <div class="bg-white rounded-3 d-flex flex-column gap-1 justify-content-center align-items-center p-3" style="width: 100%; height: 150px; cursor: pointer;" onclick="document.getElementById('video_denuncia_input').click();">
                                                         <span class="material-symbols-rounded">videocam</span>
-                                                        <input type="file" class="form-control form-control-sm" id="video_denuncia" name="video_denuncia" accept="video/*" style="display: none;">
+                                                        <input type="file" class="form-control form-control-sm" id="video_denuncia_input" name="video_denuncia" accept="video/*" style="display: none;">
                                                         <p class="fs-6 text-center">Adicionar Vídeo <br><small>(MP4, MOV até 50MB)</small></p>
                                                         <div id="previewVideoModal" class="mt-2"></div>
                                                     </div>
@@ -229,51 +229,21 @@
             </div>
 
             <div class="input-group mb-4">
-                <input type="text" class="form-control" placeholder="Procurar denúncia..." />
-                <button class="btn bg-botao text-white">Filtro</button>
+                <input type="text" id="filtroTitulo" class="form-control" placeholder="Procurar denúncia..." />
+                <button class="btn bg-botao text-white" id="btnFiltro">Filtrar</button>
             </div>
 
             <div class="mb-4">
-                <button class="btn bg-botao text-white me-2">Ativas</button>
-                <button class="btn btn-outline-light text-white me-2">Resolvidas</button>
-                <button class="btn btn-outline-light text-white">Todas</button>
+                <button class="btn btn-outline-light text-white me-2 filtro-status" data-status="Todas">Todas</button>
+                <button class="btn btn-outline-light text-white me-2 filtro-status" data-status="Pendente">Pendentes</button>
+                <button class="btn btn-outline-light text-white me-2 filtro-status" data-status="Em Andamento">Em andamento</button>
+                <button class="btn btn-outline-light text-white me-2 filtro-status" data-status="Resolvida">Resolvidas</button>
             </div>
 
-            <section class="d-flex flex-column gap-3">
-
-                <div class="card bg-secundaria position-relative">
-                    <div class="card-body">
-                        <h5 class="card-title">Visualização de árvore caída.</h5>
-                        <p class="card-text">Pedido no estacionamento principal da UTFPR, há uma árvore caída.</p>
-                        <p class="small">📍 R. Doutor Washington Subtil Chueire, 330 - UFPR | 2 dias atrás</p>
-                        <button class="btn bg-botao-detalhes text-white btn-sm mt-2">Ver detalhes</button>
-                        <span class="badge bg-botao-hover white-text position-absolute top-0 end-0 m-3">Em progresso</span>
-                    </div>
-                </div>
-
-
-                <div class="card bg-secundaria position-relative">
-                    <div class="card-body">
-                        <h5 class="card-title">Poste de iluminação quebrado</h5>
-                        <p class="card-text">A iluminação do poste está quebrada há mais de uma semana, gerando preocupação com a
-                        segurança.</p>
-                        <p class="small">📍 Avenida Doutor Vicente Machado, 100 | 1 semana atrás</p>
-                        <button class="btn bg-botao-detalhes text-white btn-sm mt-2">Ver detalhes</button>
-                        <span class="badge bg-warning white-text position-absolute top-0 end-0 m-3">Pendente</span>
-                    </div>
-                </div>
-
-                <div class="card bg-secundaria position-relative">
-                    <div class="card-body">
-                        <h5 class="card-title">Descarte inapropriado de lixo</h5>
-                        <p class="card-text">Materiais de construção e resíduos diversos descartados ilegalmente.</p>
-                        <p class="small">📍 Rua Coronel Dulcídio, 620 | 3 dias atrás</p>
-                        <button class="btn bg-botao-detalhes text-white btn-sm mt-2">Ver detalhes</button>
-                        <span class="badge bg-secondary white-text position-absolute top-0 end-0 m-3">Inativo</span>
-                    </div>
-                </div>
-
+            <section id="listaDenuncias" class="d-flex flex-column gap-3">
+                <!-- Cards AJAX serão inseridos aqui -->
             </section>
+
         </main>
     </div>
 
@@ -350,6 +320,16 @@
                 ponto_referencia: {
                     maxlength: 150,
                 },
+                'imagens_denuncia[]': { 
+                    required: false, 
+                    extension: "jpg|jpeg|png|gif", 
+                    filesize: 10485760 /* 10MB */ 
+                },
+               'video_denuncia': { 
+                    required: false, 
+                    extension: "mp4|mov",
+                    filesize: 52428800 /* 50MB */ 
+                }
             },
             messages: {
                 titulo_denuncia: {
@@ -388,6 +368,14 @@
                 ponto_referencia: {
                     maxlength: "O Ponto de Referência informado é muito longo.",
                 },
+                'imagens_denuncia[]': { 
+                    extension: "Uma ou mais imagens não correspondem ao formato esperado (jpg, jpeg, png, gif)", 
+                    filesize: 10485760 /* 10MB */ 
+                },
+               'video_denuncia': { 
+                    extension: "O vídeo anexado não corresponde ao formato esperado (mp4, mov)",
+                    filesize: 52428800 /* 50MB */ 
+                }
             },
             errorPlacement: function(error, element) {},
             highlight: function (element) {
@@ -407,29 +395,25 @@
                 $errorContainer.slideUp(); // Esconde erros anteriores
                 const $form = $(form);
                 const $submitButton = $form.find('button[type="submit"]');
-                const originalButtonHtml = $submitButton.html();
+                // Armazena o HTML original do botão se ainda não foi armazenado
+                if (!$submitButton.data('original-html')) {
+                    $submitButton.data('original-html', $submitButton.html());
+                }
+                const originalButtonHtml = $submitButton.data('original-html');
                 let denunciaBemSucedida = false; // Flag para controlar o estado do botão no 'complete'
 
                 let dadosParaEnviar = {};
 
                 const actionUrl = '<?= base_url("painel/cidadao/denuncia/registro") ?>';
-
-                dadosParaEnviar = {
-                    titulo_denuncia: $('#titulo_denuncia').val(),
-                    categoria_denuncia: $('#categoria_denuncia').val(),
-                    descricao_denuncia: $('#descricao_denuncia').val(),
-                    logradouro_denuncia: $('#logradouro_denuncia').val(),
-                    numero_denuncia: $('#numero_denuncia').val(),
-                    bairro_denuncia: $('#bairro_denuncia').val(),
-                    cep_denuncia: $('#cep_denuncia').val(),
-                    ponto_referencia: $('#ponto_referencia').val(),
-                };
+                const formData = new FormData(form); 
                 
                 $.ajax({
                     url: actionUrl,
                     type: 'POST',
-                    data: dadosParaEnviar,
+                    data: formData,
                     dataType: 'json',
+                    processData: false, // Impede o jQuery de processar o FormData
+                    contentType: false, // Deixa o navegador definir o Content-Type correto para multipart/form-data
                     beforeSend: function() {
                         denunciaBemSucedida = false; // Reseta a flag
                         $submitButton.prop('disabled', true).html('<span class="spinner"></span> Processando...');
@@ -437,8 +421,6 @@
                     success: function(response) {
                         if (response.status === 'success') {
                             denunciaBemSucedida = true; // Define a flag de sucesso
-                            $submitButton.html('Sucesso! Sua denúncia foi enviada e está aguardando verificação.'); 
-
                         } else { // Erro de negócio
                             displayDenunciaErrors(response.message || 'Algo deu errado ao processar o envio da sua denúncia.');
                         }
@@ -448,27 +430,136 @@
                         displayDenunciaErrors('Ocorreu um erro na comunicação. Tente novamente.');
                     },
                     complete: function() {
-                        if (!denunciaBemSucedida) { // Só reabilita se o envio da denúncia não foi bem sucedido
+                        if (denunciaBemSucedida) {
+                            let countdown = 5;
+                            const buttonMessageBase = "Denuncia enviada! Fechando em ";
+                            
+                            // Atualiza o botão para mostrar a contagem regressiva
+                            $submitButton.html(buttonMessageBase + countdown + 's...'); 
+
+                            const countdownInterval = setInterval(function() {
+                                countdown--;
+                                if (countdown > 0) {
+                                    $submitButton.html(buttonMessageBase + countdown + 's...');
+                                } else {
+                                    clearInterval(countdownInterval);
+                                    $('#modalNovaDenuncia').modal('hide'); 
+                                    // A limpeza e reset do botão serão feitos no evento 'hidden.bs.modal'
+                                }
+                            }, 1000);
+                        } else { 
+                            // Se não foi sucesso, restaura o botão para seu estado original
                             $submitButton.prop('disabled', false).html(originalButtonHtml);
                         }
-
-                        let countdown = 5;
-
-                        const countdownInterval = setInterval(function() {
-                            countdown--;
-                            if (countdown < 0) { // Redireciona quando chega abaixo de 0
-                                $('#modalNovaDenuncia').modal('hide');
-                            }
-                        }, 1000);
                     }
                 });
             }
         });
+
+        function carregarDenuncias(filtros = {}) {
+            $.ajax({
+                url: '<?= base_url("/painel/cidadao/list") ?>',
+                method: 'POST',
+                data: filtros,
+                dataType: 'json',
+                success: function (resposta) {
+                    const container = $('#listaDenuncias');
+                    container.empty();
+
+                    if (resposta.length === 0) {
+                        container.append('<div class="text-white">Nenhuma denúncia encontrada.</div>');
+                        return;
+                    }
+
+                    resposta.forEach(denuncia => {
+                        const emAtendimento = denuncia.orgao_responsavel 
+                            ? `<p class="mt-2 mb-0 small"><strong>Em atendimento por:</strong> ${denuncia.orgao_responsavel}</p>` 
+                            : '';
+
+                        const card = `
+                            <div class="card bg-secundaria position-relative">
+                                <div class="card-body">
+                                    <h5 class="card-title">${denuncia.titulo}</h5>
+                                    <p class="card-text small">${denuncia.descricao}</p>
+                                    <p class="small text-secondary">📍 ${denuncia.localizacao} | ${denuncia.tempo}</p>
+                                    ${emAtendimento}
+                                    <button class="btn bg-botao-detalhes text-white btn-sm mt-2">Ver detalhes</button>
+                                    <span class="badge ${getStatusBadge(denuncia.status)} position-absolute top-0 end-0 m-3">${denuncia.status}</span>
+                                </div>
+                            </div>
+                        `;
+                        container.append(card);
+                    });
+                },
+                error: function () {
+                    alert('Erro ao carregar as denúncias.');
+                }
+            });
+        }
+
+
+        $('#btnFiltro').on('click', function () {
+            const titulo = $('#filtroTitulo').val();
+            const status = $('.filtro-status.btn.bg-botao').data('status') || 'Todas';
+            carregarDenuncias({ status, titulo });
+        });
+
+        $('.filtro-status').on('click', function () {
+            $('.filtro-status').removeClass('bg-botao').addClass('btn-outline-light');
+            $(this).removeClass('btn-outline-light').addClass('bg-botao');
+
+            const status = $(this).data('status');
+            const titulo = $('#filtroTitulo').val();
+            carregarDenuncias({ status, titulo });
+        });
+
+        window.atualizarDenuncias = function () {
+            const titulo = $('#filtroTitulo').val();
+            const status = $('.filtro-status.bg-botao').data('status') || 'Todas';
+            carregarDenuncias({ status, titulo });
+        };
+
+        function getStatusBadge(status) {
+            switch (status.toLowerCase()) {
+                case 'pendente':
+                    return 'bg-warning text-dark';
+                case 'em progresso':
+                    return 'bg-info text-white';
+                case 'resolvida':
+                    return 'bg-success text-white';
+                case 'cancelada':
+                    return 'bg-danger text-white';
+                default:
+                    return 'bg-secondary text-white';
+            }
+        }
+
+        carregarDenuncias(); // Inicial
+
+    });
+
+    // Limpa o formulário e reseta os campos após o modal ser fechado
+    $('#modalNovaDenuncia').on('hidden.bs.modal', function () {
+        const $form = $('#formNovaDenunciaModal');
+        const $submitButton = $form.find('button[type="submit"]');
+        const originalHtml = $submitButton.data('original-html') || '<span class="material-symbols-rounded">send</span> Enviar Denúncia'; // Fallback
+
+        $form[0].reset(); // Limpa os campos do formulário
+        $('#previewImagensModal').empty(); // Limpa previews de imagens
+        $('#previewVideoModal').empty();   // Limpa previews de vídeo
+        
+        if (validator) { // Verifica se o validador foi inicializado
+            validator.resetForm(); // Reseta o estado do jQuery Validation (remove classes .is-invalid, etc.)
+        }
+        $errorContainer.hide().find('ul').empty(); // Esconde e limpa o container de erros
+        
+        // Restaura o botão de submit para seu estado original
+        $submitButton.prop('disabled', false).html(originalHtml); 
     });
 
     document.addEventListener('DOMContentLoaded', function() {
     // Lógica para o input de imagem
-    const imagemModalInput = document.getElementById("imagem_denuncia");
+    const imagemModalInput = document.getElementById("imagens_denuncia_input");
     if (imagemModalInput) {
         imagemModalInput.addEventListener("change", function(event) {
             const previewContainer = document.getElementById("previewImagensModal");
@@ -493,7 +584,7 @@
     }
 
     // Lógica para o input de vídeo
-    const videoModalInput = document.getElementById("video_denuncia");
+    const videoModalInput = document.getElementById("video_denuncia_input");
     if (videoModalInput) {
         videoModalInput.addEventListener("change", function(event) {
             const previewContainer = document.getElementById("previewVideoModal");

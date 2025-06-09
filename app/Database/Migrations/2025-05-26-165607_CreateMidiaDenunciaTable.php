@@ -27,13 +27,8 @@ class CreateMidiaDenunciaTable extends Migration
             ],
             'caminho_arquivo' => [ // URL ou caminho para o arquivo armazenado
                 'type' => 'VARCHAR',
-                'constraint' => 4000, // Suficientemente grande para URLs de armazenamento
-                'null' => false,
-            ],
-            'descricao' => [
-                'type' => 'VARCHAR',
                 'constraint' => 4000,
-                'null' => true, // Descrição da mídia pode ser opcional
+                'null' => false,
             ],
             'data_submissao' => [
                 'type' => 'TIMESTAMP',

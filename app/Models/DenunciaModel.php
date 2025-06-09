@@ -69,6 +69,110 @@ class DenunciaModel extends Model
         return $this->query($sql_query)->getResultArray();
     }
 
+    public function getEstatisticasDenunciasOrgao(int $idOrgao): array {
+        # Definição dos períodos
+        $hoje = date('Y-m-d');
+
+        # Mês Atual
+        $inicioMesAtual = date('Y-m-01', strtotime($hoje));
+        $fimMesAtual = date('Y-m-t', strtotime($hoje));
+
+        # Mês Anterior
+        $inicioMesAnterior = date('Y-m-01', strtotime($inicioMesAtual . ' -1 month'));
+        $fimMesAnterior = date('Y-m-t', strtotime($inicioMesAtual . ' -1 month'));
+
+        # Query para buscar contagens por status e totais para os dois períodos
+        $sql = "
+            SELECT status_denuncia,
+                   COUNT(CASE 
+                        WHEN data_submissao BETWEEN :inicioMesAtual: AND :fimMesAtual: THEN id_denuncia 
+                        ELSE NULL 
+                   END) AS contagem_atual,
+                   COUNT(CASE 
+                        WHEN data_submissao BETWEEN :inicioMesAnterior: AND :fimMesAnterior: THEN id_denuncia 
+                        ELSE NULL 
+                   END) AS contagem_anterior
+            FROM denuncias
+            WHERE id_orgao_responsavel_fk = :idOrgao:
+            AND data_submissao >= :dataCorteInicio:
+            GROUP BY status_denuncia
+
+            UNION ALL
+
+            SELECT 
+                'TOTAL_GERAL' as status_denuncia, -- <<< CORREÇÃO AQUI
+                COUNT(CASE 
+                        WHEN data_submissao BETWEEN :inicioMesAtual: AND :fimMesAtual: THEN id_denuncia 
+                        ELSE NULL 
+                    END) AS contagem_atual,
+                COUNT(CASE 
+                        WHEN data_submissao BETWEEN :inicioMesAnterior: AND :fimMesAnterior: THEN id_denuncia 
+                        ELSE NULL 
+                    END) AS contagem_anterior
+            FROM denuncias
+            WHERE id_orgao_responsavel_fk = :idOrgao:
+            AND data_submissao >= :dataCorteInicio:
+        ";
+
+        # Parâmetros para a query
+        $params = [
+            'idOrgao'           => $idOrgao,
+            'inicioMesAtual'    => $inicioMesAtual . ' 00:00:00',
+            'fimMesAtual'       => $fimMesAtual . ' 23:59:59',
+            'inicioMesAnterior' => $inicioMesAnterior . ' 00:00:00',
+            'fimMesAnterior'    => $fimMesAnterior . ' 23:59:59',
+            'dataCorteInicio'   => $inicioMesAnterior . ' 00:00:00'
+        ];
+
+        $queryResult = $this->db->query($sql, $params)->getResultArray();
+
+        # Estrutura para o resultado final
+        $estatisticas = [
+            'total'        => ['atual' => 0, 'anterior' => 0, 'variacao_percentual' => 0, 'texto_variacao' => ''],
+            'pendente'     => ['atual' => 0, 'anterior' => 0, 'variacao_percentual' => 0, 'texto_variacao' => ''],
+            'em_progresso' => ['atual' => 0, 'anterior' => 0, 'variacao_percentual' => 0, 'texto_variacao' => ''],
+            'resolvido'    => ['atual' => 0, 'anterior' => 0, 'variacao_percentual' => 0, 'texto_variacao' => '']
+        ];
+
+        # Mapeamento dos status para as chaves do array $estatisticas
+        $mapStatusParaChave = [
+            'Pendente'     => 'pendente',
+            'Em Progresso' => 'em_progresso',
+            'Resolvido'    => 'resolvido',
+            'TOTAL_GERAL'  => 'total'
+        ];
+
+        foreach ($queryResult as $row) {
+            $statusBanco = $row['status_denuncia'];
+            if (isset($mapStatusParaChave[$statusBanco])) {
+                $chave = $mapStatusParaChave[$statusBanco];
+                $estatisticas[$chave]['atual']    = (int) $row['contagem_atual'];
+                $estatisticas[$chave]['anterior'] = (int) $row['contagem_anterior'];
+            }
+        }
+
+        # Cálculo da variação percentual
+        foreach ($estatisticas as $key => &$stat) {
+            $atual = $stat['atual'];
+            $anterior = $stat['anterior'];
+
+            if ($anterior > 0) {
+                $variacao = (($atual - $anterior) / $anterior) * 100;
+                $stat['variacao_percentual'] = round($variacao, 2);
+                $stat['texto_variacao'] = "📍 " . ($variacao >= 0 ? '+' : '') . round($variacao) . '% em relação ao mês passado.';
+            } elseif ($atual > 0 && $anterior === 0) {
+                $stat['variacao_percentual'] = 100;
+                $stat['texto_variacao'] = 'Novas denúncias este mês.';
+            } else {
+                $stat['variacao_percentual'] = 0;
+                $stat['texto_variacao'] = 'Sem variação ou dados anteriores.';
+            }
+        }
+        unset($stat);
+
+        return $estatisticas;
+    }
+
     public function complexGetDenuncias($vars, $cols) {
 
         $sql_select = 'SELECT denuncias.titulo_denuncia as "tituloDenuncia",
@@ -86,14 +190,14 @@ class DenunciaModel extends Model
                               denuncias.ponto_referencia as "pontoReferencia",
                               denuncias.id_orgao_responsavel_fk as "orgaoResponsavelID",
                               orgaos.nome_orgao as "orgaoResponsavel",
-                              denuncias.data_submissao as "dataDenuncia",
-                              denuncias.data_atribuicao as "dataAtribuicao",
-                              denuncias.data_conclusao as "dataConclusao"
+                              TO_CHAR(denuncias.data_submissao, \'DD/MM/YYYY HH24:MI\') as "dataDenuncia",
+                              TO_CHAR(denuncias.data_atribuicao, \'DD/MM/YYYY HH24:MI\') as "dataAtribuicao",
+                              TO_CHAR(denuncias.data_conclusao, \'DD/MM/YYYY HH24:MI\') as "dataConclusao"
                        FROM denuncias';
 
         $sql_join = "\nJOIN usuarios ON denuncias.id_usuario_fk = usuarios.id_usuario
-                     \nJOIN tipo_denuncia ON denuncias.id_tipo_fk = tipo_denuncia.id_tipo
-                     \nJOIN orgaos ON denuncias.id_orgao_responsavel_fk = orgaos.id_orgao";
+                       JOIN tipo_denuncia ON denuncias.id_tipo_fk = tipo_denuncia.id_tipo
+                       JOIN orgaos ON denuncias.id_orgao_responsavel_fk = orgaos.id_orgao";
 
 
         # Verifica se existe algum filtro aplicado do titulo da denuncia e aplica na cláusula WHERE
@@ -104,9 +208,22 @@ class DenunciaModel extends Model
             $vars['titulo'] = "%" . $vars['titulo'] . "%";
             $found_where = true;
         }
+        if (!empty($vars['id_orgao'])) {
+            $where_params[] = "denuncias.id_orgao_responsavel_fk = :id_orgao:";
+            $found_where = true;
+        }
+        if (!empty($vars['categoria'])) {
+            $where_params[] = "unaccent(UPPER(tipo_denuncia.categoria)) LIKE :categoria:";
+            $vars['categoria'] = "%" . $vars['categoria'] . "%";
+            $found_where = true;
+        }
+        if (!empty($vars['status'])) {
+            $where_params[] = "UPPER(denuncias.status_denuncia) = :status:";
+            $found_where = true;
+        }
         $sql_where = '';
         if ($found_where) {
-            $sql_where .= implode("\nAND ", $where_params);
+            $sql_where .= "\nWHERE " . implode("\nAND ", $where_params);
         }
 
         # Verifica se foi aplicado alguma ordenação para construir o Order By
@@ -125,8 +242,8 @@ class DenunciaModel extends Model
         $offset = (int)$vars['start'];
         $sql_page = "\nLIMIT {$limit} OFFSET {$offset}";
 
-        $sql_count = "SELECT COUNT(*) AS total FROM denuncias " . $sql_where . " " . $sql_join; // Total de linhas sem a paginação
-        $sql_data = $sql_select . $sql_where . $sql_join . $sql_orderBy . $sql_page; // Conteúdo da tabela
+        $sql_count = "SELECT COUNT(*) AS total FROM denuncias " . $sql_join . $sql_where; // Total de linhas sem a paginação
+        $sql_data = $sql_select. $sql_join . $sql_where  . $sql_orderBy . $sql_page; // Conteúdo da tabela
 
         # Executa a query
         $query_count = $this->query($sql_count, $vars)->getRowArray()['total'];
@@ -143,29 +260,121 @@ class DenunciaModel extends Model
 
     }
 
+
+    public function getDenunciasDoUsuario(array $filtros): array {
+        $builder = $this->db->table('denuncias');
+        $builder->select("
+            denuncias.titulo_denuncia AS titulo,
+            denuncias.detalhes AS descricao,
+            denuncias.status_denuncia AS status,
+            denuncias.logradouro || ', ' || denuncias.numero || ' - ' || denuncias.bairro AS localizacao,
+            denuncias.data_submissao AS data,
+            orgaos.nome_orgao AS orgao_responsavel
+        ");
+
+        $builder->join('tipo_denuncia', 'denuncias.id_tipo_fk = tipo_denuncia.id_tipo');
+        $builder->join('usuarios', 'denuncias.id_usuario_fk = usuarios.id_usuario');
+        $builder->join('orgaos', 'denuncias.id_orgao_responsavel_fk = orgaos.id_orgao', 'left');
+
+        # Filtro obrigatório: ID do usuário
+        if (!empty($filtros['id_usuario'])) {
+            $builder->where('denuncias.id_usuario_fk', $filtros['id_usuario']);
+        }
+
+        # Filtro de título
+        if (!empty($filtros['titulo'])) {
+            $builder->like('UPPER(denuncias.titulo_denuncia)', strtoupper($filtros['titulo']));
+        }
+
+        # Filtro de status (apenas se não for "Todas")
+        if (!empty($filtros['status']) && strtolower($filtros['status']) !== 'todas') {
+            $builder->where('denuncias.status_denuncia', $filtros['status']);
+        }
+
+        $builder->orderBy('denuncias.data_submissao', 'DESC');
+
+        $dados = $builder->get()->getResultArray();
+        // log_message('info', $this->getLastQuery());
+        return $dados;
+    }
+
+
+    public function getDenunciasDoOrgao(int $orgaoID): array {
+
+        $sql_select = 'SELECT denuncias.id_denuncia,
+                              denuncias.id_tipo_fk,
+                              denuncias.titulo_denuncia,
+                              denuncias.detalhes,
+                              denuncias.status_denuncia,
+                              denuncias.logradouro,
+                              denuncias.numero,
+                              denuncias.bairro,
+                              denuncias.cep,
+                              denuncias.ponto_referencia,
+                              denuncias.data_submissao,
+                              tipo_denuncia.categoria
+                       FROM denuncias';
+
+        $sql_join = "\nJOIN tipo_denuncia ON denuncias.id_tipo_fk = tipo_denuncia.id_tipo";
+
+        $sql_where = "\nWHERE id_orgao_responsavel_fk IS NULL 
+                        AND status_denuncia = 'Pendente'
+                        AND denuncias.id_tipo_fk IN (
+                            SELECT id_tipo_fk 
+                            FROM orgao_tipo_denuncia_atuacao
+                            WHERE id_orgao_fk = :orgaoID:
+                        )";
+
+        $sql_orderBy = "\nORDER BY data_submissao ASC";
+
+        $sql_data = $sql_select. $sql_join . $sql_where  . $sql_orderBy; // Conteúdo da query
+
+        # Executa a query
+        $results = $this->query($sql_data, ['orgaoID' => $orgaoID])->getResultArray();
+
+        // log_message('info', $this->getLastQuery());
+
+        // log_message('info', json_encode($results, JSON_PRETTY_PRINT));
+
+        return $results;
+    }
+
+
     # Método genérico para operações de Update / Insert
     public function denunciaUpsert($data, $id = null) {
         try {
             $builder = $this->db->table($this->table);
 
             if (!empty($id)) {
-                # Se a chave primaria esta definida e não é vazia, atualiza
+                # Atualiza se o ID foi passado como parâmetro
                 $builder->where('id_denuncia', $id);
-                $builder->update($data);
-                if($this->db->transStatus() === false) {
-                    return false;
-                } else {
-                    return true;
-                }
+                $success = $builder->update($data);
+
+                return $success ? $id : false;
             }
 
-            # Do contrário, executa uma inserção
-            return $builder->insert($data);
+            # Insere um novo registro se o ID não foi fornecido
+            $success = $builder->insert($data);
+
+            if ($success) {
+                $insertID = $this->db->insertID();
+
+                # Verificação extra de segurança
+                if (!empty($insertID) && is_numeric($insertID)) {
+                    return $insertID;
+                }
+
+                log_message('error', '[NOVA DENUNCIA] ID inválido após insert. Valor: ' . print_r($insertID, true));
+                return false;
+            }
+
+            return false;
         } catch (\Exception $e) {
-            // log_message('critical', 'Upsert error: ' . $e->getMessage());
+            log_message('critical', 'Upsert error: ' . $e->getMessage());
             return false;
         }
     }
+
 
 
     public function inserirDenuncia($data) {

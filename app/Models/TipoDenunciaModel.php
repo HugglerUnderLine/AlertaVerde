@@ -44,19 +44,25 @@ class TipoDenunciaModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getTiposDenuncia() {
+    public function getTiposDenuncia($tipoID = null) {
         # Busca um usuário pelo e-mail
 
         $sql_query = "SELECT tipo_denuncia.id_tipo,
                              tipo_denuncia.categoria,
                              tipo_denuncia.descricao
-                      FROM tipo_denuncia
-                      ORDER BY id_tipo ASC";
+                      FROM tipo_denuncia";
 
-        $data = $this->query($sql_query)->getResultArray();
+        if (!empty($tipoID)) {
+            $sql_query .= "\nWHERE id_tipo = :tipo:
+                           \nORDER BY id_tipo ASC";
+            $data = $this->query($sql_query, ['tipo' => $tipoID])->getResultArray()[0];
 
+        } else {
+            $sql_query .= "\nORDER BY id_tipo ASC";
+            $data = $this->query($sql_query)->getResultArray();
+        }
+        
         // log_message('info', json_encode($data, JSON_PRETTY_PRINT));
-
         return $data;
     }
 

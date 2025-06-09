@@ -1,0 +1,179 @@
+INFO - 2025-06-08 20:59:29 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 20:59:29 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 20:59:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 20:59:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 20:59:30 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:00:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:00:26 --> {
+    "total": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "pendente": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "em_progresso": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "resolvida": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    }
+}
+INFO - 2025-06-08 21:00:26 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:00:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:00:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:00:26 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:05:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:05:59 --> {
+    "total": {
+        "atual": 2,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "\ud83d\udccd Novas den\u00fancias este m\u00eas."
+    },
+    "pendente": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "\ud83d\udccd Novas den\u00fancias este m\u00eas."
+    },
+    "em_progresso": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "resolvida": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    }
+}
+INFO - 2025-06-08 21:05:59 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:05:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:05:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:05:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:23 --> {
+    "total": {
+        "atual": 2,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "\ud83d\udccd Novas den\u00fancias este m\u00eas."
+    },
+    "pendente": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "\ud83d\udccd Novas den\u00fancias este m\u00eas."
+    },
+    "em_progresso": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "resolvido": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "\ud83d\udccd Novas den\u00fancias este m\u00eas."
+    }
+}
+INFO - 2025-06-08 21:07:24 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:07:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:51 --> {
+    "total": {
+        "atual": 2,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "Novas den\u00fancias este m\u00eas."
+    },
+    "pendente": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "Novas den\u00fancias este m\u00eas."
+    },
+    "em_progresso": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "resolvido": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "Novas den\u00fancias este m\u00eas."
+    }
+}
+INFO - 2025-06-08 21:07:51 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:07:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:07:52 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:31 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:08:31 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:53 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:55 --> {
+    "total": {
+        "atual": 2,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "Novas den\u00fancias este m\u00eas."
+    },
+    "pendente": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "Novas den\u00fancias este m\u00eas."
+    },
+    "em_progresso": {
+        "atual": 0,
+        "anterior": 0,
+        "variacao_percentual": 0,
+        "texto_variacao": "Sem varia\u00e7\u00e3o ou dados anteriores."
+    },
+    "resolvido": {
+        "atual": 1,
+        "anterior": 0,
+        "variacao_percentual": 100,
+        "texto_variacao": "Novas den\u00fancias este m\u00eas."
+    }
+}
+INFO - 2025-06-08 21:08:55 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:08:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:08:55 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:21 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:23 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:33 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:40 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:09:58 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:09:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:10:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:10:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-08 21:10:06 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-08 21:10:06 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.

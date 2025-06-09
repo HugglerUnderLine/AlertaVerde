@@ -141,6 +141,60 @@
             "install-path": "../codeigniter4/framework"
         },
         {
+            "name": "codeigniter4/translations",
+            "version": "v4.6.1",
+            "version_normalized": "4.6.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeigniter4/translations.git",
+                "reference": "08ec6c93e4645fc24ce56ddec353439e44f2aa0a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeigniter4/translations/zipball/08ec6c93e4645fc24ce56ddec353439e44f2aa0a",
+                "reference": "08ec6c93e4645fc24ce56ddec353439e44f2aa0a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "codeigniter/coding-standard": "^1.7",
+                "codeigniter4/codeigniter4": "4.x-dev",
+                "ext-tokenizer": "*",
+                "friendsofphp/php-cs-fixer": "^3.53",
+                "nexusphp/cs-config": "^3.22",
+                "phpunit/phpunit": "^10.5 || ^11.0"
+            },
+            "time": "2025-05-02T16:37:42+00:00",
+            "type": "project",
+            "extra": {
+                "branch-alias": {
+                    "dev-develop": "4.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Translations\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Translations for CodeIgniter v4 web framework",
+            "homepage": "https://codeigniter.com",
+            "support": {
+                "forum": "http://forum.codeigniter.com/",
+                "issues": "https://github.com/codeigniter4/translations/issues",
+                "slack": "https://codeigniterchat.slack.com",
+                "source": "https://github.com/codeigniter4/translations"
+            },
+            "install-path": "../codeigniter4/translations"
+        },
+        {
             "name": "fakerphp/faker",
             "version": "v1.23.1",
             "version_normalized": "1.23.1.0",

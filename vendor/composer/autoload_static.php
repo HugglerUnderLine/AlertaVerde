@@ -16,6 +16,7 @@ class ComposerStaticInitf0b11625b529cc9605f4ccdca2137a3c
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
+            'Translations\\' => 13,
             'Tests\\Support\\' => 14,
         ),
         'R' => 
@@ -57,6 +58,10 @@ class ComposerStaticInitf0b11625b529cc9605f4ccdca2137a3c
     );
 
     public static $prefixDirsPsr4 = array (
+        'Translations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/codeigniter4/translations',
+        ),
         'Tests\\Support\\' => 
         array (
             0 => __DIR__ . '/../..' . '/tests/_support',
@@ -123,19 +128,23 @@ class ComposerStaticInitf0b11625b529cc9605f4ccdca2137a3c
 
     public static $classMap = array (
         'App\\Controllers\\BaseController' => __DIR__ . '/../..' . '/app/Controllers/BaseController.php',
-        'App\\Controllers\\Comodo' => __DIR__ . '/../..' . '/app/Controllers/Comodo.php',
+        'App\\Controllers\\Cidadao' => __DIR__ . '/../..' . '/app/Controllers/Cidadao.php',
+        'App\\Controllers\\Denuncia' => __DIR__ . '/../..' . '/app/Controllers/Denuncia.php',
+        'App\\Controllers\\Home' => __DIR__ . '/../..' . '/app/Controllers/Home.php',
         'App\\Controllers\\Index' => __DIR__ . '/../..' . '/app/Controllers/Index.php',
+        'App\\Controllers\\LogAuditoria' => __DIR__ . '/../..' . '/app/Controllers/LogAuditoria.php',
         'App\\Controllers\\Login' => __DIR__ . '/../..' . '/app/Controllers/Login.php',
-        'App\\Controllers\\Rede' => __DIR__ . '/../..' . '/app/Controllers/Rede.php',
-        'App\\Controllers\\Sinal' => __DIR__ . '/../..' . '/app/Controllers/Sinal.php',
-        'App\\Controllers\\Sobre' => __DIR__ . '/../..' . '/app/Controllers/Sobre.php',
-        'App\\Controllers\\User' => __DIR__ . '/../..' . '/app/Controllers/User.php',
+        'App\\Controllers\\Orgao' => __DIR__ . '/../..' . '/app/Controllers/Orgao.php',
+        'App\\Controllers\\Usuario' => __DIR__ . '/../..' . '/app/Controllers/Usuario.php',
         'App\\Filters\\AdminFilter' => __DIR__ . '/../..' . '/app/Filters/AdminFilter.php',
         'App\\Filters\\LoggedFilter' => __DIR__ . '/../..' . '/app/Filters/LoggedFilter.php',
-        'App\\Models\\ComodoModel' => __DIR__ . '/../..' . '/app/Models/ComodoModel.php',
-        'App\\Models\\RedeModel' => __DIR__ . '/../..' . '/app/Models/RedeModel.php',
-        'App\\Models\\SinalModel' => __DIR__ . '/../..' . '/app/Models/SinalModel.php',
-        'App\\Models\\UserModel' => __DIR__ . '/../..' . '/app/Models/UserModel.php',
+        'App\\Models\\DenunciaModel' => __DIR__ . '/../..' . '/app/Models/DenunciaModel.php',
+        'App\\Models\\LogAuditoriaModel' => __DIR__ . '/../..' . '/app/Models/LogAuditoriaModel.php',
+        'App\\Models\\MidiaDenunciaModel' => __DIR__ . '/../..' . '/app/Models/MidiaDenunciaModel.php',
+        'App\\Models\\OrgaoModel' => __DIR__ . '/../..' . '/app/Models/OrgaoModel.php',
+        'App\\Models\\OrgaoTipoDenunciaAtuacaoModel' => __DIR__ . '/../..' . '/app/Models/OrgaoTipoDenunciaAtuacaoModel.php',
+        'App\\Models\\TipoDenunciaModel' => __DIR__ . '/../..' . '/app/Models/TipoDenunciaModel.php',
+        'App\\Models\\UsuarioModel' => __DIR__ . '/../..' . '/app/Models/UsuarioModel.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',
         'Brick\\Math\\BigNumber' => __DIR__ . '/..' . '/brick/math/src/BigNumber.php',

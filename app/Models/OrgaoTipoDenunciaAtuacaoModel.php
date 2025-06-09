@@ -43,4 +43,13 @@ class OrgaoTipoDenunciaAtuacaoModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getTiposAtuacao($orgaoID) {
+        # Recupera as competências do órgao com base no ID
+        $sql_query = "SELECT orgao_tipo_denuncia_atuacao.id_tipo_fk
+                      FROM orgao_tipo_denuncia_atuacao
+                      WHERE id_orgao_fk = :orgaoID:";
+
+        return $this->query($sql_query, ['orgaoID' => $orgaoID])->getResultArray();
+    }
 }

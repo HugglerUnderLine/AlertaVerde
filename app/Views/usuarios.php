@@ -100,8 +100,12 @@
                 <nav class="mt-4">
                     <ul class="bg-denuncias nav flex-column gap-3">
                         <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
+                            <span class="material-symbols-rounded">analytics</span>
+                            <a class="nav-link text-white text-start" href="<?=  base_url('/painel/orgao') ?>">Painel da Agência</a>
+                        </li>
+                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
                             <span class="material-symbols-rounded">assignment</span>
-                            <a class="nav-link text-white text-start" href="<?=  base_url('/painel/orgao') ?>">Lista de Denuncias</a>
+                            <a class="nav-link text-white text-start" href="<?=  base_url('/painel/orgao/denuncias') ?>">Lista de Denuncias</a>
                         </li>
                         <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
                             <span class="material-symbols-rounded">account_circle</span>
@@ -218,24 +222,23 @@
                     </div>
                 </form>
 
-                    <div class="table-responsive">
-                        <table id="listar_usuarios" class="table table-hover align-middle rounded-2 table-striped" style="width:100%">
-                            <thead class="bg-success bg-opacity-10">
-                                <tr>
-                                    <th>ID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
-                                    <th>UUID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
-                                    <th>Nome</th>
-                                    <th>E-mail</th>
-                                    <th>Permissão</th>
-                                    <th>Ativo</th>
-                                    <th>Criado em</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
+                <div class="table-responsive">
+                    <table id="listar_usuarios" class="table table-hover align-middle rounded-2 table-striped" style="width:100%">
+                        <thead class="bg-success bg-opacity-10">
+                            <tr>
+                                <th>ID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
+                                <th>UUID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
+                                <th>Nome</th>
+                                <th>E-mail</th>
+                                <th>Permissão</th>
+                                <th>Ativo</th>
+                                <th>Criado em</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
 
@@ -347,7 +350,6 @@
         table.draw(); 
     });
     $('#btnFiltroTodos').removeClass('btn-outline-primary').addClass('btn-primary active');
-
 
     // Evento para o botão "Filtrar"
     $('#btnAplicarFiltros').on('click', function() {
