@@ -11,8 +11,6 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Usuario extends BaseController
 {
-    protected $helpers = ['misc_helper'];
-
     # Regras de validação de formulário do CodeIgniter
     protected $regrasUsuario = [
         'nome_completo' => [
@@ -51,6 +49,39 @@ class Usuario extends BaseController
             'errors' => [
                 'required' => 'O tipo da conta é obrigatório.',
                 'in_list' => 'O tipo da conta é inválido.',
+            ],
+        ]
+    ];
+
+    protected $regrasUsuarioOrgao = [
+        'nome_completo' => [
+            'rules' => 'required|min_length[5]|max_length[250]',
+            'errors' => [
+                'required' => 'O nome é obrigatório.',
+                'min_length' => 'O nome informado é muito curto.',
+                'max_length' => 'O nome informado é muito longo.',
+            ]
+        ],
+        'email' => [
+            'rules' => 'required|valid_email|max_length[255]',
+            'errors' => [
+                'required' => 'O e-mail é obrigatório.',
+                'valid_email' => 'Por favor, insira um e-mail de acesso válido.',
+                'max_length' => 'O e-mail informado é muito longo.',
+            ]
+        ],
+        'tipo_usuario' => [
+            'rules' => 'required|in_list[orgao_master,orgao_representante]',
+            'errors' => [
+                'required' => 'A Permissão do usuário deve ser selecionada.',
+                'in_list' => 'A Permissão do usuário é inválida.',
+            ],
+        ],
+        'ativo' => [
+            'rules' => 'required|in_list[0,1]',
+            'errors' => [
+                'required' => 'O Status da conta deve ser selecionado.',
+                'in_list' => 'O Status da conta é inválido.',
             ],
         ]
     ];
@@ -129,16 +160,31 @@ class Usuario extends BaseController
     ];
 
     # Regras de validação de senha
-    protected $passwordRules = [
-        'senha_atual' => [
+    protected $regrasAtualizacaoUsuario = [
+        'nome_completo' => [
             'rules' => 'required|min_length[8]|max_length[256]',
             'errors' => [
                 'required' => 'A senha atual é obrigatória.',
                 'max_length' => 'A senha atual é muito longa.',
             ]
         ],
+        'email' => [
+            'rules' => 'required|min_length[8]|max_length[256]',
+            'errors' => [
+                'required' => 'A senha atual é obrigatória.',
+                'max_length' => 'A senha atual é muito longa.',
+            ]
+        ],
+        'senha_atual' => [
+            'rules' => 'required|min_length[8]|max_length[256]',
+            'errors' => [
+                'required' => 'A senha atual é obrigatória.',
+                'min_length' => 'A senha atual é muito curta.',
+                'max_length' => 'A senha atual é muito longa.',
+            ]
+        ],
         'nova_senha' => [
-            'rules' => 'required|min_length[8]|max_length[256]|differs[senha_atual]',
+            'rules' => 'permit_empty|min_length[8]|max_length[256]|differs[senha_atual]',
             'errors' => [
                 'required' => 'Por favor, insira sua nova senha.',
                 'min_length' => 'Sua nova senha é muito curta.',
@@ -147,7 +193,7 @@ class Usuario extends BaseController
             ]
         ],
         'confirmar_senha' => [
-            'rules' => 'required|matches[nova_senha]',
+            'rules' => 'permit_empty|matches[nova_senha]',
             'errors' => [
                 'required' => 'A confirmação da sua nova senha é obrigatória.',
                 'matches' => 'A sua nova senha e a confirmação da mesma devem ser idênticas.',
@@ -155,9 +201,27 @@ class Usuario extends BaseController
         ]
     ];
 
+    protected $helpers = ['misc_helper'];
+
+    public $session;
+
+    public function __construct() {
+        $this->session = session();
+    }
+
     public function index() {
         if(!$this->request->is('POST')) {
-            return view('usuarios');
+            $data = array();
+
+            if(session()->get('tipo_usuario') === 'orgao_master') {
+                $data['conta'] = 'orgao';
+            } elseif (session()->get('tipo_usuario') === 'orgao_representante') {
+                $data['conta'] = 'representante';
+            } elseif (session()->get('tipo_usuario') === 'admin') {
+                $data['conta'] = 'admin';
+            }
+
+            return view('usuarios', $data);
         }
     }
 
@@ -632,10 +696,406 @@ class Usuario extends BaseController
         }
     }
 
-    public function exibir_perfil() {
-        /* 
-        * Adicionar a lógica para exibição de perfil,
-        * alteração de nome / senha
-        */
+
+    public function upsert_orgao($operacao, $idUsuario = null) {
+
+        if(!$this->request->is('POST') && !$this->request->is('AJAX')) {
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => 'O tipo da requisição é inválido.'
+            ]);
+        }
+
+        $idOrgao = intval(session()->get('id_orgao'));
+
+        if (!$idOrgao) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Sessão expirada ou inválida.'
+            ]);
+        }
+
+        $op = null;
+        if ($operacao === 'cadastrar-usuario') {
+            $op = 'cadastrar';
+        } else if ($operacao === 'editar-usuario') {
+            $op = 'editar';
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => 'A permissão do usuário é inválida.'
+            ]);
+        }
+
+        // Inicializa a conexão com o banco de dados para transações
+        $db = \Config\Database::connect();
+        $builder = $db->table('usuarios');
+
+        if ($op === 'editar') {
+            if (empty($idUsuario)) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'O Usuário que você está tentando editar não existe.'
+                ]);
+            }
+
+            $usuarioExistente = null;
+            # Recupera o e-mail do usuário com base no ID
+            $usuarioExistente = $builder
+                ->select('id_usuario, user_uuid, nome_completo, email, senha, tipo_usuario, id_orgao_fk, ativo, data_criacao, data_edicao')
+                ->where('id_usuario', $idUsuario)
+                ->get()
+                ->getRowArray();
+
+            // log_message('info', json_encode($usuarioExistente, JSON_PRETTY_PRINT));
+        }
+
+        $data = $this->request->getPost();
+
+        $dadosUsuario = array();
+        $dadosUsuario = [
+            'nome_completo' => uniformiza_string($data['nome_completo']),
+            'tipo_usuario'  => $data['permissao'],
+            'id_orgao_fk'   => $idOrgao,
+            'ativo'         => $data['status'],
+            'id_orgao_fk'   => session()->get('id_orgao'),
+        ];
+
+        if (isset($usuarioExistente) && !empty($usuarioExistente)) {
+            $dadosUsuario['email'] = $usuarioExistente['email'];
+            $dadosUsuario['id_usuario'] = $usuarioExistente['id_usuario'];
+            $dadosUsuario['user_uuid'] = $usuarioExistente['user_uuid'];
+            $dadosUsuario['senha'] = $usuarioExistente['senha'];
+            $dadosUsuario['data_criacao'] = $usuarioExistente['data_criacao'];
+            $dadosUsuario['data_edicao'] = $usuarioExistente['data_edicao'];
+        } else {
+            $dadosUsuario['email'] = mb_strtolower(uniformiza_string($data['email']));
+        }
+
+        if (!empty($idUsuario)) {
+            $found_diff = false;
+            foreach($usuarioExistente as $key => $value) {
+                if($dadosUsuario[$key] != $value) {
+                    $log['user_action']['reg_id'] = $idUsuario;
+                    $log['user_action'][mb_strtolower($key)] = [esc($value), esc($dadosUsuario[$key])];
+                    $found_diff = true;
+                }
+            }
+            # Se não houve nenhuma mudança, retorna uma mensagem de erro e sinaliza ao usuário.
+            if (!$found_diff) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'Os novos dados do usuário não podem permanecer iguais aos antigos. Realize ao menos uma alteração para atualizar o usuário.'
+                ]);
+            }
+        }
+
+        # CodeIgniter Validation
+        $errors = [];
+        $validation = \Config\Services::validation();
+        $validation->reset();
+        $validation->setRules($this->regrasUsuarioOrgao);
+        $validated = $validation->run($dadosUsuario);
+
+        if (!$validated) {
+            $errors = $validation->getErrors();
+        }
+    
+        if(!empty($errors)) {
+            # Erros retornados
+            $errorMsg = [];
+    
+            foreach($errors as $key => $value) {
+                $errorMsg[$key] = $value;
+            }
+    
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => $errorMsg
+            ]);
+        } 
+
+        $usuarioModel = new UsuarioModel();
+
+        $db->transStart();
+
+        switch ($operacao) {
+
+            case 'cadastrar-usuario':
+                # Verifica se o e-mail recebido do formulário já existe no banco:
+                $validEmail = $usuarioModel->findUserByEmail($dadosUsuario['email']);
+
+                if(!empty($validEmail[0])) {
+                    return $this->response->setJSON([
+                        'status' => 'error', 
+                        'message' => 'O E-mail informado já possui cadastro.'
+                    ]);
+                }
+
+                try {
+                    $dadosUsuario['user_uuid'] = $usuarioModel->generateUUID();
+                    $tempPassword = $usuarioModel->passwordGenerator();
+                    $dadosUsuario['senha'] = $tempPassword;
+                    $dadosUsuario['senha'] = password_hash($dadosUsuario['senha'], PASSWORD_BCRYPT);
+
+                    if(!$usuarioModel->inserirUsuario($dadosUsuario)) {
+                        log_message('error', "Falha ao cadastrar usuário: " . json_encode($usuarioModel->errors()));
+                        $db->transRollback();
+
+                        return $this->response->setJSON([
+                            'status' => 'error', 
+                            'message' => "Algo deu errado ao cadastrar o usuário. Por favor, tente novamente."
+                        ]);
+                    }
+
+                    if ($db->transStatus() === false) {
+                        $db->transRollback();
+                        return $this->response->setJSON([
+                            'status' => 'error', 
+                            'message' => 'Falha ao efetivar o cadastro. Por favor, tente novamente em alguns instantes.'
+                        ]);
+                    }
+                    
+                } catch(\Exception $e) {
+                    log_message('error', '[EDIÇÃO USUARIO] Exceção: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+                    if ($db->transStatus() === true) {
+                        $db->transRollback();
+                    }
+
+                    return $this->response->setJSON([
+                        'status' => 'error', 
+                        'message' => 'Uma falha interna impediu o cadastro do usuário atual. Entre em contato com um administrador.'
+                    ]);
+                }
+                
+                break;
+
+
+            case 'editar-usuario':
+                try {
+
+                    $dadosUsuario['data_edicao'] = date('Y-m-d H:i:s');
+
+                    if(!$usuarioModel->editarUsuario($idUsuario, $dadosUsuario)) {
+                        log_message('error', "Falha ao editar usuário: " . json_encode($usuarioModel->errors()));
+                        $db->transRollback();
+
+                        return $this->response->setJSON([
+                            'status' => 'error', 
+                            'message' => "Algo deu errado ao editar o usuário. Por favor, tente novamente."
+                        ]);
+                    }
+
+                    if ($db->transStatus() === false) {
+                        $db->transRollback();
+                        return $this->response->setJSON([
+                            'status' => 'error', 
+                            'message' => 'Algo deu errado ao efetivar a edição do usuário atual. Por favor, entre em contato com um administrador ou tente novamente mais tarde.'
+                        ]);
+                    }
+                    
+                } catch(\Exception $e) {
+                    log_message('error', '[EDIÇÃO USUARIO] Exceção: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+                    if ($db->transStatus() === true) {
+                        $db->transRollback();
+                    }
+
+                    return $this->response->setJSON([
+                        'status' => 'error', 
+                        'message' => 'Uma falha interna impediu a edição do usuário atual. Entre em contato com um administrador.'
+                    ]);
+                }
+
+                break;
+
+        }
+
+        $db->transCommit();
+
+        if ($op === 'editar') {
+            return $this->response->setJSON(['status' => 'success']);
+        } else {
+            return $this->response->setJSON([
+                'status' => 'success', 
+                'data' => $tempPassword,
+            ]);
+        }
+    }
+
+    public function exibir_perfil($uuid) {
+
+        if ($uuid !== session()->get('uuid')) {
+            return redirect()->to('/usuario/perfil/' . $uuid);
+        }
+
+        $db = \Config\Database::connect();
+        $builder = $db->table('usuarios');
+
+        $usuarioExistente = null;
+        # Recupera o e-mail do usuário com base no ID
+        $usuarioExistente = $builder
+            ->select('id_usuario, user_uuid, nome_completo, email, senha, tipo_usuario, id_orgao_fk, ativo, data_criacao, data_edicao')
+            ->where('user_uuid', $uuid)
+            ->get()
+            ->getRowArray();
+
+        if (!$this->request->is('POST') && !$this->request->is('AJAX')) {
+            if(session()->get('tipo_usuario') === 'orgao_master') {
+                $usuarioExistente['conta'] = 'orgao';
+            } elseif (session()->get('tipo_usuario') === 'orgao_representante') {
+                $usuarioExistente['conta'] = 'representante';
+            } elseif (session()->get('tipo_usuario') === 'admin') {
+                $usuarioExistente['conta'] = 'admin';
+            } else {
+                $usuarioExistente['conta'] = 'cidadao';
+            }
+
+            return view('perfil-usuario', $usuarioExistente);
+        }
+
+        unset($usuarioExistente['conta']);
+
+        $data = $this->request->getPost();
+
+        $dadosUsuario = array();
+        $dadosUsuario = [
+            'nome_completo'   => uniformiza_string($data['nome_completo']),
+            'email'           => mb_strtolower(uniformiza_string($data['email'])),
+            'senha_atual'     => $data['senhaAtual'],
+            'nova_senha'      => $data['novaSenha'],
+            'confirmar_senha' => $data['confirmarSenha'],
+        ];
+
+        if (isset($usuarioExistente) && !empty($usuarioExistente)) {
+            $dadosUsuario['senha'] = $dadosUsuario['nova_senha'];
+            $dadosUsuario['id_usuario'] = $usuarioExistente['id_usuario'];
+            $dadosUsuario['user_uuid'] = $usuarioExistente['user_uuid'];
+            $dadosUsuario['data_criacao'] = $usuarioExistente['data_criacao'];
+            $dadosUsuario['data_edicao'] = $usuarioExistente['data_edicao'];
+            $dadosUsuario['tipo_usuario'] = $usuarioExistente['tipo_usuario'];
+            $dadosUsuario['id_orgao_fk'] = $usuarioExistente['id_orgao_fk'];
+            $dadosUsuario['ativo'] = $usuarioExistente['ativo'];
+
+
+            $idUsuario = $usuarioExistente['id_usuario'];
+        } else {
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => 'Seu usuário não foi encontrado no sistema.'
+            ]);
+        }
+
+        if (!empty($idUsuario)) {
+            $found_diff = false;
+            foreach($usuarioExistente as $key => $value) {
+                if($dadosUsuario[$key] != $value) {
+                    $log['user_action']['reg_id'] = $idUsuario;
+                    $log['user_action'][mb_strtolower($key)] = [esc($value), esc($dadosUsuario[$key])];
+                    $found_diff = true;
+                }
+            }
+            # Se não houve nenhuma mudança, retorna uma mensagem de erro e sinaliza ao usuário.
+            if (!$found_diff) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'Seus novos dados não podem permanecer iguais aos antigos. Realize ao menos uma alteração para atualizar seu cadastro.'
+                ]);
+            }
+        }
+
+        if (!empty($dadosUsuario['nova_senha'])) {
+            
+            # Se não houve nenhuma mudança, retorna uma mensagem de erro e sinaliza ao usuário.
+            if (!$found_diff) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'Seus novos dados não podem permanecer iguais aos antigos. Realize ao menos uma alteração para atualizar seu cadastro.'
+                ]);
+            }
+        }
+
+        # CodeIgniter Validation
+        $errors = [];
+        $validation = \Config\Services::validation();
+        $validation->reset();
+        $validation->setRules($this->regrasAtualizacaoUsuario);
+        $validated = $validation->run($dadosUsuario);
+
+        if (!$validated) {
+            $errors = $validation->getErrors();
+        }
+    
+        if(!empty($errors)) {
+            # Erros retornados
+            $errorMsg = [];
+    
+            foreach($errors as $key => $value) {
+                $errorMsg[$key] = $value;
+            }
+    
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => $errorMsg
+            ]);
+        } 
+
+        $usuarioModel = new UsuarioModel();
+
+        $db->transStart();
+
+        try {
+
+            if (!password_verify($dadosUsuario['senha_atual'], $usuarioExistente['senha'])) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => "Sua senha atual está incorreta."
+                ]);
+            }
+
+            if (!empty($dadosUsuario['nova_senha'])) {
+                $dadosUsuario['senha'] = password_hash($dadosUsuario['nova_senha'], PASSWORD_BCRYPT);
+                unset($dadosUsuario['senha_atual']);
+                unset($dadosUsuario['nova_senha']);
+                unset($dadosUsuario['confirmar_senha']);
+            }
+
+            $dadosUsuario['data_edicao'] = date('Y-m-d H:i:s');
+
+            if(!$usuarioModel->editarUsuario($idUsuario, $dadosUsuario)) {
+                log_message('error', "Falha ao editar usuário: " . json_encode($usuarioModel->errors()));
+                $db->transRollback();
+
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => "Algo deu errado ao editar o usuário. Por favor, tente novamente."
+                ]);
+            }
+
+            if ($db->transStatus() === false) {
+                $db->transRollback();
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'Algo deu errado ao efetivar a edição do seu cadastro. Por favor, entre em contato com um administrador ou tente novamente mais tarde.'
+                ]);
+            }
+            
+        } catch(\Exception $e) {
+            log_message('error', '[EDIÇÃO USUARIO] Exceção: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            if ($db->transStatus() === true) {
+                $db->transRollback();
+            }
+
+            return $this->response->setJSON([
+                'status' => 'error', 
+                'message' => 'Uma falha interna impediu a edição do seu cadastro. Entre em contato com um administrador.'
+            ]);
+        }
+
+        $db->transCommit();
+
+        return $this->response->setJSON([
+            'status' => 'success',
+        ]);
+
     }
 }

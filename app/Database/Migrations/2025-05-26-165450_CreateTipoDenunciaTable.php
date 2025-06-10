@@ -48,58 +48,6 @@ class CreateTipoDenunciaTable extends Migration
         $this->forge->addPrimaryKey('id_tipo');
         $this->forge->createTable('tipo_denuncia', true);
 
-        $this->db->table('tipo_denuncia')->insertBatch([
-            [
-                'categoria' => 'Meio Ambiente',
-                'descricao' => 'Denúncias relacionadas a poluição, desmatamento, e outros danos ambientais.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Proteção Animal',
-                'descricao' => 'Denúncias de maus-tratos ou abandono de animais.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Iluminação Pública',
-                'descricao' => 'Problemas com postes de luz, lâmpadas queimadas ou falta de iluminação.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Trânsito e Vias',
-                'descricao' => 'Problemas de tráfego, buracos em vias, sinalização deficiente.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Saneamento Básico',
-                'descricao' => 'Vazamentos de água/esgoto, falta de coleta de lixo, problemas com bueiros.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Saúde Pública',
-                'descricao' => 'Focos de mosquitos transmissores de doenças, problemas em unidades de saúde, fiscalização sanitária.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Obras e Edificações',
-                'descricao' => 'Construções irregulares, obras perigosas, imóveis abandonados com risco.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Poluição Sonora',
-                'descricao' => 'Ruído excessivo de estabelecimentos, festas, obras fora de hora.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Zeladoria Urbana / Serviços Públicos',
-                'descricao' => 'Manutenção de praças/parques, limpeza de vias, poda de árvores em risco, problemas com transporte público.',
-                'ativo' => 1,
-            ],
-            [
-                'categoria' => 'Outros',
-                'descricao' => 'Demais problemas não classificados nas opções anteriores.',
-                'ativo' => 1,
-            ],
-        ]);
     }
 
     public function down()

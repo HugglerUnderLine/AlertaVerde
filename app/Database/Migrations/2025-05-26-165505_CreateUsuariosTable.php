@@ -78,18 +78,6 @@ class CreateUsuariosTable extends Migration
 
         $this->forge->createTable('usuarios', true);
 
-        // Criação de usuário padrão (ADMIN)
-        $usuarioModel = new UsuarioModel();
-
-        $this->db->table('usuarios')->insert([
-            'user_uuid' => $usuarioModel->generateUUID(),
-            'nome_completo' => 'SYS Admin',
-            'email' => 'admin@alertaverde.com.br',
-            'senha' => password_hash('adminroot', PASSWORD_BCRYPT),
-            'tipo_usuario' => 'admin',
-            'ativo' => 1, // 1 para ativo
-            // 'id_orgao_fk' será NULL por padrão para admins
-        ]);
     }
 
     public function down()

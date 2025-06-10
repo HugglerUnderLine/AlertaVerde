@@ -27,10 +27,11 @@ class Orgao extends BaseController
             $denunciaModel = new DenunciaModel();
             $estatisticasDenuncias = $denunciaModel->getEstatisticasDenunciasOrgao((int) $idOrgaoLogado);
 
-            log_message('info', json_encode($estatisticasDenuncias, JSON_PRETTY_PRINT));
+            // log_message('info', json_encode($estatisticasDenuncias, JSON_PRETTY_PRINT));
 
             $dataView = [
                 'stats' => $estatisticasDenuncias,
+                'conta' => session('tipo_usuario') === 'orgao_master' ? 'orgao' : 'representante'
             ];
             
             // log_message('debug', 'Estatísticas para View: ' . json_encode($estatisticasDenuncias));
@@ -99,7 +100,7 @@ class Orgao extends BaseController
             }
 
             // log_message('info', json_encode($data, JSON_PRETTY_PRINT));
-
+            $data['conta'] = session('tipo_usuario') === 'orgao_master' ? 'orgao' : 'representante';
             return view('dashboard-orgao-denuncia', $data);
         }
     }

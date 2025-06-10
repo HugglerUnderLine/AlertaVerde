@@ -260,10 +260,10 @@ class DenunciaModel extends Model
 
     }
 
-
     public function getDenunciasDoUsuario(array $filtros): array {
         $builder = $this->db->table('denuncias');
         $builder->select("
+            denuncias.id_denuncia AS id_denuncia,
             denuncias.titulo_denuncia AS titulo,
             denuncias.detalhes AS descricao,
             denuncias.status_denuncia AS status,
@@ -292,6 +292,26 @@ class DenunciaModel extends Model
         }
 
         $builder->orderBy('denuncias.data_submissao', 'DESC');
+
+        $dados = $builder->get()->getResultArray();
+        // log_message('info', $this->getLastQuery());
+        return $dados;
+    }
+
+
+    public function getDetalhesDenuncia($idDenuncia): array {
+        $builder = $this->db->table('denuncias');
+        $builder->select("
+            titulo_denuncia,
+            id_tipo_fk,
+            detalhes,
+            status_denuncia,
+            logradouro,
+            numero,
+            bairro,
+            cep,
+            ponto_referencia
+        ")->where('id_denuncia', $idDenuncia);
 
         $dados = $builder->get()->getResultArray();
         // log_message('info', $this->getLastQuery());
@@ -338,7 +358,6 @@ class DenunciaModel extends Model
 
         return $results;
     }
-
 
     # Método genérico para operações de Update / Insert
     public function denunciaUpsert($data, $id = null) {

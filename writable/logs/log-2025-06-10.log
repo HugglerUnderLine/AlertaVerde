@@ -1,0 +1,154 @@
+INFO - 2025-06-10 17:45:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:45:58 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:45:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:45:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:45:58 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(455): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:46:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:46:25 --> [NOVA DENUNCIA] ID denúncia inserido com sucesso: 14
+INFO - 2025-06-10 17:46:25 --> Imagem movida com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\14/1749588385_e934741399e6780b43c1.jpg
+DEBUG - 2025-06-10 17:46:25 --> Tentando mover vídeo 'Denuncia.php - AlertaVerde - Visual Studio Code 2025-06-05 13-52-57.mp4' para 'C:\projects\PHP\AlertaVerde\public\uploads\denuncias\14/1749588385_fb2bee1aab3716975fe6.mp4'
+INFO - 2025-06-10 17:46:25 --> Vídeo movido com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\14/1749588385_fb2bee1aab3716975fe6.mp4
+INFO - 2025-06-10 17:46:25 --> [STEP 1]
+INFO - 2025-06-10 17:46:25 --> [STEP 2]
+INFO - 2025-06-10 17:46:25 --> [STEP 3]
+INFO - 2025-06-10 17:46:25 --> [STEP 4]
+INFO - 2025-06-10 17:46:25 --> [STEP 5]
+INFO - 2025-06-10 17:48:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:48:01 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:48:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:48:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:48:01 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:48:27 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:48:27 --> [NOVA DENUNCIA] ID denúncia inserido com sucesso: 15
+INFO - 2025-06-10 17:48:27 --> Imagem movida com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\15/1749588507_e96a99c275adaca52087.jpg
+DEBUG - 2025-06-10 17:48:27 --> Tentando mover vídeo 'Denuncia.php - AlertaVerde - Visual Studio Code 2025-06-05 13-52-57.mp4' para 'C:\projects\PHP\AlertaVerde\public\uploads\denuncias\15/1749588507_b0bbd85bc87b878f81bf.mp4'
+INFO - 2025-06-10 17:48:27 --> Vídeo movido com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\15/1749588507_b0bbd85bc87b878f81bf.mp4
+INFO - 2025-06-10 17:48:28 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:48:28 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:48:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:48:28 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:50:02 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:50:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:52:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:52:37 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:52:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:52:37 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:52:37 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:52:58 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:52:58 --> [NOVA DENUNCIA] ID denúncia inserido com sucesso: 16
+INFO - 2025-06-10 17:52:58 --> Imagem movida com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\16/1749588778_1460359c6baf1e34d4ee.jpg
+DEBUG - 2025-06-10 17:52:58 --> Tentando mover vídeo 'Denuncia.php - AlertaVerde - Visual Studio Code 2025-06-05 13-52-57.mp4' para 'C:\projects\PHP\AlertaVerde\public\uploads\denuncias\16/1749588778_02c71944347f286d469a.mp4'
+INFO - 2025-06-10 17:52:58 --> Vídeo movido com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\16/1749588778_02c71944347f286d469a.mp4
+INFO - 2025-06-10 17:53:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:53:00 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:54:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:54:14 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:54:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:54:14 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:54:14 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:54:38 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:54:38 --> [NOVA DENUNCIA] ID denúncia inserido com sucesso: 17
+INFO - 2025-06-10 17:54:38 --> Imagem movida com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\17/1749588878_b7459d0e18f7324cf770.jpg
+DEBUG - 2025-06-10 17:54:38 --> Tentando mover vídeo 'Denuncia.php - AlertaVerde - Visual Studio Code 2025-06-05 13-52-57.mp4' para 'C:\projects\PHP\AlertaVerde\public\uploads\denuncias\17/1749588878_6afbdb42aeed4b5ceeb7.mp4'
+INFO - 2025-06-10 17:54:38 --> Vídeo movido com sucesso: C:\projects\PHP\AlertaVerde\public\uploads\denuncias\17/1749588878_6afbdb42aeed4b5ceeb7.mp4
+INFO - 2025-06-10 17:54:39 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:54:39 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:54:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:54:51 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:54:51 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:54:57 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:54:59 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:00 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:01 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:55:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:55:01 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')
+INFO - 2025-06-10 17:55:01 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:02 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:55:02 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:05 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:24 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:24 --> REDIRECTED ROUTE at http://localhost:8080/
+INFO - 2025-06-10 17:55:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+INFO - 2025-06-10 17:55:25 --> Session: Class initialized using 'CodeIgniter\Session\Handlers\FileHandler' driver.
+WARNING - 2025-06-10 17:55:25 --> [DEPRECATED] trim(): Passing null to parameter #1 ($string) of type string is deprecated in APPPATH\Helpers\misc_helper.php on line 5.
+ 1 APPPATH\Helpers\misc_helper.php(5): trim(null)
+ 2 APPPATH\Helpers\misc_helper.php(13): uniformiza_espacos(null)
+ 3 APPPATH\Controllers\Denuncia.php(445): uniformiza_string(null)
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Denuncia->listar_denuncias_cidadao()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Denuncia))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\projects\\PHP\\AlertaVerde\\public\\index.php')

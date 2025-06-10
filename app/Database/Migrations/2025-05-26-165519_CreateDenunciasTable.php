@@ -2,6 +2,7 @@
 
 namespace App\Database\Migrations;
 
+use App\Models\DenunciaModel;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql; // Importe RawSql para CURRENT_TIMESTAMP
 
@@ -128,6 +129,7 @@ class CreateDenunciasTable extends Migration
 
 
         $this->forge->createTable('denuncias', true);
+
     }
 
     public function down()

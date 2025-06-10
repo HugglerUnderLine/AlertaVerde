@@ -246,16 +246,6 @@ class UsuarioModel extends Model
         return false;
     }
 
-    public function deletarUsuario($id) {
-        
-        # Se o delete for bem-sucedido
-        if($this->where('id_usuario', $id)->delete())
-            return true;
-
-        # Caso contrário, retorna false.
-        return false;
-    }
-
     public function changePassword($id, $senha) {
         # Altera a senha do usuário
 

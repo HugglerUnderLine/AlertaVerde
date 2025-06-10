@@ -9,7 +9,7 @@ class Cidadao extends BaseController
 {
     public function index() {
         if(!$this->request->is('POST')) {
-            return view('dashboard-cidadao');
+            return view('dashboard-cidadao', ['conta' => 'cidadao']);
         }
     }
 }

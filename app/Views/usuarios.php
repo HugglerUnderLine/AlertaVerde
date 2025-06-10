@@ -1,252 +1,155 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+<?= $this->extend('layouts/default') ?>
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Painel da Agência</title>
-    <link rel="stylesheet" href="<?= base_url('assets/css/style.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/google-fonts/font.css') ?>" />
-    <link rel="stylesheet" href="<?= base_url('assets/bootstrap-5.3.3-dist/css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/material-symbols/material-symbols-rounded.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/DataTables-2.0.3/css/dataTables.bootstrap5.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('assets/DataTables-2.0.3/Buttons-3.0.1/css/buttons.bootstrap5.min.css') ?>">
+<?= $this->section('page-title') ?>
+<title>Painel da Agência</title>
+<?= $this->endSection() ?>
 
-    <style>
-        /* Navbar Hover */
-        .highlight-on-hover:hover { 
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            transition: .2s;
-        }
-        
-        .highlight-on-hover { 
-            transition: .2s;
-        }
+<?= $this->section('more-styles') ?>
+<link rel="stylesheet" href="<?= base_url('assets/DataTables-2.0.3/css/dataTables.bootstrap5.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/DataTables-2.0.3/Buttons-3.0.1/css/buttons.bootstrap5.min.css') ?>">
+<?= $this->endSection() ?>
 
-        /* DataTables processing message styling */
-        div.dt-processing {
-            position: fixed !important;
-            top: 50% !important;
-            left: 50% !important;
-            transform: translate(-50%, -50%) !important;
-            z-index: 1055 !important;
-            background-color: rgba(255, 255, 255, 0.85) !important;
-            padding: 1rem 2rem !important;
-            border-radius: 0.5rem;
-            text-align: center !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            margin-left: 0 !important;
-            margin-top: 0 !important;
-            width: auto !important; /* let the size flow according to the content */
-        }
+<?= $this->section('content') ?>
 
-        /* DataTables pagination */
-        .page-item.active .page-link {
-            color: #FFF !important;
-            background-color: #198754 !important;
-            border-color: #198754 !important;
-        }
-
-        .page-link {
-            color: #198754 !important;
-        }
-
-        /* Datatables row details style */
-        td.details-control svg {
-            fill: darkslategray;
-            opacity: .7;
-            transition: transform .3s linear;
-            cursor: pointer;
-        }
-
-        tr.shown td.details-control svg{
-            transform: rotate(180deg);
-            transition: transform .3s linear;
-        }
-
-        div #moreDetails {
-            display: none;
-        }
-
-        tbody td.no-padding {
-            padding: 0;
-        }
-    </style>
-</head>
-
-<header class="bg-principal d-flex justify-content-between">
-    <div class="d-flex gap-1 m-0 ms-5">
-        <a href="#">
-            <img class="logo highlight-on-hover" src="<?= base_url('assets/img/alerta_verde_horizontal.png') ?>" alt="Alerta Verde" width="130" height="26">
-        </a>
-    </div>
-    <nav class="d-flex gap-2 align-items-center me-4">
-        <button class="bg-botao-header p-2 rounded-2 d-flex align-items-center justify-content-center">
-            <span class="material-symbols-rounded">notifications</span>
-        </button>
-    </nav>
-</header>
-
-<body class="text-white">
-
-    <div class="bg-divisao bg-principal d-flex min-vh-100">
-        <div class="bg-menu">
-            <aside class="bg-aside p-4" style="width: 250px;">
-                <div class="d-flex bg-nome align-items-center text-start gap-3">
-                    <span class="material-symbols-rounded">shield_person</span>
-                    <h3 class="h6 text-white m-0"><?= session('nome_completo') ?></h3> 
-                </div>
-                <nav class="mt-4">
-                    <ul class="bg-denuncias nav flex-column gap-3">
-                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
-                            <span class="material-symbols-rounded">analytics</span>
-                            <a class="nav-link text-white text-start" href="<?=  base_url('/painel/orgao') ?>">Painel da Agência</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
-                            <span class="material-symbols-rounded">assignment</span>
-                            <a class="nav-link text-white text-start" href="<?=  base_url('/painel/orgao/denuncias') ?>">Lista de Denuncias</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
-                            <span class="material-symbols-rounded">account_circle</span>
-                            <a class="nav-link text-white" href="<?= base_url('/usuario/perfil/' . session('uuid')) ?>">Perfil</a>
-                        </li>
-                        <li class="nav-item d-flex align-items-center text-start gap-2 btn text-white highlight-on-hover">
-                            <span class="material-symbols-rounded">group_add</span>
-                            <a class="nav-link text-white" href="<?= base_url('/usuarios')?>">Usuários</a>
-                        </li>
-                        <li class="nav-item d-flex gap-2 align-items-center text-start btn text-white highlight-on-hover">
-                            <span class="material-symbols-rounded">logout</span>
-                            <a class="nav-link text-white" href="<?= base_url('logout') ?>">Sair</a>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
+<main class="p-4 flex-fill">
+    <section>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="h4 text-destaque text-claro">Usuários</h1>
+            <button type="button" class="btn bg-botao text-claro fw-bold" data-bs-toggle="modal" data-bs-target="#modalNovoUsuario">
+                + Novo Usuário
+            </button>
         </div>
+        <p class="fs-6 fw-normal mt-2" style="color: var(--cor-7);">Gerencie usuários cadastrados na sua plataforma.</p>
+    </section>
 
-        <main class="p-4 flex-fill">
-            <section>
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h1 class="h4 text-destaque text-claro">Usuários</h1>
-                    <button type="button" class="btn bg-botao text-claro fw-bold" data-bs-toggle="modal" data-bs-target="#modalNovoUsuario">
-                        + Novo Usuário
-                    </button>
+    <div class="modal fade" id="modalNovoUsuario" tabindex="-1" aria-labelledby="modalNovoUsuarioLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content bg-principal text-white">
+
+                <div class="modal-header border-0 bg-principal">
+                    <h5 class="modal-title px-2" id="modalNovoUsuarioLabel">Novo Usuário</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <p class="fs-6 fw-normal mt-2" style="color: var(--cor-7);">Gerencie usuários cadastrados na sua plataforma.</p>
-            </section>
 
-            <div class="modal fade" id="modalNovoUsuario" tabindex="-1" aria-labelledby="modalNovoUsuarioLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content bg-principal text-white">
+                <div class="modal-body p-4 bg-principal">
+                    <section class="formulario-main rounded-2 text-dark mt-0 px-4 pt-2 pb-4 mb-0">
 
-                        <div class="modal-header border-0 bg-principal">
-                            <h5 class="modal-title px-2" id="modalNovoUsuarioLabel">Novo Usuário</h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div>
+                            <h3 class="fw-bold mt-3">Informações</h3>
+                            <p class="fs-6 mt-2" style="color: var(--cor-8);">Preencha os campos com os dados do usuário.</p>
                         </div>
 
-                        <div class="modal-body p-4 bg-principal">
-                            <section class="formulario-main rounded-2 text-dark mt-0 px-4 pt-2 pb-4 mb-0">
+                        <form id="form_usuario" class="row gap-3">
+                            <?= csrf_field() ?>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12">
+                                    <label for="nome_completo" class="form-label fw-bold mt-2">Nome Completo</label>
+                                    <input type="text" class="form-control" id="nome_completo" name="nome_completo" placeholder="Ex: João da Silva" required>
+                                </div>
+                            </div>
 
-                                <div>
-                                    <h3 class="fw-bold mt-3">Dados do Usuário</h3>
-                                    <p class="fs-6 mt-2" style="color: var(--cor-8);">Informe os dados do novo usuário.</p>
+                            <div class="row justify-content-center align-items-center">
+                                <div class="col-12">
+                                    <label for="email" class="form-label fw-bold ">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Ex: email.exemplo@dominio.com" required>
+                                </div>
+                            </div>
+
+                            <div class="row justify-content-center align-items-center form-group">
+                                <div class="col-6">
+                                    <label for="permissao" class="form-label fw-bold ">Permissão</label>
+                                    <select class="form-select" id="permissao" name="permissao">
+                                        <option value="orgao_master">Gestor do Órgão</option>
+                                        <option value="orgao_representante" selected>Usuário</option>
+                                    </select>
                                 </div>
 
-                                <form id="formNovoUsuarioModal" class="row gap-3">
-                                    <?= csrf_field() ?>
-                                    <div class="form-group col-12">
-                                        <label for="nomeUsuarioModal" class="form-label fw-bold mt-2">Nome Completo</label>
-                                        <input type="text" class="form-control form-control-sm" id="nomeUsuarioModal" name="nome" placeholder="Ex: João da Silva" required>
-                                    </div>
-
-                                    <div class="form-group col-12">
-                                        <label for="emailUsuarioModal" class="form-label fw-bold ">Email</label>
-                                        <input type="email" class="form-control form-control-sm" id="emailUsuarioModal" name="email" placeholder="Ex: email.exemplo@dominio.com" required>
-                                    </div>
-
-                                    <div class="form-group col-12">
-                                        <label for="permissaoUsuarioModal" class="form-label fw-bold ">Permissão</label>
-                                        <select class="form-select" id="permissaoUsuarioModal" name="permissao">
-                                            <option value="1">Gestor do Órgão</option>
-                                            <option value="2" selected>Usuário</option>
-                                            <?php if(session('is_admin') === true) : ?>
-                                            <option value="3" selected>Administrador</option>
-                                            <?php endif ?>
-                                        </select>
-                                    </div>
-
-                                    <div class="d-flex justify-content-center align-items-center mt-4">
-                                        <button type="submit" class="btn-cadastrar btn btn-success w-75 d-flex justify-content-center align-items-center gap-2">
-                                            <span class="material-symbols-rounded">person_add</span>Cadastrar Usuário
-                                        </button>
-                                    </div>
-
-                                </form>
-                            </section>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="card bg-secundaria position-relative p-4 mt-2 px-4 pt-2 pb-4">
-                <form id="busca_usuario_form" class="mb-4" method="post">
-                    <div class="row mb-3 g-2 align-items-center" id="filtrosContainer">
-                        <div class="col-md-auto">
-                            <div class="btn-group" role="group" aria-label="Filtros de Status">
-                                <button type="button" data-valor="" class="btn btn-filtro-status btn-outline-primary active">Todos</button>
-                                <button type="button" data-valor="1" class="btn btn-filtro-status btn-outline-success">Ativos</button>
-                                <button type="button" data-valor="0" class="btn btn-filtro-status btn-outline-secondary">Inativos</button>
+                                <div class="col-6">
+                                    <label for="status" class="form-label fw-bold ">Status</label>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="0">Inativo</option>
+                                        <option value="1" selected>Ativo</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                    
-                        <div class="col-md d-flex justify-content-md-end align-items-end gap-2 flex-wrap">
-                            <div>
-                                <select id="selectTipoBuscaTexto" name="selectTipoBuscaTexto" class="form-select" style="width: auto;">
-                                    <option value="nomeUsuario" selected>Nome</option>
-                                    <option value="email">E-mail</option>
-                                </select>
+
+                            <div id="form-message-container">
+                                <ul Style="list-style-type: none;"></ul>
                             </div>
-                            <div>
-                                <input type="text" class="form-control" placeholder="🔍 Buscar..." style="max-width: 250px;" id="filtroBuscaValor" name="filtroBuscaValor">
-                            </div>
-                            <div class="mt-auto">
-                                <button type="button" id="btnAplicarFiltros" class="btn btn-warning py-1 px-2">
-                                    <span class="material-symbols-rounded align-middle fs-6">filter_alt</span> Filtrar
-                                </button>
-                                <button type="button" class="btn btn-outline-warning py-1 px-2 tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Limpar Filtros" id="btnLimparFiltros">
-                                    <span class="material-symbols-rounded align-middle fs-6">filter_alt_off</span> Limpar
+
+                            <div class="d-flex justify-content-center align-items-center mt-4">
+                                <button type="submit" class="btn-cadastrar btn btn-success w-75 d-flex justify-content-center align-items-center gap-2" id="btnCadastrarUsuario">
+                                    <span class="material-symbols-rounded">person_add</span>Cadastrar Usuário
                                 </button>
                             </div>
-                        </div>
-                    </div>
-                </form>
-
-                <div class="table-responsive">
-                    <table id="listar_usuarios" class="table table-hover align-middle rounded-2 table-striped" style="width:100%">
-                        <thead class="bg-success bg-opacity-10">
-                            <tr>
-                                <th>ID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
-                                <th>UUID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
-                                <th>Nome</th>
-                                <th>E-mail</th>
-                                <th>Permissão</th>
-                                <th>Ativo</th>
-                                <th>Criado em</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                    </table>
+                        </form>
+                    </section>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 
-  
 
-<script src="<?= base_url("assets/JQuery-3.7.0/jquery-3.7.0.min.js") ?>"></script>
+    <div class="card bg-secundaria position-relative p-4 mt-2 px-4 pt-2 pb-4">
+        <form id="busca_usuario_form" class="mb-4" method="post">
+            <div class="row mb-3 g-2 align-items-center" id="filtrosContainer">
+                <div class="col-md-auto">
+                    <div class="btn-group" role="group" aria-label="Filtros de Status">
+                        <button type="button" data-valor="" class="btn btn-filtro-status btn-outline-primary active me-1" id="btnFiltroTodos">Todos</button>
+                        <button type="button" data-valor="1" class="btn btn-filtro-status btn-outline-success me-1" id="btnFiltroAtivos">Ativos</button>
+                        <button type="button" data-valor="0" class="btn btn-filtro-status btn-outline-secondary" id="btnFiltroInativos">Inativos</button>
+                    </div>
+                </div>
+            
+                <div class="col-md d-flex justify-content-md-end align-items-end gap-2 flex-wrap">
+                    <div>
+                        <select id="selectTipoBuscaTexto" name="selectTipoBuscaTexto" class="form-select" style="width: auto;">
+                            <option value="nomeUsuario" selected>Nome</option>
+                            <option value="email">E-mail</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="text" class="form-control" placeholder="🔍 Buscar..." style="max-width: 250px;" id="filtroBuscaValor" name="filtroBuscaValor">
+                    </div>
+                    <div class="mt-auto">
+                        <button type="button" id="btnAplicarFiltros" class="btn btn-warning py-1 px-2">
+                            <span class="material-symbols-rounded align-middle fs-6">filter_alt</span> Filtrar
+                        </button>
+                        <button type="button" class="btn btn-outline-warning py-1 px-2 tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Limpar Filtros" id="btnLimparFiltros">
+                            <span class="material-symbols-rounded align-middle fs-6">filter_alt_off</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <table id="listar_usuarios" class="table table-hover align-middle rounded-2 table-striped" style="width:100%">
+                <thead class="bg-success bg-opacity-10">
+                    <tr>
+                        <th>ID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
+                        <th>UUID</th> <!-- Apenas para validação interna. Não será exibido no Datatables -->
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Permissão</th>
+                        <th>Ativo</th>
+                        <th>Criado em</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</main>
+
+<?= $this->endSection() ?>
+
+<!--===========================================================================================================-->
+<!--===========================================================================================================-->
+<!--===========================================================================================================-->
+
+<?= $this->section('more-scripts') ?>
 <script src="<?= base_url("assets/jquery-validation-1.19.5/jquery.validate.min.js") ?>"></script>
-<script src="<?= base_url('assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js') ?>"></script>
 <script src="<?= base_url("assets/jquery-validation-1.19.5/additional-methods.min.js") ?>"></script>
 <script src="<?= base_url('assets/DataTables-2.0.3/js/dataTables.min.js') ?>"></script>
 <script src="<?= base_url('assets/DataTables-2.0.3/js/dataTables.bootstrap5.min.js') ?>"></script>
@@ -255,13 +158,14 @@
 <script type="text/javascript">
 
     DataTable.Buttons.defaults.dom.button.className = 'btn'; //Sobrescreve a estilização padrão dos botões no DataTables
-    
-    var url = '<?= base_url("/usuarios/list") ?>';
+    var url = '<?= base_url("painel/orgao/usuarios/list") ?>';
+
 
     // Variáveis para armazenar os valores dos filtros
     let filtroAtivoValor = ""; // Para a opção Todos, recebe uma string vazia por padrão
     let filtroTipoBuscaAtual = $('#selectTipoBuscaTexto').val();
     let filtroBuscaValorAtual = "";
+
 
     var table = new DataTable('#listar_usuarios', {
         processing: true,
@@ -297,8 +201,6 @@
                         return '<span class="material-symbols-rounded align-bottom text-success btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gestor do Órgão">shield_person</span>';
                     } else if (row['permissao'] == 'orgao_representante') {
                         return '<span class="material-symbols-rounded align-bottom text-secondary btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Usuário">shield</span>';
-                    } else if (row['permissao'] == 'admin') {
-                        return '<span class="material-symbols-rounded align-bottom text-primary btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Administrador">security</span>';
                     }
                 },
             },
@@ -308,7 +210,7 @@
                     if(row['usuarioAtivo'] == '1') {
                         return '<span class="material-symbols-rounded align-bottom text-primary btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ativo">check_circle</span>';
                     } else if (row['usuarioAtivo'] == '0') {
-                        return '<span class="material-symbols-rounded align-bottom text-secondary btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inativo">error</span>';
+                        return '<span class="material-symbols-rounded align-bottom text-secondary btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Inativo">do_not_disturb_on</span>';
                     }
                 },
             },
@@ -316,40 +218,48 @@
             {
                 data: 'acoes', searchable: false, orderable: false, className: 'dt-body-center dt-head-center',
                 render: function (data, type, row) {
+                    <?php if (session()->get('tipo_usuario') != 'orgao_representante'): ?>
                     return '<a class="btn btn-sm btn-outline-primary p-0 editar-usuario" data-id="' + row['usuarioID'] + '"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">edit</span></a> '
                          + '<a href="<?= base_url("usuario/log") ?>' + row['uuid'] + '" class="btn btn-sm btn-outline-secondary p-0 historico-usuario" id="logUsuario"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Histórico de Atividade">history</span></a>';
+                    <?php else : ?>
+                    return '<a href="<?= base_url("usuario/log") ?>' + row['uuid'] + '" class="btn btn-sm btn-outline-secondary p-0 historico-usuario" id="logUsuario"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Histórico de Atividade">history</span></a>';
+                    <?php endif ?>
                 },
             },
         ],
     } );
+
 
     $('#busca_usuario_form').on('submit', function(event) {
         event.preventDefault();
         $('#btnAplicarFiltros').trigger('click'); 
     });
 
+
     // Evento para os botões de filtro de status
     $('.btn-filtro-status').on('click', function() {
-        // Remove 'active' e classes de cor de todos os botões de status
-        $('.btn-filtro-status').removeClass('active btn-primary btn-success btn-secondary');
-        // Adiciona classe de contorno padrão de volta a todos (exceto o clicado)
-        $('.btn-filtro-status').not(this).addClass('btn-outline-primary');
-        
-        // Ativa o botão clicado e aplica sua cor específica
+        $('.btn-filtro-status').removeClass('active btn-primary btn-success btn-secondary btn-outline-primary btn-outline-success btn-outline-secondary');
+
+        $('#btnFiltroTodos').addClass('btn-outline-primary');
+        $('#btnFiltroAtivos').addClass('btn-outline-success');
+        $('#btnFiltroInativos').addClass('btn-outline-secondary');
+
         $(this).addClass('active');
+        
         const statusValor = $(this).data('valor').toString();
         filtroAtivoValor = statusValor;
 
         if (statusValor === '1') {
-            $(this).removeClass('btn-outline-primary').addClass('btn-success');
+            $(this).removeClass('btn-outline-success').addClass('btn-success');
         } else if (statusValor === '0') {
-            $(this).removeClass('btn-outline-primary').addClass('btn-secondary');
+            $(this).removeClass('btn-outline-secondary').addClass('btn-secondary');
         } else { // "Todos"
              $(this).removeClass('btn-outline-primary').addClass('btn-primary');
         }
+
         table.draw(); 
     });
-    $('#btnFiltroTodos').removeClass('btn-outline-primary').addClass('btn-primary active');
+
 
     // Evento para o botão "Filtrar"
     $('#btnAplicarFiltros').on('click', function() {
@@ -359,6 +269,7 @@
         table.draw();
     });
 
+
     // Evento para limpar filtros
     $('#btnLimparFiltros').on('click', function(){
         // Reseta os campos do formulário de filtros
@@ -367,12 +278,14 @@
         
         // Reseta o filtro de status para "Todos"
         filtroAtivoValor = "";
-        $('.btn-filtro-status').removeClass('active btn-primary btn-success btn-secondary').addClass('btn-outline-primary');
         $('#btnFiltroTodos').removeClass('btn-outline-primary').addClass('btn-primary active');
+        $('#btnFiltroAtivos').removeClass('active btn-success').addClass('btn-outline-success');
+        $('#btnFiltroInativos').removeClass('active btn-secondary').addClass('btn-outline-secondary');
         
         // Reseta a ordenação para o padrão e recarrega a tabela
         table.order([[2, 'asc']]).draw();
     });
+
 
     $('#selectTipoBuscaTexto').on('change', function() {
         filtroTipoBuscaAtual = $(this).val();
@@ -382,6 +295,7 @@
             table.draw();
         }
     });
+
 
     $('#btnLimparFiltros').on('click', function(){
         $('#selectTipoBuscaTexto').val('nomeUsuario');
@@ -397,6 +311,7 @@
         table.order([[2, 'asc']]).draw(); // Reseta ordenação e redesenha a tabela
     });
 
+
     // Re-inicializa tooltips do Bootstrap após cada desenho da tabela
     table.on('draw.dt', function () {
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('.tt'));
@@ -410,8 +325,214 @@
         });
     });
 
+
+    // Abre o modal de edição de usuário
+    $('#listar_usuarios').on('click', '.editar-usuario', function(e) {
+        e.preventDefault();
+        $('#form_usuario')[0].reset();
+        var rowData = table.row($(this).parents('tr')).data();
+        $('#modalNovoUsuarioLabel').text('Editar Usuário');
+
+        $('#nome_completo').val(rowData['nomeUsuario']);
+        $('#email').val(rowData['email']);
+        $('#permissao').val(rowData['permissao']);
+        $('#status').val(rowData['usuarioAtivo']);
+        $('#modalNovoUsuario').data('id', rowData['usuarioID']);
+        $('#email').val(rowData['email']).prop('disabled', true);
+        $('#btnCadastrarUsuario').html('<span class="material-symbols-rounded">save</span>Salvar Alterações');
+        $('#modalNovoUsuario').modal('show');
+    });
+
+
+    // Limpa o formulário e reseta os campos após o modal ser fechado
+    $('#modalNovoUsuario').on('hidden.bs.modal', function () {
+        const $form = $('#form_usuario');
+        $('#modalNovoUsuario').data('id', '');
+        $('#modalNovoUsuarioLabel').text('Novo Usuário');
+        $('#email').prop('disabled', false);
+        $('#btnCadastrarUsuario').html('<span class="material-symbols-rounded">person_add</span>Cadastrar Usuário');
+        $form[0].reset(); // Limpa os campos do formulário
+        $('#nome_completo').removeClass('is-valid is-invalid');
+        $('#email').removeClass('is-valid is-invalid');
+        $('#status').removeClass('is-valid is-invalid');
+        $('#permissao').removeClass('is-valid is-invalid');
+
+        // Limpa mensagens de erro/sucesso
+        const $formMessageContainer = $('#form-message-container');
+        $formMessageContainer.removeClass('message-error message-success');
+        $formMessageContainer.find('ul').empty();
+        $formMessageContainer.hide(); // Ou .slideUp() para manter o efeito
+    });
+
+
+    $(document).ready(function() {
+        // --- Seletores e Variáveis ---
+        const $formMessageContainer = $('#form-message-container'); // Container genérico de mensagens
+
+        // Função para exibir mensagens (erro ou sucesso)
+        function displayFormMessage(type, content) {
+            $formMessageContainer.removeClass('message-error message-success');
+            const $ul = $formMessageContainer.find('ul');
+            $ul.empty(); // Limpa mensagens anteriores
+
+            if (type === 'error') {
+                $formMessageContainer.addClass('message-error');
+                $ul.css('list-style-type', 'disc'); // Adiciona marcadores para erros
+                if (typeof content === 'object') {
+                    $.each(content, function(key, value) {
+                        $ul.append('<li>' + value + '</li>');
+                    });
+                } else {
+                    $ul.append('<li>' + content + '</li>');
+                }
+            } else if (type === 'success') {
+                $formMessageContainer.addClass('message-success');
+                $ul.css('list-style-type', 'none'); // Remove marcadores para sucesso
+                $ul.html('<li>' + content + '</li>'); // Mensagem de sucesso como item único
+            }
+            $formMessageContainer.slideDown();
+        }
+
+        const validator = $('#form_usuario').validate({
+            rules: {
+                nome_completo: { 
+                    required: true, 
+                    minlength: 5,
+                    maxlength: 250,
+                }, 
+                email: {
+                    required: true,
+                    email: true, 
+                    maxlength: 255 
+                },
+                permissao: {
+                    required: true,
+                },
+                status: {
+                    required: true,
+                },
+            },
+            messages: {
+                nome_completo: { 
+                    required: "O nome é obrigatório.", 
+                    minlength: "O nome informado é muito curto.",
+                    maxlength: "O nome informado é muito longo",
+                }, 
+                email: { 
+                    required: "O e-mail é obrigatório.",
+                    email: "Por favor, insira um e-mail de acesso válido.",
+                    maxlength: "O e-mail informado é muito longo.",
+                },
+                permissao: { 
+                    required: "A Permissão do usuário deve ser selecionada.",
+                },
+                status: { 
+                    required: "O Status do usuário deve ser selecionado.",
+                },
+            },
+            errorPlacement: function(error, element) {},
+            highlight: function(element) { $(element).addClass('is-invalid'); },
+            unhighlight: function(element) { $(element).removeClass('is-invalid'); },
+            invalidHandler: function(event, validator) {
+                let errorMessages = {};
+                    $.each(validator.errorList, function(index, error) {
+                    errorMessages['error_' + index] = error.message;
+                });
+                displayFormMessage('error', errorMessages);
+            },
+            submitHandler: function(form) {
+                $formMessageContainer.slideUp();
+                const $form = $(form);
+                const $submitButton = $form.find('button[type="submit"]');
+                const originalButtonHtml = $submitButton.html();
+
+                var idUsuario = $('#modalNovoUsuario').data('id');
+                var actionUrl = idUsuario ? "<?= base_url('painel/orgao/usuario/editar-usuario/') ?>" + idUsuario 
+                                    : "<?= base_url('painel/orgao/usuario/cadastrar-usuario') ?>";
+
+                let dadosParaEnviar = {};
+                dadosParaEnviar = {
+                    nome_completo: $('#nome_completo').val(),
+                    permissao: $('#permissao').val(),
+                    status: $('#status').val(),
+                };
+
+                if (!idUsuario) {
+                    dadosParaEnviar.email = $("#email").val();
+                }
+
+                $.ajax({
+                    url: actionUrl,
+                    type: 'POST',
+                    data: dadosParaEnviar,
+                    dataType: 'json',
+                    beforeSend: function() {
+                        // Desabilita o botão e mostra o spinner
+                        $submitButton.prop('disabled', true);
+                        $submitButton.html('<span class="spinner"></span> Processando...');
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+
+                            if (idUsuario) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Sucesso',
+                                    text: response.message || 'Os dados do usuário foram atualizados com sucesso.',
+                                    confirmButtonColor: '#198754', // verde Bootstrap
+                                    timer: 5000,
+                                });
+                                $submitButton.prop('disabled', false);
+                                $('#modalNovoUsuario').modal('hide');
+                                table.ajax.reload(null, false);
+                                
+                            } else {
+                                // Copia a senha do novo usuário para o clipboard
+                                var tempPassword = response.data;
+                                copiarParaAreaDeTransferencia(tempPassword);
+
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Sucesso',
+                                    html: response.message || `O Usuário foi cadastrado com sucesso!<br><br>
+                                    A senha do primeiro acesso do usuário foi copiada para a área de transferência (Ctrl + C).<br>
+                                    Guarde a senha em um local seguro. Ela deverá ser fornecida ao usuário para efetuar seu primeiro acesso na plataforma.<br><br>
+                                    <b>Senha do primeiro acesso:</b> "${tempPassword}"`,
+                                    confirmButtonColor: '#198754', // verde Bootstrap
+                                });
+                                $submitButton.prop('disabled', false);
+                                $('#modalNovoUsuario').modal('hide');
+                                table.ajax.reload(null, false);
+                            }
+                        } else { // Erros do servidor
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro!',
+                                text: response.message || "Ocorreu um erro ao atualizar os dados do usuário.",
+                                confirmButtonColor: '#198754', // verde Bootstrap
+                            });
+
+                            // Reabilitar o botão aqui se a requisição AJAX foi concluída mas teve erro de negócio
+                            $submitButton.prop('disabled', false);
+                            $submitButton.html(originalButtonHtml);
+                        }
+                    },
+                    error: function() {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro de comunicação',
+                            text: 'Não foi possível atualizar os dados do usuário. Tente novamente.',
+                            confirmButtonColor: '#198754', // verde Bootstrap
+                        });
+                        // Reabilitar o botão em caso de erro de AJAX
+                        $submitButton.prop('disabled', false);
+                        $submitButton.html(originalButtonHtml);
+                    },
+                });
+            }
+        });
+    });
+
 </script>
 
-
-</body>
-</html>
+<?= $this->endSection() ?>

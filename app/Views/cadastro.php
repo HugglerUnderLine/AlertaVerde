@@ -140,8 +140,9 @@
 
 <script src="<?= base_url('assets/JQuery-3.7.0/jquery-3.7.0.min.js') ?>"></script>
 <script src="<?= base_url('assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js') ?>"></script>
-<script src="<?= base_url('/assets/jquery-validation-1.19.5/jquery.validate.min.js') ?>"></script>
-<script src="<?= base_url('/assets/jquery-validation-1.19.5/additional-methods.min.js') ?>"></script>
+<script src="<?= base_url('assets/jquery-validation-1.19.5/jquery.validate.min.js') ?>"></script>
+<script src="<?= base_url('assets/jquery-validation-1.19.5/additional-methods.min.js') ?>"></script>
+<script src="<?= base_url('assets/sweetalert2/sweet.min.js') ?>"></script>
     
 <script>
     $(document).ready(function() {
@@ -428,34 +429,36 @@
                     },
                     success: function(response) {
                         if (response.status === 'success') {
-                            $submitButton.prop('disabled', true); // Mantém desabilitado
-                            $submitButton.html('Sucesso!');
-
-                            let countdown = 5;
-                            const successMessageBase = "Sua conta foi criada com sucesso. Redirecionando para o login em ";
-                            
-                            displayFormMessage('success', successMessageBase + countdown + '...');
-
-                            const countdownInterval = setInterval(function() {
-                                countdown--;
-                                if (countdown >= 0) { // >= 0 para mostrar o 0 antes de redirecionar
-                                    $formMessageContainer.find('ul li').text(successMessageBase + countdown + '...');
-                                } 
-                                if (countdown < 0) { // Redireciona quando chega abaixo de 0
-                                    clearInterval(countdownInterval);
-                                    window.location.href = '<?= base_url("login") ?>';
-                                }
-                            }, 1000);
-
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Sucesso',
+                                text: response.message || 'Sua conta foi criada com sucesso.',
+                                confirmButtonColor: '#198754', // verde Bootstrap
+                                timer: 5000,
+                            }).then(() => {
+                                location.reload(); // MUDAR AQUI PLMDDS
+                            });
+                                
                         } else { // Erros do servidor
-                            displayFormMessage('error', response.message || 'Ocorreu um erro no cadastro.');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Erro!',
+                                text: response.message || "Ocorreu um erro na criação do seu cadastro.",
+                                confirmButtonColor: '#198754', // verde Bootstrap
+                            });
+
                             // Reabilitar o botão aqui se a requisição AJAX foi concluída mas teve erro de negócio
                             $submitButton.prop('disabled', false);
                             $submitButton.html(originalButtonHtml);
                         }
                     },
                     error: function() {
-                        displayFormMessage('error', 'Ocorreu um erro inesperado na comunicação. Tente novamente mais tarde.');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erro de comunicação',
+                            text: 'Não foi possível criar seu cadastro. Tente novamente em alguns instantes.',
+                            confirmButtonColor: '#198754', // verde Bootstrap
+                        });
                         // Reabilitar o botão em caso de erro de AJAX
                         $submitButton.prop('disabled', false);
                         $submitButton.html(originalButtonHtml);

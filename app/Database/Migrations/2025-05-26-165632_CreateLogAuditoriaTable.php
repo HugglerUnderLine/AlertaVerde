@@ -18,27 +18,32 @@ class CreateLogAuditoriaTable extends Migration
             'user_uuid' => [ // UUID do usuário que realizou a ação
                 'type' => 'VARCHAR',
                 'constraint' => 36,
-                'null' => false,
+                'null' => true,
             ],
             'user_email' => [ // E-mail do usuário no momento da ação
                 'type' => 'VARCHAR',
                 'constraint' => 255,
-                'null' => false,
+                'null' => true,
             ],
             'user_nome_completo' => [ // Nome completo do usuário no momento da ação
                 'type' => 'VARCHAR',
                 'constraint' => 250,
-                'null' => false,
+                'null' => true,
             ],
             'tipo_usuario' => [ // Tipo de usuário que realizou a ação (cidadao, orgao_master, admin)
                 'type' => 'VARCHAR',
                 'constraint' => 25,
-                'null' => false,
+                'null' => true,
+            ],
+            'id_orgao' => [ // Tipo de usuário que realizou a ação (cidadao, orgao_master, admin)
+                'type' => 'VARCHAR',
+                'constraint' => 25,
+                'null' => true,
             ],
             'user_action' => [ // Descrição da ação ('cadastrar_usuario', 'editar_denuncia'...)
                 'type' => 'VARCHAR',
                 'constraint' => 50,
-                'null' => false,
+                'null' => true,
             ],
             'user_ip' => [ // Endereço IP de onde a ação foi realizada
                 'type' => 'VARCHAR',
@@ -53,7 +58,7 @@ class CreateLogAuditoriaTable extends Migration
             ],
             'data_log' => [ // Data e hora do registro do log
                 'type' => 'TIMESTAMP',
-                'null' => false,
+                'null' => true,
                 'default' => new RawSql('CURRENT_TIMESTAMP'),
             ],
         ]);

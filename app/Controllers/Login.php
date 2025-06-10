@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\LogAuditoriaModel;
 use App\Models\OrgaoModel;
 use App\Models\UsuarioModel;
 
@@ -55,9 +56,19 @@ class Login extends BaseController
                 'message' => 'E-mail, senha e tipo de conta são obrigatórios.'
             ]);
         }
+
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_email' => $email,
+            'user_action' => 'login',
+            'user_ip' => $this->request->getIPAddress(),
+        ];
         
         # Valida se o tipoContaFormulario é esperado
         if (!in_array($tipoContaFormulario, ['cidadao', 'orgao'])) {
+            $log['detalhes'] = json_encode(['status' => 'error', 'motivo' => 'Tipo de conta inválido.']);
+            $logAuditoriaModel->insert($log);
+
              return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Tipo de conta inválido.'
@@ -74,6 +85,9 @@ class Login extends BaseController
         $usuarioData = $usuarioModel->findUserByEmail($email); 
 
         if (!$usuarioData) { 
+        $log['detalhes'] = json_encode(['status' => 'error', 'motivo' => 'Usuário e/ou senha inválidos.']);
+        $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Usuário e/ou senha inválido(s).'
@@ -84,6 +98,9 @@ class Login extends BaseController
 
         # Verifica a senha passada no formulário
         if (!password_verify($senha, $usuarioData['senha'])) {
+            $log['detalhes'] = json_encode(['status' => 'error', 'motivo' => 'Usuário e/ou senha inválidos.']);
+            $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Usuário e/ou senha inválido(s).'
@@ -92,6 +109,9 @@ class Login extends BaseController
 
         # Verifica se o usuário está ativo
         if (empty($usuarioData['ativo']) || $usuarioData['ativo'] != 1) {
+            $log['detalhes'] = json_encode(['status' => 'error', 'motivo' => 'A conta desse usuário foi desativada.']);
+            $logAuditoriaModel->insert($log);
+
              return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'Esta conta de usuário está desativada.'
@@ -104,7 +124,7 @@ class Login extends BaseController
 
         if ($tipoContaFormulario === 'cidadao' && $tipoUsuarioBanco === 'cidadao') {
             $loginPermitido = true;
-        } elseif ($tipoContaFormulario === 'orgao' && in_array($tipoUsuarioBanco, ['orgao_master', 'orgao_representante'])) {
+        } elseif ($tipoContaFormulario === 'orgao' && in_array($tipoUsuarioBanco, ['orgao_master', 'orgao_representante', 'admin'])) {
             $loginPermitido = true;
 
             $orgaoModel = new OrgaoModel();
@@ -116,6 +136,9 @@ class Login extends BaseController
         }
 
         if (!$loginPermitido) {
+            $log['detalhes'] = json_encode(['status' => 'error', 'motivo' => 'Tipo de conta incompatível.']);
+            $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'status' => 'error',
                 'message' => 'O tipo de conta selecionado não é compatível com este usuário.'
@@ -123,16 +146,19 @@ class Login extends BaseController
         }
 
         # Prepara os dados da sessão
-        $nomeCompleto = $usuarioData['nome_completo'] ?? ($usuarioData['nome'] . ' ' . ($usuarioData['sobrenome'] ?? ''));
+        $nomeCompleto = $usuarioData['nome_completo'];
         $partesNome = explode(' ', trim($nomeCompleto));
         $nomeReduzido = $nomeCompleto; // Padrão
-        if (count($partesNome) > 1) {
-            $nomeReduzido = $partesNome[0] . ' ' . end($partesNome);
-        } elseif (count($partesNome) === 1 && !empty($partesNome[0])) {
-            $nomeReduzido = $partesNome[0];
+
+        if (!isset($usuarioData['nome_orgao'])) {
+            if (count($partesNome) > 1) {
+                $nomeReduzido = $partesNome[0] . ' ' . end($partesNome);
+            } elseif (count($partesNome) === 1 && !empty($partesNome[0])) {
+                $nomeReduzido = $partesNome[0];
+            }
+        } else {
+            $nomeReduzido = $nomeCompleto;
         }
-        
-        // log_message('info', json_encode(['nome do orgao' => $usuarioData['nome_orgao'], 'nome_usuario' => $nomeCompleto], JSON_PRETTY_PRINT));
 
         $newdataSessao = [
             'email'         => $usuarioData['email'],
@@ -147,6 +173,14 @@ class Login extends BaseController
         ];
 
         $this->session->set($newdataSessao);
+
+        $log['user_uuid'] = $usuarioData['user_uuid'];
+        $log['user_email'] = $usuarioData['email'];
+        $log['user_nome_completo'] = $nomeCompleto;
+        $log['id_orgao'] = $usuarioData['id_orgao_fk'];
+        $log['tipo_usuario'] = $usuarioData['tipo_usuario'];
+        $log['detalhes'] = json_encode(['status' => 'sucesso']);
+        $logAuditoriaModel->insert($log);
 
         # Retorna sucesso
         return $this->response->setJSON([

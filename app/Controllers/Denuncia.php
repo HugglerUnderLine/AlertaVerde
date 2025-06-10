@@ -8,6 +8,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\DenunciaModel;
+use App\Models\LogAuditoriaModel;
 use App\Models\MidiaDenunciaModel;
 use App\Models\TipoDenunciaModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -155,11 +156,23 @@ class Denuncia extends BaseController
             ]);
         }
 
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_action'        => 'cadastrar-denuncia',
+            'user_email'         => session('email'),
+            'user_ip'            => $this->request->getIPAddress(),
+            'user_uuid'          => session('uuid'),
+            'user_nome_completo' => session('nome_completo'),
+            'id_orgao'           => session('id_orgao'),
+            'tipo_usuario'       => session('tipo_usuario'),
+        ];
 
         $tipoDenunciaModel = new TipoDenunciaModel();
         $tipoValido = $tipoDenunciaModel->getTiposDenuncia($novaDenuncia['id_tipo_fk']);
 
         if (empty($tipoValido) || $tipoValido['id_tipo'] != $novaDenuncia['id_tipo_fk']) {
+            $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'A Categoria da denúncia informada é inválida.']);
+            $logAuditoriaModel->insert($log);
             return $this->response->setJSON([
                 'status' => 'error', 
                 'message' => 'A Categoria da denúncia informada é inválida.'
@@ -293,7 +306,7 @@ class Denuncia extends BaseController
                     if ($arquivoVideo->move($diretorioUpload, $novoNomeVideo)) {
                         log_message('info', "Vídeo movido com sucesso: {$diretorioUpload}/{$novoNomeVideo}");
                         $arquivosFisicosMovidos[] = $caminhoCompletoVideo;
-
+                        
                         $currMidia = array();
 
                         $currMidia = [
@@ -329,6 +342,8 @@ class Denuncia extends BaseController
             }
 
             $db->transCommit();
+            $log['detalhes'] = json_encode(['status' => 'sucesso']);
+            $logAuditoriaModel->insert($log);
             return $this->response->setJSON(['status' => 'success', 'message' => 'Denúncia registrada com sucesso!']);
 
         } catch (\Throwable $e) { // Throwable para pegar Errors e Exceptions
@@ -441,6 +456,16 @@ class Denuncia extends BaseController
             $denuncia['tempo'] = $datetime->humanize();
         }
 
+        return $this->response->setJSON($dados);
+    }
+
+
+    public function listar_denuncias_form($idDenuncia) {
+        $model = new DenunciaModel();
+        $dados = $model->getDetalhesDenuncia($idDenuncia);
+        $dados = $dados[0];
+
+        // log_message('info', json_encode($dados, JSON_PRETTY_PRINT));
         return $this->response->setJSON($dados);
     }
 

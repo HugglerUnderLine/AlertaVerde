@@ -2,6 +2,7 @@
 
 namespace App\Database\Migrations;
 
+use App\Models\OrgaoTipoDenunciaAtuacaoModel;
 use CodeIgniter\Database\Migration;
 use CodeIgniter\Database\RawSql; // Importe RawSql, caso use CURRENT_TIMESTAMP
 
@@ -40,6 +41,7 @@ class CreateOrgaoTipoDenunciaAtuacaoTable extends Migration
         // ON DELETE CASCADE: Se um tipo de denúncia for deletado, as atuações relacionadas a ele também serão.
 
         $this->forge->createTable('orgao_tipo_denuncia_atuacao', true);
+
     }
 
     public function down()
