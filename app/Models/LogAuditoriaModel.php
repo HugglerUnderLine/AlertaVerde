@@ -46,19 +46,19 @@ class LogAuditoriaModel extends Model
 
     public function complexGetLog($vars, $cols) {
 
-        $sql_select = 'SELECT log_auditoria.user_email AS "email",
-                              orgaos.id_orgao as "idOrgao",
-                              orgaos.nome_orgao as "nomeOrgao",
-                              usuarios.tipo_usuario as "permissao",
-                              usuarios.id_orgao_fk as "idOrgaoFK",
-                              log_auditoria.user_action AS "acao", 
-                              log_auditoria.user_ip AS "IP", 
+        $sql_select = 'SELECT log_auditoria.user_email,
+                              orgaos.id_orgao,
+                              orgaos.nome_orgao,
+                              usuarios.tipo_usuario,
+                              usuarios.id_orgao_fk,
+                              log_auditoria.user_action, 
+                              log_auditoria.user_ip, 
                               log_auditoria.detalhes,
-                              TO_CHAR(log_auditoria.data_log, \'DD-MM-YYYY HH24:MI\') AS "dataLog"';
+                              TO_CHAR(log_auditoria.data_log, \'DD-MM-YYYY HH24:MI\') AS data_log';
         
         $sql_from = "\nFROM log_auditoria";
 
-        $sql_join = "\nNATURAL JOIN usuarios
+        $sql_join = "\nJOIN usuarios ON usuarios.user_uuid = log_auditoria.user_uuid
                        JOIN orgaos ON usuarios.id_orgao_fk = orgaos.id_orgao";
 
         # Verifica se existe algum parâmetro relacionado ao filtro, e aplica no where

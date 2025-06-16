@@ -436,7 +436,7 @@
                                 confirmButtonColor: '#198754', // verde Bootstrap
                                 timer: 5000,
                             }).then(() => {
-                                location.reload(); // MUDAR AQUI PLMDDS
+                                window.location.href = '<?= base_url('login') ?>';
                             });
                                 
                         } else { // Erros do servidor
@@ -482,15 +482,15 @@
         $tipoContaRadios.on('change', atualizarCamposVisiveis);
     });
 
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-            e.preventDefault();
-        }
-    });
+    // document.addEventListener('keydown', function (e) {
+    //     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+    //         e.preventDefault();
+    //     }
+    // });
 
-    document.addEventListener('contextmenu', function (e) {
-        e.preventDefault();
-    });
+    // document.addEventListener('contextmenu', function (e) {
+    //     e.preventDefault();
+    // });
 </script>
 
 </body>

@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\LogAuditoriaModel;
 use App\Models\OrgaoModel;
 use App\Models\OrgaoTipoDenunciaAtuacaoModel;
 use App\Models\TipoDenunciaModel;
@@ -817,6 +818,17 @@ class Usuario extends BaseController
 
         $usuarioModel = new UsuarioModel();
 
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_action'        => $operacao,
+            'user_email'         => session('email'),
+            'user_ip'            => $this->request->getIPAddress(),
+            'user_uuid'          => session('uuid'),
+            'user_nome_completo' => session('nome_completo'),
+            'id_orgao'           => session('id_orgao'),
+            'tipo_usuario'       => session('tipo_usuario'),
+        ];
+
         $db->transStart();
 
         switch ($operacao) {
@@ -913,8 +925,12 @@ class Usuario extends BaseController
         $db->transCommit();
 
         if ($op === 'editar') {
+            $log['detalhes'] = json_encode(['status' => 'sucesso', 'id_usuario' => $idUsuario]);
+        $logAuditoriaModel->insert($log);
             return $this->response->setJSON(['status' => 'success']);
         } else {
+            $log['detalhes'] = json_encode(['status' => 'sucesso']);
+            $logAuditoriaModel->insert($log);
             return $this->response->setJSON([
                 'status' => 'success', 
                 'data' => $tempPassword,
@@ -955,6 +971,17 @@ class Usuario extends BaseController
 
         unset($usuarioExistente['conta']);
 
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_action'        => 'cadastrar-denuncia',
+            'user_email'         => session('email'),
+            'user_ip'            => $this->request->getIPAddress(),
+            'user_uuid'          => session('uuid'),
+            'user_nome_completo' => session('nome_completo'),
+            'id_orgao'           => session('id_orgao'),
+            'tipo_usuario'       => session('tipo_usuario'),
+        ];
+
         $data = $this->request->getPost();
 
         $dadosUsuario = array();
@@ -979,6 +1006,9 @@ class Usuario extends BaseController
 
             $idUsuario = $usuarioExistente['id_usuario'];
         } else {
+            $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'Usuário não encontrado no sistema']);
+            $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'status' => 'error', 
                 'message' => 'Seu usuário não foi encontrado no sistema.'
@@ -989,8 +1019,8 @@ class Usuario extends BaseController
             $found_diff = false;
             foreach($usuarioExistente as $key => $value) {
                 if($dadosUsuario[$key] != $value) {
-                    $log['user_action']['reg_id'] = $idUsuario;
-                    $log['user_action'][mb_strtolower($key)] = [esc($value), esc($dadosUsuario[$key])];
+                    $log['acao']['reg_id'] = $idUsuario;
+                    $log['acao'][mb_strtolower($key)] = [esc($value), esc($dadosUsuario[$key])];
                     $found_diff = true;
                 }
             }
@@ -1046,6 +1076,8 @@ class Usuario extends BaseController
         try {
 
             if (!password_verify($dadosUsuario['senha_atual'], $usuarioExistente['senha'])) {
+                $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'Senha incorreta.']);
+                $logAuditoriaModel->insert($log);
                 return $this->response->setJSON([
                     'status' => 'error', 
                     'message' => "Sua senha atual está incorreta."
@@ -1092,6 +1124,10 @@ class Usuario extends BaseController
         }
 
         $db->transCommit();
+
+        $log['detalhes'] = json_encode(['status' => 'sucesso', 'target' => $log['acao']]);
+        unset($log['acao']);
+        $logAuditoriaModel->insert($log);
 
         return $this->response->setJSON([
             'status' => 'success',

@@ -104,7 +104,7 @@
         info: true,
         responsive: true,
         pageLength: 10,
-        order: [[2, 'asc']],
+        order: [[6, 'desc']],
         language: { url: '<?= base_url('assets/datatables-pt-BR.json') ?>', decimal: ',', thousands: '.' },
         layout: {
             topStart: null,
@@ -112,21 +112,21 @@
         },
         columnDefs: [{ targets: "_all", orderSequence: ['asc', 'desc'], className: "dt-body-left dt-head-left" }],
         columns: [
-            { data: "email" },
-            { data: "nomeOrgao" },
-            { data: "permissao", 
+            { data: "user_email" },
+            { data: "nome_orgao" },
+            { data: "tipo_usuario", 
                 render: function (data, type, row) {
-                    if(row['permissao'] == 'orgao_master') {
+                    if(row['tipo_usuario'] == 'orgao_master') {
                         return '<span class="material-symbols-rounded align-bottom text-success btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Gestor do Órgão">shield_person</span>';
-                    } else if (row['permissao'] == 'orgao_representante') {
+                    } else if (row['tipo_usuario'] == 'orgao_representante') {
                         return '<span class="material-symbols-rounded align-bottom text-secondary btn tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Usuário">shield</span>';
                     }
                 }, 
             },
             { data: "user_action" },
-            { data: "IP" },
+            { data: "user_ip" },
             { data: "detalhes" },
-            { data: "dataLog" },
+            { data: "data_log" },
         ],
     } );
 

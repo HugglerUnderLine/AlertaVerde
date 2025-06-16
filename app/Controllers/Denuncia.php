@@ -472,7 +472,21 @@ class Denuncia extends BaseController
 
     public function atribuir_denuncia() {
 
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_action'        => 'atribuir-denuncia',
+            'user_email'         => session('email'),
+            'user_ip'            => $this->request->getIPAddress(),
+            'user_uuid'          => session('uuid'),
+            'user_nome_completo' => session('nome_completo'),
+            'id_orgao'           => session('id_orgao'),
+            'tipo_usuario'       => session('tipo_usuario'),
+        ];
+
        if (!$this->request->is('AJAX') || !$this->request->is('POST')) {
+            $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'Tipo de requisição inválido']);
+            $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'sucesso' => false,
                 'mensagem' => 'O tipo da requisição é inválido!.'
@@ -482,6 +496,9 @@ class Denuncia extends BaseController
         $idDenuncia = intval($this->request->getPost('id_denuncia'));
 
         if (empty($idDenuncia) || !is_numeric($idDenuncia)) {
+            $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'ID da denúncia inválido.']);
+            $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'sucesso' => false,
                 'mensagem' => 'ID da denúncia inválido.'
@@ -539,6 +556,9 @@ class Denuncia extends BaseController
 
             $db->transCommit();
 
+            $log['detalhes'] = json_encode(['status' => 'sucesso']);
+            $logAuditoriaModel->insert($log);
+
             return $this->response->setJSON([
                 'sucesso' => true,
                 'mensagem' => 'Denúncia atribuída com sucesso.'
@@ -583,7 +603,21 @@ class Denuncia extends BaseController
             $sucesso = $denunciaModel->update($id, ['status_denuncia' => $novoStatus]);
         }
 
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_action'        => 'atualizar-status-denuncia',
+            'user_email'         => session('email'),
+            'user_ip'            => $this->request->getIPAddress(),
+            'user_uuid'          => session('uuid'),
+            'user_nome_completo' => session('nome_completo'),
+            'id_orgao'           => session('id_orgao'),
+            'tipo_usuario'       => session('tipo_usuario'),
+        ];
+
+
         if ($sucesso) {
+            $log['detalhes'] = json_encode(['status' => 'sucesso', 'registro' => $id]);
+            $logAuditoriaModel->insert($log);
             return $this->response->setJSON([
                 'status' => 'sucesso',
                 'mensagem' => 'Status atualizado com sucesso.'

@@ -60,13 +60,13 @@ class LogAuditoria extends BaseController
         // Garante que cada linha esteja no formato que o DataTables entende
         $formattedData = array_map(function($item) {
             return [
-                'email' => $item['user_email'],
-                'nomeOrgao' => $item['nome_orgao'],
-                'permissao' => $item['tipo_usuario'],
+                'user_email' => $item['user_email'],
+                'nome_orgao' => $item['nome_orgao'],
+                'tipo_usuario' => $item['tipo_usuario'],
                 'user_action' => $item['user_action'],
-                'IP' => $item['user_ip'],
+                'user_ip' => $item['user_ip'],
                 'detalhes' => $item['detalhes'],
-                'dataLog' => $item['data_log'],
+                'data_log' => $item['data_log'],
             ];
         }, $data);
 

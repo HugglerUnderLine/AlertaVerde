@@ -171,7 +171,7 @@
                     <!-- O texto desse trecho é preenchido via JS posteriormente -->
                     <p id="texto-confirmacao" class="text-start"></p>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer bg-principal">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-success" id="btnConfirmarAtribuicao">Confirmar</button>
                 </div>

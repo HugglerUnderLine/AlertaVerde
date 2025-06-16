@@ -191,6 +191,19 @@ class Login extends BaseController
     }
 
     public function logout() {
+        $logAuditoriaModel = new LogAuditoriaModel();
+        $log = [
+            'user_action'        => 'logout',
+            'user_email'         => session('email'),
+            'user_ip'            => $this->request->getIPAddress(),
+            'user_uuid'          => session('uuid'),
+            'user_nome_completo' => session('nome_completo'),
+            'id_orgao'           => session('id_orgao'),
+            'tipo_usuario'       => session('tipo_usuario'),
+        ];
+        $log['detalhes'] = json_encode(['status' => 'sucesso']);
+        $logAuditoriaModel->insert($log);
+
         $this->session->destroy();
         return redirect()->to(base_url('login'));
     }
