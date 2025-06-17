@@ -948,7 +948,7 @@ class Usuario extends BaseController
         $builder = $db->table('usuarios');
 
         $usuarioExistente = null;
-        # Recupera o e-mail do usuário com base no ID
+        # Recupera os dados do usuário com base no UUID
         $usuarioExistente = $builder
             ->select('id_usuario, user_uuid, nome_completo, email, senha, tipo_usuario, id_orgao_fk, ativo, data_criacao, data_edicao')
             ->where('user_uuid', $uuid)
@@ -973,7 +973,7 @@ class Usuario extends BaseController
 
         $logAuditoriaModel = new LogAuditoriaModel();
         $log = [
-            'user_action'        => 'cadastrar-denuncia',
+            'user_action'        => 'editar-usuario',
             'user_email'         => session('email'),
             'user_ip'            => $this->request->getIPAddress(),
             'user_uuid'          => session('uuid'),
@@ -994,7 +994,21 @@ class Usuario extends BaseController
         ];
 
         if (isset($usuarioExistente) && !empty($usuarioExistente)) {
-            $dadosUsuario['senha'] = $dadosUsuario['nova_senha'];
+            if (!password_verify($dadosUsuario['senha_atual'], $usuarioExistente['senha'])) {
+                $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'Senha incorreta.']);
+                $logAuditoriaModel->insert($log);
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => "Sua senha atual está incorreta."
+                ]);
+            } else {
+                if (isset($dadosUsuario['nova_senha']) && !empty($dadosUsuario['nova_senha'])) {
+                    $dadosUsuario['senha'] = password_hash($dadosUsuario['nova_senha'], PASSWORD_BCRYPT);
+                } else {
+                    $dadosUsuario['senha'] = $usuarioExistente['senha'];
+                }
+            }
+            
             $dadosUsuario['id_usuario'] = $usuarioExistente['id_usuario'];
             $dadosUsuario['user_uuid'] = $usuarioExistente['user_uuid'];
             $dadosUsuario['data_criacao'] = $usuarioExistente['data_criacao'];
@@ -1002,7 +1016,6 @@ class Usuario extends BaseController
             $dadosUsuario['tipo_usuario'] = $usuarioExistente['tipo_usuario'];
             $dadosUsuario['id_orgao_fk'] = $usuarioExistente['id_orgao_fk'];
             $dadosUsuario['ativo'] = $usuarioExistente['ativo'];
-
 
             $idUsuario = $usuarioExistente['id_usuario'];
         } else {
@@ -1013,35 +1026,6 @@ class Usuario extends BaseController
                 'status' => 'error', 
                 'message' => 'Seu usuário não foi encontrado no sistema.'
             ]);
-        }
-
-        if (!empty($idUsuario)) {
-            $found_diff = false;
-            foreach($usuarioExistente as $key => $value) {
-                if($dadosUsuario[$key] != $value) {
-                    $log['acao']['reg_id'] = $idUsuario;
-                    $log['acao'][mb_strtolower($key)] = [esc($value), esc($dadosUsuario[$key])];
-                    $found_diff = true;
-                }
-            }
-            # Se não houve nenhuma mudança, retorna uma mensagem de erro e sinaliza ao usuário.
-            if (!$found_diff) {
-                return $this->response->setJSON([
-                    'status' => 'error', 
-                    'message' => 'Seus novos dados não podem permanecer iguais aos antigos. Realize ao menos uma alteração para atualizar seu cadastro.'
-                ]);
-            }
-        }
-
-        if (!empty($dadosUsuario['nova_senha'])) {
-            
-            # Se não houve nenhuma mudança, retorna uma mensagem de erro e sinaliza ao usuário.
-            if (!$found_diff) {
-                return $this->response->setJSON([
-                    'status' => 'error', 
-                    'message' => 'Seus novos dados não podem permanecer iguais aos antigos. Realize ao menos uma alteração para atualizar seu cadastro.'
-                ]);
-            }
         }
 
         # CodeIgniter Validation
@@ -1069,27 +1053,34 @@ class Usuario extends BaseController
             ]);
         } 
 
+        unset($dadosUsuario['senha_atual']);
+        unset($dadosUsuario['nova_senha']);
+        unset($dadosUsuario['confirmar_senha']);
+        unset($usuarioExistente['senha']);
+
+        if (!empty($idUsuario)) {
+            $found_diff = false;
+            foreach($usuarioExistente as $key => $value) {
+                if($dadosUsuario[$key] != $value) {
+                    $log['detalhes']['status'] = 'sucesso';
+                    $log['detalhes'][mb_strtolower($key)] = [esc($value), esc($dadosUsuario[$key])];
+                    $found_diff = true;
+                }
+            }
+            # Se não houve nenhuma mudança, retorna uma mensagem de erro e sinaliza ao usuário.
+            if (!$found_diff) {
+                return $this->response->setJSON([
+                    'status' => 'error', 
+                    'message' => 'Seus novos dados não podem permanecer iguais aos antigos. Realize ao menos uma alteração para atualizar seu cadastro.'
+                ]);
+            }
+        }
+
         $usuarioModel = new UsuarioModel();
 
         $db->transStart();
 
         try {
-
-            if (!password_verify($dadosUsuario['senha_atual'], $usuarioExistente['senha'])) {
-                $log['detalhes'] = json_encode(['status' => 'erro', 'motivo' => 'Senha incorreta.']);
-                $logAuditoriaModel->insert($log);
-                return $this->response->setJSON([
-                    'status' => 'error', 
-                    'message' => "Sua senha atual está incorreta."
-                ]);
-            }
-
-            if (!empty($dadosUsuario['nova_senha'])) {
-                $dadosUsuario['senha'] = password_hash($dadosUsuario['nova_senha'], PASSWORD_BCRYPT);
-                unset($dadosUsuario['senha_atual']);
-                unset($dadosUsuario['nova_senha']);
-                unset($dadosUsuario['confirmar_senha']);
-            }
 
             $dadosUsuario['data_edicao'] = date('Y-m-d H:i:s');
 
@@ -1125,8 +1116,7 @@ class Usuario extends BaseController
 
         $db->transCommit();
 
-        $log['detalhes'] = json_encode(['status' => 'sucesso', 'target' => $log['acao']]);
-        unset($log['acao']);
+        $log['detalhes'] = json_encode($log['detalhes']);
         $logAuditoriaModel->insert($log);
 
         return $this->response->setJSON([

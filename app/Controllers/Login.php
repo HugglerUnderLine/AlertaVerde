@@ -44,6 +44,8 @@ class Login extends BaseController
             ]);
         }
 
+        log_message('info', password_hash('adminroot', PASSWORD_BCRYPT));
+
         # Obtem e valida os dados do POST
         $email = mb_strtolower(trim($this->request->getPost('email')));
         $senha = $this->request->getPost('senha');

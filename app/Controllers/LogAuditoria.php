@@ -18,16 +18,43 @@ class LogAuditoria extends BaseController
         $this->session = session();
     }
 
-    public function index() {
+    public function index($uuid = null) {
         if(session()->get('tipo_usuario') === 'orgao_master') {
             $data['conta'] = 'orgao';
-            $data['url_destino'] = base_url("painel/orgao/usuarios/log/list");
+            if(!empty($uuid)) {
+                $data['url_destino'] = base_url("painel/orgao/usuario/$uuid/log/list");
+            } else {
+                $data['url_destino'] = base_url("painel/orgao/usuarios/log/list");
+            }
         } elseif (session()->get('tipo_usuario') === 'orgao_representante') {
             $data['conta'] = 'representante';
-            $data['url_destino'] = base_url("painel/orgao/usuarios/log/list");
+            if(!empty($uuid)) {
+                $data['url_destino'] = base_url("painel/orgao/usuario/$uuid/log/list");
+            } else {
+                $data['url_destino'] = base_url("painel/orgao/usuarios/log/list");
+            }
         } elseif (session()->get('tipo_usuario') === 'admin') {
             $data['conta'] = 'admin';
-            $data['url_destino'] = base_url("painel/admin/usuarios/log/list");
+            if(!empty($uuid)) {
+                $data['url_destino'] = base_url("painel/admin/usuario/$uuid/log/list");
+            } else {
+                $data['url_destino'] = base_url("painel/admin/usuarios/log/list");
+            }
+        }
+
+        if(!empty($uuid)) {
+            $db = \Config\Database::connect();
+            $builder = $db->table('usuarios');
+
+            $usuarioExistente = null;
+            # Recupera os dados do usuário com base no UUID
+            $usuarioExistente = $builder
+                ->select('id_usuario, user_uuid, nome_completo, email, senha, tipo_usuario, id_orgao_fk, ativo, data_criacao, data_edicao')
+                ->where('user_uuid', $uuid)
+                ->get()
+                ->getRowArray();
+
+            $data['nome_usuario'] = $usuarioExistente['nome_completo'];
         }
 
         return view('log-auditoria', $data);
@@ -45,9 +72,15 @@ class LogAuditoria extends BaseController
             'length' => strval($this->request->getPost('length')),
             'order' => $this->request->getPost('order'),
             'email' => mb_strtolower(uniformiza_string($this->request->getPost('filtroEmail'))),
-            'dataInicial' => strval($this->request->getPost('dataInicial')),
-            'dataFinal' => strval($this->request->getPost('dataFinal'))
+            'dataInicial' => strval($this->request->getPost('filtroDataInicial')),
+            'dataFinal' => strval($this->request->getPost('filtroDataFinal'))
         ];
+
+        // log_message('info', json_encode($vars, JSON_PRETTY_PRINT));
+
+        if (!empty($uuid)) {
+            $vars['uuid'] = $uuid;
+        }
 
         $cols = ['user_email', 'nome_orgao', 'tipo_usuario', 'user_action', 'user_ip', 'detalhes', 'data_log'];
 

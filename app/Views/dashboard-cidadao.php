@@ -29,10 +29,38 @@
         margin: 0; 
         padding-left: 20px; 
     }
+
+    #modalImagemExpandida {
+        z-index: 1060;
+    }
+
+    #modalImagemExpandida .modal-content {
+        box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        border-radius: 8px;
+    }
+
+    #modalImagemExpandida .modal-body img {
+        object-fit: contain;
+    }
 </style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
+
+<div class="modal fade" id="modalImagemExpandida" tabindex="-1" aria-hidden="true" data-bs-backdrop="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+        <div class="modal-content bg-dark text-white position-relative">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+
+            <!-- Corpo com a imagem -->
+            <div class="modal-body p-2 d-flex justify-content-center align-items-center">
+                <img id="imagemExpandida" src="" class="img-fluid rounded-2" alt="Imagem Ampliada" style="max-height: 70vh;">
+            </div>
+        </div>
+    </div>
+</div>
 
 <main class="flex-grow-1 p-4 bg-principal">
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -452,6 +480,7 @@
                                 timer: 5000,
                             }).then(() => {
                                 carregarDenuncias();
+                                $submitButton.prop('disabled', false).html(originalButtonHtml);
                                 $('#modalNovaDenuncia').modal('hide');
                             });
 
@@ -475,9 +504,6 @@
                             confirmButtonColor: '#198754', // verde Bootstrap
                         });
                     },
-                    complete: function() {
-                        
-                    }
                 });
             }
         });
@@ -533,6 +559,13 @@
             const titulo = $('#filtroTitulo').val();
             const status = $('.filtro-status.btn.bg-botao').data('status') || 'Todas';
             carregarDenuncias({ status, titulo });
+        });
+
+        $('#filtroTitulo').on('keydown', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); // Evita comportamento padrão de envio de formulário
+                $('#btnFiltro').click(); // Dispara o clique do botão
+            }
         });
 
         $('.filtro-status').on('click', function () {
@@ -595,7 +628,6 @@
         $form[0].reset(); // Limpa os campos do formulário
         $('#previewImagens').empty(); // Limpa previews de imagens
         $('#previewVideo').empty();   // Limpa previews de vídeo
-        
     });
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -642,8 +674,8 @@
         const idDenuncia = $(this).closest('.card').data('id');
 
         const modalLabel = $('#modalDenunciaLabel');
-        $('#previewImagens').empty();
-        $('#previewVideo').empty();
+        $('#previewImagensModal').empty();
+        $('#previewVideoModal').empty();
         modalLabel.text("Denúncia #" + idDenuncia);
 
         $.ajax({
@@ -654,8 +686,9 @@
                 if (response.imagens.length > 0) {
                     response.imagens.forEach(function (imgUrl) {
                         $('#previewImagensModal').append(`
-                            <img src="${imgUrl}" class="img-thumbnail" style="width: 100px; height: auto;">
+                            <img src="${imgUrl}" data-src="${imgUrl}" class="img-thumbnail imagem-expandivel" style="width: 100px; height: auto; cursor: pointer;">
                         `);
+
                     });
                 } else {
                     $('#previewImagensModal').html('<p class="text-center text-muted">Nenhuma imagem enviada.</p>');
@@ -706,6 +739,13 @@
 
         $('#modalDenuncia').modal('show');
     });
+
+    $(document).on('click', '.imagem-expandivel', function () {
+        const imagemSrc = $(this).data('src');
+        $('#imagemExpandida').attr('src', imagemSrc);
+        $('#modalImagemExpandida').modal('show');
+    });
+
 
 
 </script>

@@ -15,9 +15,11 @@
     <section>
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="h4 text-destaque text-claro">Usuários</h1>
+            <?php if ($conta === 'orgao_master' || $conta === 'admin') : ?>
             <button type="button" class="btn bg-botao text-claro fw-bold" data-bs-toggle="modal" data-bs-target="#modalNovoUsuario">
                 + Novo Usuário
             </button>
+            <?php endif ?>
         </div>
         <p class="fs-6 fw-normal mt-2" style="color: var(--cor-7);">Gerencie usuários cadastrados na sua plataforma.</p>
     </section>
@@ -220,9 +222,9 @@
                 render: function (data, type, row) {
                     <?php if (session()->get('tipo_usuario') != 'orgao_representante'): ?>
                     return '<a class="btn btn-sm btn-outline-primary p-0 editar-usuario" data-id="' + row['usuarioID'] + '"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar">edit</span></a> '
-                         + '<a href="<?= base_url("usuario/log") ?>' + row['uuid'] + '" class="btn btn-sm btn-outline-secondary p-0 historico-usuario" id="logUsuario"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Histórico de Atividade">history</span></a>';
+                         + '<a href="<?= base_url("painel/orgao/usuario/") ?>' + row['uuid'] + '/log" class="btn btn-sm btn-outline-secondary p-0 historico-usuario" id="logUsuario"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Histórico de Atividade">history</span></a>';
                     <?php else : ?>
-                    return '<a href="<?= base_url("usuario/log") ?>' + row['uuid'] + '" class="btn btn-sm btn-outline-secondary p-0 historico-usuario" id="logUsuario"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Histórico de Atividade">history</span></a>';
+                    return '<a href="<?= base_url("painel/orgao/usuario/") ?>' + row['uuid'] + '/log" class="btn btn-sm btn-outline-secondary p-0 historico-usuario" id="logUsuario"><span class="material-symbols-rounded align-middle tt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Histórico de Atividade">history</span></a>';
                     <?php endif ?>
                 },
             },

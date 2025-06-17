@@ -74,13 +74,16 @@ class LogAuditoriaModel extends Model
             $found_where = true;
         }
         if (!empty($vars['dataInicial'])) {
-            $where_params[] = "log_auditoria.data_log >= STR_TO_DATE(CONCAT(:dataInicial:, ' 00:00:00'), '%Y-%m-%d %H:%i:%s')";
+            $where_params[] = "log_auditoria.data_log >= TO_TIMESTAMP(:dataInicial:, 'YYYY-MM-DD HH24:MI:SS')";
+            $vars['dataInicial'] .= ' 00:00:00';
             $found_where = true;
         } 
         if (!empty($vars['dataFinal'])) {
-            $where_params[] = "log_auditoria.data_log <= STR_TO_DATE(CONCAT(:dataFinal:, ' 23:59:59'), '%Y-%m-%d %H:%i:%s')";
+            $where_params[] = "log_auditoria.data_log <= TO_TIMESTAMP(:dataFinal:, 'YYYY-MM-DD HH24:MI:SS')";
+            $vars['dataFinal'] .= ' 23:59:59';
             $found_where = true;
         }
+
         $sql_where = '';
         if ($found_where)
             $sql_where = "\nWHERE " . implode(' AND ', $where_params);
@@ -106,9 +109,9 @@ class LogAuditoriaModel extends Model
 
         # Executa a query
         $query_count = $this->query($sql_count, $vars)->getRowArray()['total'];
-        # log_message('info', $this->getLastQuery());
+        // log_message('info', $this->getLastQuery());
         $results = $this->query($sql_data, $vars)->getResultArray();
-        # log_message('info', $this->getLastQuery());
+        // log_message('info', $this->getLastQuery());
 
         return [
             $results,

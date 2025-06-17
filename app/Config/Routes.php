@@ -48,11 +48,13 @@ $routes->post('/painel/admin/usuario/(editar-usuario)/(:num)', 'Usuario::upsert_
 ### Audit Log
 ## Órgão
 $routes->match(['GET', 'POST'], '/painel/orgao/usuarios/log', 'LogAuditoria::index');
-$routes->match(['GET', 'POST'], '/painel/orgao/usuarios/log/list', 'LogAuditoria::log_usuario/$1');
-$routes->match(['GET', 'POST'], '/painel/orgao/usuario/log/(:any)/list', 'LogAuditoria::log_usuario/$1');
+$routes->match(['GET', 'POST'], '/painel/orgao/usuario/(:any)/log', 'LogAuditoria::index/$1');
+
+$routes->match(['GET', 'POST'], '/painel/orgao/usuarios/log/list', 'LogAuditoria::log_usuario');
+$routes->match(['GET', 'POST'], '/painel/orgao/usuario/(:any)/log/list', 'LogAuditoria::log_usuario/$1');
 ## Admin
 $routes->match(['GET', 'POST'], '/painel/admin/usuarios/log', 'LogAuditoria::index');
-$routes->match(['GET', 'POST'], '/painel/admin/usuario/log/(:any)/list', 'LogAuditoria::log_usuario/$1');
+$routes->match(['GET', 'POST'], '/painel/admin/usuario/log/list/(:any)', 'LogAuditoria::log_usuario/$1');
 
 ### Painel - Denúncias
 ## Cidadão

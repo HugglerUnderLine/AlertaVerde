@@ -13,23 +13,24 @@
 <main class="p-4 flex-fill">
     <section>
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h4 text-destaque text-claro">Log Auditoria</h1>
+            <h1 class="h4 text-destaque text-claro">Log Auditoria <?= isset($nome_usuario) && !empty($nome_usuario) ? ' - ' . $nome_usuario : '' ?></h1>
         </div>
+        <h4 class="h4 text-destaque text-claro"></h4>
         <p class="fs-6 fw-normal mt-2" style="color: var(--cor-7);">Visualize as ações realizadas pelos usuários da sua unidade.</p>
     </section>
 
     <div class="card bg-secundaria position-relative p-4 mt-2 px-4 pt-2 pb-4">
         <form id="busca_log_form" class="mb-4" method="post">
-            <div class="row justify-content-center mb-3 mt-2">
+            <div class="row justify-content-center mb-3 mt-4">
                 <div class="col-auto">
                     <div class="d-flex gap-2 justify-content-center">
                         <div class="input-group shadow-sm">
                             <span class="input-group-text">Início</span>
-                            <input type="date" class="form-control" name="dataInicial" id="dataInicial">
+                            <input type="date" class="form-control" name="filtroDataInicial" id="filtroDataInicial">
                         </div>
                         <div class="input-group shadow-sm">
                             <span class="input-group-text">Fim</span>
-                            <input type="date" class="form-control" name="dataFinal" id="dataFinal">
+                            <input type="date" class="form-control" name="filtroDataFinal" id="filtroDataFinal">
                         </div>
                     </div>
                 </div>
@@ -38,7 +39,9 @@
             <div class="row justify-content-center">
                 <div class="col-10">
                     <div class="d-flex gap-2 justify-content-center flex-wrap">
-                        <input type="text" class="form-control" placeholder="🔍 Buscar por E-mail..." style="max-width: 250px;" id="filtroBuscaValor" name="filtroBuscaValor">
+                        <?php if (!isset($nome_usuario) || empty($nome_usuario)) : ?>
+                        <input type="text" class="form-control" placeholder="🔍 Buscar por E-mail..." style="max-width: 250px;" id="filtroEmail" name="filtroEmail">
+                        <?php endif ?>
 
                         <button type="button" id="btnAplicarFiltros" class="btn btn-warning py-1 px-2">
                             <span class="material-symbols-rounded align-middle fs-6">filter_alt</span> Filtrar
@@ -88,8 +91,9 @@
     
     var url = '<?= $url_destino ?>';
 
-    // Variáveis para armazenar os valores dos filtros
-    let filtroBuscaValorAtual = "";
+    var filtroEmail = $('#filtroEmail').val();
+    var filtroDataInicial = $('#filtroDataInicial').val();
+    var filtroDataFinal = $('#filtroDataFinal').val();
 
     var table = new DataTable('#listar_logs', {
         processing: true,
@@ -98,7 +102,9 @@
             url: url,
             type: "POST",
             data: function(d) {
-                d.valor_busca = filtroBuscaValorAtual;
+                d.filtroDataInicial = filtroDataInicial
+                d.filtroDataFinal = filtroDataFinal
+                d.filtroEmail = filtroEmail
             },
         },
         info: true,
@@ -137,42 +143,19 @@
 
     // Evento para o botão "Filtrar"
     $('#btnAplicarFiltros').on('click', function() {
-        filtroBuscaValorAtual = $('#filtroBuscaValor').val();
+        filtroEmail = $('#filtroEmail').val();
+        filtroDataInicial = $('#filtroDataInicial').val();
+        filtroDataFinal = $('#filtroDataFinal').val();
         table.draw();
     });
 
     // Evento para limpar filtros
     $('#btnLimparFiltros').on('click', function(){
-        $('#filtroBuscaValor').val('');
+        $('#filtroEmail').val('');
+        $('#filtroDataInicial').val('');
+        $('#filtroDataFinal').val('');
         
-        // Reseta o filtro de status para "Todos"
-        filtroAtivoValor = "";
-        
-        // Reseta a ordenação para o padrão e recarrega a tabela
-        table.order([[2, 'asc']]).draw();
-    });
-
-    $('#selectTipoBuscaTexto').on('change', function() {
-        filtroTipoBuscaAtual = $(this).val();
-        // Se o campo de busca já tiver algo, refiltra. Senão, espera o usuário digitar ou clicar em "Filtrar".
-        if ($('#filtroBuscaValor').val().trim() !== '') {
-            filtroBuscaValorAtual = $('#filtroBuscaValor').val();
-            table.draw();
-        }
-    });
-
-    $('#btnLimparFiltros').on('click', function(){
-        $('#selectTipoBuscaTexto').val('nomeUsuario');
-        $('#filtroBuscaValor').val('');
-        
-        filtroAtivoValor = "";
-        filtroTipoBuscaAtual = $('#selectTipoBuscaTexto').val(); // Reseta para o padrão
-        filtroBuscaValorAtual = "";
-
-        $('.btn-filtro-status').removeClass('active btn-primary btn-success btn-secondary').addClass('btn-outline-primary');
-        $('#btnFiltroTodos').removeClass('btn-outline-primary').addClass('btn-primary active');
-        
-        table.order([[2, 'asc']]).draw(); // Reseta ordenação e redesenha a tabela
+        table.order([[6, 'desc']]).draw(); // Reseta ordenação e redesenha a tabela
     });
 
     // Re-inicializa tooltips do Bootstrap após cada desenho da tabela
